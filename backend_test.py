@@ -69,9 +69,9 @@ class BackendTester:
             return False
     
     def test_health_endpoint(self):
-        """Test GET /health endpoint"""
+        """Test GET /api/health endpoint"""
         try:
-            response = self.session.get(f"{self.base_url}/health")
+            response = self.session.get(f"{self.base_url}/api/health")
             
             if response.status_code == 200:
                 data = response.json()
