@@ -18,10 +18,11 @@ import time
 BASE_URL = "https://music-tracks-3.preview.emergentagent.com/api"
 UPLOADS_URL = "https://music-tracks-3.preview.emergentagent.com/uploads"
 
-class PlaylistAPITester:
+class MusicPlaylistAPITester:
     def __init__(self):
         self.session = requests.Session()
         self.created_playlists = []  # Track created playlists for cleanup
+        self.created_tracks = []  # Track created tracks for cleanup
         self.test_results = {
             'passed': 0,
             'failed': 0,
