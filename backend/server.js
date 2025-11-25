@@ -35,6 +35,7 @@ app.use((req, res, next) => {
 
 // API Routes
 app.use('/api', statusRoutes);
+app.use('/api/playlists', playlistRoutes);
 
 // Health check route (not under /api prefix)
 app.get('/health', (req, res) => {
