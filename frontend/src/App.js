@@ -129,6 +129,11 @@ function App() {
           <Route path="/playlists/:playlistId" element={<PlaylistDetail />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/preview/glass" element={<PreviewGlass />} />
+          <Route path="/preview/vibrant" element={<PreviewVibrant />} />
+          <Route path="/preview/neon" element={<PreviewNeon />} />
+          <Route path="/preview/retro" element={<PreviewRetro />} />
+          <Route path="/preview/mesh" element={<PreviewMesh />} />
         </Routes>
       </BrowserRouter>
     </div>
