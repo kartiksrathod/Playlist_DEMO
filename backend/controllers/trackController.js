@@ -1,6 +1,8 @@
 const Track = require('../models/Track');
 const Playlist = require('../models/Playlist');
 const { v4: uuidv4 } = require('uuid');
+const path = require('path');
+const fs = require('fs');
 
 // @desc    Get all tracks in a playlist
 // @route   GET /api/playlists/:playlistId/tracks
@@ -56,11 +58,31 @@ const createTrack = async (req, res) => {
     // Verify playlist exists
     const playlist = await Playlist.findOne({ id: playlistId });
     if (!playlist) {
+      // Clean up uploaded file if playlist not found
+      if (req.file) {
+        const filePath = path.join(__dirname, '../uploads/audio', req.file.filename);
+        if (fs.existsSync(filePath)) {
+          fs.unlinkSync(filePath);
+        }
+      }
       return res.status(404).json({ message: 'Playlist not found' });
     }
 
     if (!songName || songName.trim() === '') {
+      // Clean up uploaded file if validation fails
+      if (req.file) {
+        const filePath = path.join(__dirname, '../uploads/audio', req.file.filename);
+        if (fs.existsSync(filePath)) {
+          fs.unlinkSync(filePath);
+        }
+      }
       return res.status(400).json({ message: 'Song name is required' });
+    }
+
+    // Handle audio file if uploaded
+    let audioFilePath = null;
+    if (req.file) {
+      audioFilePath = `/api/uploads/audio/${req.file.filename}`;
     }
 
     const track = new Track({
@@ -71,6 +93,7 @@ const createTrack = async (req, res) => {
       album: album ? album.trim() : '',
       duration: duration ? duration.trim() : '',
       audioUrl: audioUrl ? audioUrl.trim() : '',
+      audioFile: audioFilePath,
     });
 
     const savedTrack = await track.save();
@@ -83,12 +106,20 @@ const createTrack = async (req, res) => {
       album: savedTrack.album,
       duration: savedTrack.duration,
       audioUrl: savedTrack.audioUrl,
+      audioFile: savedTrack.audioFile,
       createdAt: savedTrack.createdAt,
       updatedAt: savedTrack.updatedAt,
     };
 
     res.status(201).json(response);
   } catch (error) {
+    // Clean up uploaded file on error
+    if (req.file) {
+      const filePath = path.join(__dirname, '../uploads/audio', req.file.filename);
+      if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath);
+      }
+    }
     res.status(500).json({ message: error.message });
   }
 };
