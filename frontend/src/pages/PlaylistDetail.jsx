@@ -231,14 +231,14 @@ const PlaylistDetail = () => {
           <div className="px-8 pb-8">
             {/* Loading State */}
             {loading && (
-              <div className="bg-slate-800/40 backdrop-blur-xl rounded-2xl shadow-sm p-6 border border-blue-500/20">
+              <div className="bg-slate-900/50 backdrop-blur-2xl rounded-2xl shadow-2xl p-6 border border-blue-700/30">
                 <div className="space-y-4">
                   {[...Array(5)].map((_, i) => (
                     <div key={i} className="flex items-center gap-4 animate-pulse">
-                      <div className="w-12 h-12 bg-blue-900/50 rounded" />
+                      <div className="w-12 h-12 bg-blue-900/40 rounded" />
                       <div className="flex-1">
-                        <div className="h-4 bg-blue-900/50 rounded w-1/3 mb-2" />
-                        <div className="h-3 bg-blue-900/50 rounded w-1/4" />
+                        <div className="h-4 bg-blue-900/40 rounded w-1/3 mb-2" />
+                        <div className="h-3 bg-blue-900/40 rounded w-1/4" />
                       </div>
                     </div>
                   ))}
@@ -248,16 +248,16 @@ const PlaylistDetail = () => {
 
             {/* Empty State */}
             {!loading && tracks.length === 0 && (
-              <div className="bg-slate-800/40 backdrop-blur-xl rounded-2xl shadow-sm p-16 border border-blue-500/20">
+              <div className="bg-slate-900/50 backdrop-blur-2xl rounded-2xl shadow-2xl p-16 border border-blue-700/30">
                 <div className="flex flex-col items-center justify-center text-center">
-                  <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center mb-6 shadow-lg shadow-blue-500/50">
+                  <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center mb-6 shadow-2xl shadow-blue-700/60">
                     <Music className="h-10 w-10 text-white" />
                   </div>
                   <h2 className="text-2xl font-light text-white mb-2">No tracks yet</h2>
-                  <p className="text-blue-200 mb-6 font-light">Add your first track to this playlist</p>
+                  <p className="text-blue-50 mb-6 font-light">Add your first track to this playlist</p>
                   <Button 
                     onClick={() => setAddDialogOpen(true)}
-                    className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl shadow-lg shadow-blue-500/30"
+                    className="px-6 py-3 bg-blue-700 hover:bg-blue-600 text-white rounded-xl shadow-2xl shadow-blue-700/50 backdrop-blur-xl border border-blue-500/30"
                   >
                     <Plus className="mr-2 h-4 w-4" />
                     Add Your First Track
@@ -268,10 +268,10 @@ const PlaylistDetail = () => {
 
             {/* Tracks Table */}
             {!loading && tracks.length > 0 && (
-              <div className="bg-slate-800/40 backdrop-blur-xl rounded-2xl shadow-xl overflow-hidden border border-blue-500/20">
+              <div className="bg-slate-900/50 backdrop-blur-2xl rounded-2xl shadow-2xl overflow-hidden border border-blue-700/30">
                 {/* Table Header */}
-                <div className="px-6 py-4 border-b border-blue-500/20 bg-slate-900/50">
-                  <div className="grid grid-cols-12 gap-4 text-xs font-medium text-blue-300 uppercase tracking-wider">
+                <div className="px-6 py-4 border-b border-blue-700/30 bg-slate-950/60">
+                  <div className="grid grid-cols-12 gap-4 text-xs font-medium text-blue-200 uppercase tracking-wider">
                     <div className="col-span-1">#</div>
                     <div className="col-span-5">Title</div>
                     <div className="col-span-2">Source</div>
@@ -281,7 +281,7 @@ const PlaylistDetail = () => {
                 </div>
 
                 {/* Table Body */}
-                <div className="divide-y divide-blue-500/10">
+                <div className="divide-y divide-blue-800/20">
                   {tracks.map((track, index) => {
                     const sourceBadge = getSourceBadge(track);
                     const isPlaying = playingTrack?.id === track.id;
@@ -289,7 +289,7 @@ const PlaylistDetail = () => {
                     return (
                       <div 
                         key={track.id} 
-                        className="px-6 py-4 hover:bg-blue-900/20 transition-colors group"
+                        className="px-6 py-4 hover:bg-blue-900/30 transition-colors group"
                       >
                         <div className="grid grid-cols-12 gap-4 items-center">
                           {/* Track Number / Play Button */}
@@ -299,8 +299,8 @@ const PlaylistDetail = () => {
                                 onClick={() => togglePlay(track)}
                                 className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${
                                   isPlaying 
-                                    ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/50' 
-                                    : 'bg-blue-900/30 hover:bg-blue-600 hover:text-white text-blue-300'
+                                    ? 'bg-blue-600 text-white shadow-xl shadow-blue-600/60' 
+                                    : 'bg-blue-900/40 hover:bg-blue-600 hover:text-white text-blue-200 backdrop-blur-sm border border-blue-700/30'
                                 }`}
                               >
                                 {isPlaying ? (
@@ -310,14 +310,14 @@ const PlaylistDetail = () => {
                                 )}
                               </button>
                             ) : (
-                              <span className="text-blue-400 font-medium">{index + 1}</span>
+                              <span className="text-blue-300 font-medium">{index + 1}</span>
                             )}
                           </div>
 
                           {/* Track Info */}
                           <div className="col-span-5">
-                            <h3 className="font-medium text-white truncate">{track.songName}</h3>
-                            <p className="text-sm text-blue-200 truncate font-light">
+                            <h3 className="font-medium text-white truncate drop-shadow-sm">{track.songName}</h3>
+                            <p className="text-sm text-blue-100 truncate font-light">
                               {track.artist || 'Unknown Artist'}
                               {track.album && ` • ${track.album}`}
                             </p>
@@ -326,14 +326,14 @@ const PlaylistDetail = () => {
                           {/* Source */}
                           <div className="col-span-2">
                             {sourceBadge && (
-                              <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${sourceBadge.color}`}>
+                              <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${sourceBadge.color} backdrop-blur-sm`}>
                                 {sourceBadge.label}
                               </span>
                             )}
                           </div>
 
                           {/* Duration */}
-                          <div className="col-span-2 text-blue-300 text-sm">
+                          <div className="col-span-2 text-blue-200 text-sm">
                             {track.duration || '—'}
                           </div>
 
@@ -344,21 +344,21 @@ const PlaylistDetail = () => {
                                 setSelectedTrack(track);
                                 setEditDialogOpen(true);
                               }}
-                              className="p-2 hover:bg-blue-900/50 rounded-lg transition-colors"
+                              className="p-2 hover:bg-blue-800/50 rounded-lg transition-colors backdrop-blur-sm"
                             >
-                              <Pencil className="h-4 w-4 text-blue-300" />
+                              <Pencil className="h-4 w-4 text-blue-200" />
                             </button>
                             <button
                               onClick={() => {
                                 setSelectedTrack(track);
                                 setDeleteDialogOpen(true);
                               }}
-                              className="p-2 hover:bg-red-900/50 rounded-lg transition-colors"
+                              className="p-2 hover:bg-red-800/50 rounded-lg transition-colors backdrop-blur-sm"
                             >
-                              <Trash2 className="h-4 w-4 text-red-400" />
+                              <Trash2 className="h-4 w-4 text-red-300" />
                             </button>
-                            <button className="p-2 hover:bg-blue-900/50 rounded-lg transition-colors">
-                              <MoreVertical className="h-4 w-4 text-blue-300" />
+                            <button className="p-2 hover:bg-blue-800/50 rounded-lg transition-colors backdrop-blur-sm">
+                              <MoreVertical className="h-4 w-4 text-blue-200" />
                             </button>
                           </div>
                         </div>
