@@ -495,13 +495,13 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Phase 2 Backend - Track Management APIs"
-    - "Track Model with Audio File Support"
-    - "Audio Upload Middleware"
-    - "Track CRUD APIs with Audio Upload"
-    - "Playlist Delete Cascade"
+    - "Frontend - Playlists Page with Grid Layout"
+    - "Frontend - Create/Edit/Delete Playlist with Image Upload"
+    - "Frontend - PlaylistDetail Page with Track List"
+    - "Frontend - Add/Edit/Delete Track with Audio Upload"
+    - "Frontend - Audio Player Functionality"
   stuck_tasks: []
-  test_all: false
+  test_all: true
   test_priority: "high_first"
 
 agent_communication:
