@@ -106,19 +106,45 @@ const Profile = () => {
 
   return (
     <AppLayout>
-      <div className="min-h-screen px-8 py-8">
+      <div className="min-h-screen bg-slate-950 px-8 py-12">
         {/* Header with Profile Picture */}
         <div className="mb-10">
           <div className="flex items-start gap-6">
-            {/* Profile Picture */}
-            <div className="w-28 h-28 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-lg flex-shrink-0">
-              <User className="w-14 h-14 text-white" />
+            {/* Profile Picture with Upload */}
+            <div className="relative group flex-shrink-0">
+              <div className="w-28 h-28 rounded-full overflow-hidden shadow-2xl shadow-blue-700/50 border-4 border-blue-600/30">
+                {avatarPreview || profile.avatar ? (
+                  <img 
+                    src={avatarPreview || profile.avatar} 
+                    alt={profile.name}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center">
+                    <User className="w-14 h-14 text-white" />
+                  </div>
+                )}
+              </div>
+              
+              {/* Upload Button Overlay */}
+              <label className="absolute inset-0 rounded-full bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleAvatarChange}
+                  className="hidden"
+                />
+                <div className="text-center">
+                  <Camera className="w-6 h-6 text-white mx-auto mb-1" />
+                  <span className="text-xs text-white font-medium">Change</span>
+                </div>
+              </label>
             </div>
             
             {/* Profile Info */}
             <div className="flex-1">
-              <h1 className="text-4xl font-light text-gray-800 mb-2">{profile.name}</h1>
-              <div className="flex items-center gap-4 text-gray-600 mb-3">
+              <h1 className="text-4xl font-light text-white mb-2">{profile.name}</h1>
+              <div className="flex items-center gap-4 text-blue-200 mb-3">
                 <div className="flex items-center gap-2">
                   <Mail className="w-4 h-4" />
                   <span className="text-sm font-light">{profile.email}</span>
@@ -128,7 +154,10 @@ const Profile = () => {
                   <span className="text-sm font-light">Joined {profile.joinedDate}</span>
                 </div>
               </div>
-              <p className="text-gray-600 font-light max-w-2xl">{profile.bio}</p>
+              <p className="text-blue-100 font-light max-w-2xl">{profile.bio}</p>
+              <div className="mt-4 inline-block px-4 py-2 bg-blue-700/30 backdrop-blur-sm rounded-full text-sm text-blue-200 border border-blue-600/30">
+                ✨ Demo Profile - Avatar upload is UI preview only
+              </div>
             </div>
           </div>
         </div>
