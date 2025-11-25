@@ -56,9 +56,10 @@ class PlaylistAPITester:
     def test_health_check(self):
         """Test if backend is responding"""
         try:
-            response = self.session.get(f"{BASE_URL.replace('/api', '')}/health", timeout=10)
+            # Test the API endpoint directly since health endpoint returns frontend HTML
+            response = self.session.get(f"{BASE_URL}/playlists", timeout=10)
             if response.status_code == 200:
-                self.log_result("Health Check", True, f"Backend responding: {response.json()}")
+                self.log_result("Health Check", True, f"Backend API responding: {response.status_code}")
                 return True
             else:
                 self.log_result("Health Check", False, f"Status: {response.status_code}")
