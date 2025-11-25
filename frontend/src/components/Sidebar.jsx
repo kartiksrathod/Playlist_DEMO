@@ -9,6 +9,7 @@ const Sidebar = () => {
   const menuItems = [
     { icon: Home, label: 'Home', path: '/' },
     { icon: ListMusic, label: 'Playlists', path: '/playlists' },
+    { icon: Library, label: 'Library', path: '/library' },
     { icon: Heart, label: 'Favorites', path: '/favorites' },
     { icon: Clock, label: 'History', path: '/history' },
     { icon: Settings, label: 'Settings', path: '/settings' },
