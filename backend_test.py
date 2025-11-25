@@ -329,7 +329,7 @@ class PlaylistAPITester:
             
             if response.status_code == 200:
                 playlist = response.json()
-                if playlist['coverImage'] and playlist['coverImage'].startswith('/uploads/covers/'):
+                if playlist['coverImage'] and playlist['coverImage'].startswith('/api/uploads/covers/'):
                     self.log_result("Update Playlist (With Image)", True, f"Updated playlist with new image: {playlist_id}")
                     return playlist
                 else:
