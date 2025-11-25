@@ -5,6 +5,8 @@ import axios from "axios";
 import { Toaster } from "sonner";
 import Playlists from "@/pages/Playlists";
 import PlaylistDetail from "@/pages/PlaylistDetail";
+import Settings from "@/pages/Settings";
+import Profile from "@/pages/Profile";
 import AppLayout from "@/components/AppLayout";
 import { ArrowRight, Music, ListMusic, Sparkles } from 'lucide-react';
 
