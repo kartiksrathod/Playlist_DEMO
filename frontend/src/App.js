@@ -8,6 +8,11 @@ import PlaylistDetail from "@/pages/PlaylistDetail";
 import Settings from "@/pages/Settings";
 import Profile from "@/pages/Profile";
 import AppLayout from "@/components/AppLayout";
+import PreviewGlass from "@/pages/PreviewGlass";
+import PreviewVibrant from "@/pages/PreviewVibrant";
+import PreviewNeon from "@/pages/PreviewNeon";
+import PreviewRetro from "@/pages/PreviewRetro";
+import PreviewMesh from "@/pages/PreviewMesh";
 import { ArrowRight, Music, ListMusic, Sparkles } from 'lucide-react';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
