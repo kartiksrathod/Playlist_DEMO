@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """
 Comprehensive Backend API Testing for Music Playlist Manager
+Phase 2: Track Management APIs with Audio Upload Support
 Tests all CRUD operations with file upload functionality
 """
 
