@@ -2,11 +2,11 @@ import React, { useEffect } from "react";
 import "@/App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import axios from "axios";
-import { ThemeProvider } from "@/components/ThemeProvider";
-import { ThemeToggle } from "@/components/ThemeToggle";
 import { Toaster } from "sonner";
 import Playlists from "@/pages/Playlists";
 import PlaylistDetail from "@/pages/PlaylistDetail";
+import AppLayout from "@/components/AppLayout";
+import { ArrowRight, Music, ListMusic, Sparkles } from 'lucide-react';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
@@ -26,41 +26,88 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background text-foreground transition-colors">
-      {/* Theme Toggle - Fixed position in top-right corner */}
-      <div className="fixed top-4 right-4 z-50">
-        <ThemeToggle />
-      </div>
-      
-      <header className="min-h-screen flex flex-col items-center justify-center px-4">
-        <a
-          href="https://emergent.sh"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-primary hover:opacity-80 transition-opacity"
-        >
-          <img 
-            src="https://avatars.githubusercontent.com/in/1201222?s=120&u=2686cf91179bbafbc7a71bfbc43004cf9ae1acea&v=4" 
-            alt="Emergent Logo"
-            className="w-32 h-32 rounded-lg"
-          />
-        </a>
-        <h1 className="mt-5 text-4xl font-bold text-center">🎵 Music Playlist Manager</h1>
-        <p className="mt-3 text-lg text-muted-foreground text-center">
-          Create, organize, and manage your music playlists with ease
-        </p>
-        <div className="mt-8 flex gap-4">
-          <a href="/playlists" className="inline-block">
-            <button className="px-6 py-3 bg-primary text-primary-foreground rounded-lg font-semibold hover:opacity-90 transition-opacity">
-              View My Playlists
-            </button>
-          </a>
+    <AppLayout>
+      <div className="min-h-screen">
+        {/* Hero Section */}
+        <div className="relative h-[70vh] overflow-hidden">
+          {/* Background Image */}
+          <div className="absolute inset-0">
+            <img 
+              src="https://images.unsplash.com/photo-1707249935951-d92bf3a65b00?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDJ8MHwxfHNlYXJjaHw0fHx3YXJtJTIwc3VucmlzZXxlbnwwfHx8b3JhbmdlfDE3NjQwOTY3MzN8MA&ixlib=rb-4.1.0&q=85"
+              alt="Hero"
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-br from-black/30 to-black/50" />
+          </div>
+
+          {/* Hero Content */}
+          <div className="relative h-full flex flex-col items-center justify-center px-4 text-white">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full text-sm mb-6">
+              <Sparkles className="w-4 h-4" />
+              <span>Your music, beautifully organized</span>
+            </div>
+            
+            <h1 className="text-6xl md:text-7xl font-light text-center mb-6 tracking-tight">
+              Music Playlist<br />Manager
+            </h1>
+            
+            <p className="text-xl text-white/90 text-center mb-10 max-w-2xl font-light">
+              Create, organize, and manage your music playlists with a clean, minimal interface
+            </p>
+
+            <a href="/playlists">
+              <button className="group px-8 py-4 bg-amber-500 hover:bg-amber-600 text-white rounded-xl font-medium transition-all shadow-lg hover:shadow-xl flex items-center gap-2">
+                <span>Get Started</span>
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </button>
+            </a>
+          </div>
         </div>
-        <p className="mt-8 text-sm text-muted-foreground">
-          Try the theme toggle in the top-right corner ↗
-        </p>
-      </header>
-    </div>
+
+        {/* Features Section */}
+        <div className="py-20 px-4">
+          <div className="max-w-6xl mx-auto">
+            <h2 className="text-3xl font-light text-center mb-4 text-gray-800">Simple. Beautiful. Functional.</h2>
+            <p className="text-center text-gray-600 mb-16 font-light">Everything you need to manage your music collection</p>
+            
+            <div className="grid md:grid-cols-3 gap-8">
+              {/* Feature 1 */}
+              <div className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition-shadow">
+                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center mb-6">
+                  <ListMusic className="w-7 h-7 text-white" />
+                </div>
+                <h3 className="text-xl font-medium mb-3 text-gray-800">Create Playlists</h3>
+                <p className="text-gray-600 font-light leading-relaxed">
+                  Organize your music into beautiful playlists with custom cover images
+                </p>
+              </div>
+
+              {/* Feature 2 */}
+              <div className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition-shadow">
+                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center mb-6">
+                  <Music className="w-7 h-7 text-white" />
+                </div>
+                <h3 className="text-xl font-medium mb-3 text-gray-800">Add Tracks</h3>
+                <p className="text-gray-600 font-light leading-relaxed">
+                  Add tracks via URL or upload audio files directly to your playlists
+                </p>
+              </div>
+
+              {/* Feature 3 */}
+              <div className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition-shadow">
+                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center mb-6">
+                  <Sparkles className="w-7 h-7 text-white" />
+                </div>
+                <h3 className="text-xl font-medium mb-3 text-gray-800">Clean Interface</h3>
+                <p className="text-gray-600 font-light leading-relaxed">
+                  Enjoy a minimal, distraction-free experience with a modern design
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </AppLayout>
   );
 };
 
