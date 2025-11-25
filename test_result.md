@@ -137,15 +137,18 @@ backend:
 
   - task: "GET All Playlists API"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/controllers/playlistController.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "GET /api/playlists - Returns all playlists sorted by creation date"
+      - working: true
+        agent: "testing"
+        comment: "TESTED: GET /api/playlists working perfectly. Returns empty array when no playlists exist, returns proper array with playlists sorted by createdAt descending. Excludes MongoDB _id field correctly."
 
   - task: "GET Single Playlist by ID API"
     implemented: true
