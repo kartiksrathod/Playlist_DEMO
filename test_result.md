@@ -152,15 +152,18 @@ backend:
 
   - task: "GET Single Playlist by ID API"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/controllers/playlistController.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "GET /api/playlists/:id - Returns single playlist by UUID"
+      - working: true
+        agent: "testing"
+        comment: "TESTED: GET /api/playlists/:id working correctly. Returns proper playlist data for valid UUIDs, returns 404 for non-existent playlists. Response excludes MongoDB _id field."
 
   - task: "CREATE Playlist API with Image Upload"
     implemented: true
