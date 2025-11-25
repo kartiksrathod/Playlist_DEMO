@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import { Plus, Music, Pencil, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -12,6 +13,7 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
 const Playlists = () => {
+  const navigate = useNavigate();
   const [playlists, setPlaylists] = useState([]);
   const [loading, setLoading] = useState(true);
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
@@ -106,7 +108,11 @@ const Playlists = () => {
         {!loading && playlists.length > 0 && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {playlists.map((playlist) => (
-              <Card key={playlist.id} className="overflow-hidden hover:shadow-lg transition-shadow group">
+              <Card 
+                key={playlist.id} 
+                className="overflow-hidden hover:shadow-lg transition-shadow group cursor-pointer"
+                onClick={() => navigate(`/playlists/${playlist.id}`)}
+              >
                 {/* Cover Image */}
                 <div className="relative h-48 bg-gradient-to-br from-purple-500 to-pink-500 overflow-hidden">
                   {playlist.coverImage ? (
@@ -126,7 +132,8 @@ const Playlists = () => {
                     <Button
                       size="sm"
                       variant="secondary"
-                      onClick={() => {
+                      onClick={(e) => {
+                        e.stopPropagation();
                         setSelectedPlaylist(playlist);
                         setEditDialogOpen(true);
                       }}
@@ -136,7 +143,8 @@ const Playlists = () => {
                     <Button
                       size="sm"
                       variant="destructive"
-                      onClick={() => {
+                      onClick={(e) => {
+                        e.stopPropagation();
                         setSelectedPlaylist(playlist);
                         setDeleteDialogOpen(true);
                       }}
