@@ -1219,11 +1219,11 @@ class MusicPlaylistAPITester:
         return self.test_results['failed'] == 0
 
 if __name__ == "__main__":
-    tester = PlaylistAPITester()
+    tester = MusicPlaylistAPITester()
     success = tester.run_all_tests()
     
     if success:
-        print(f"\n🎉 All tests passed! Backend API is working correctly.")
+        print(f"\n🎉 All Phase 2 Track Management tests passed! Backend API is working correctly.")
         exit(0)
     else:
         print(f"\n💥 Some tests failed. Check the errors above.")
