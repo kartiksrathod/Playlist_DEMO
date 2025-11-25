@@ -212,11 +212,11 @@ backend:
 
   - task: "Static File Serving for Uploads"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/server.js"
     stuck_count: 1
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
@@ -227,6 +227,9 @@ backend:
       - working: "NA"
         agent: "main"
         comment: "FIXED: Changed static file serving to use /api/uploads instead of /uploads to match K8s ingress routing rules. Updated all coverImage paths in controller to use /api/uploads/covers/ prefix. Backend restarted successfully."
+      - working: true
+        agent: "testing"
+        comment: "RETESTED: Static file serving now WORKING perfectly via /api/uploads route. All tests passed: 1) Created playlist with cover image - coverImage path correctly uses /api/uploads/covers/ prefix, 2) Image URL returns actual image content with proper Content-Type (image/jpeg), 3) Image deletion on update - old image properly deleted from filesystem when new image uploaded, 4) Image deletion on playlist delete - image file properly cleaned up when playlist deleted. All image URLs accessible and serving correct content."
 
 frontend:
   - task: "Playlists Page with Grid Layout"
