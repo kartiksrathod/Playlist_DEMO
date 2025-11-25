@@ -615,13 +615,14 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Frontend - Playlists Page with Grid Layout"
-    - "Frontend - Create/Edit/Delete Playlist with Image Upload"
-    - "Frontend - PlaylistDetail Page with Track List"
-    - "Frontend - Add/Edit/Delete Track with Audio Upload"
-    - "Frontend - Audio Player Functionality"
+    - "Frontend - Enhanced Profile Page with Avatar Upload UI"
+    - "Frontend - History Page with Listen History and Sorting"
+    - "Frontend - Favorites Page with Playlists and Tracks Tabs"
+    - "Frontend - Recently Played Section on Home Page"
+    - "Frontend - Updated Sidebar Navigation with New Menu Items"
+    - "Frontend - Mock Data Integration for User Features"
   stuck_tasks: []
-  test_all: true
+  test_all: false
   test_priority: "high_first"
 
 agent_communication:
