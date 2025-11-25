@@ -167,15 +167,18 @@ backend:
 
   - task: "CREATE Playlist API with Image Upload"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/controllers/playlistController.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "POST /api/playlists - Creates playlist with name, description, and optional cover image upload"
+      - working: true
+        agent: "testing"
+        comment: "TESTED: POST /api/playlists working excellently. Creates playlists with name only, name+description, and name+description+image. Validates required name field (returns 400 for missing/empty name). Handles multipart/form-data correctly. Generates proper UUID and timestamps."
 
   - task: "UPDATE Playlist API with Image Upload"
     implemented: true
