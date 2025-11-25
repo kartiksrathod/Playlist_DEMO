@@ -198,9 +198,9 @@ const Playlists = () => {
                         e.stopPropagation();
                         navigate(`/playlists/${playlist.id}`);
                       }}
-                      className="p-3 bg-white/90 hover:bg-white rounded-full transition-colors shadow-lg"
+                      className="p-3 bg-blue-600 hover:bg-blue-700 rounded-full transition-colors shadow-lg"
                     >
-                      <Play className="h-5 w-5 text-gray-800" />
+                      <Play className="h-5 w-5 text-white" />
                     </button>
                     <button
                       onClick={(e) => {
@@ -208,9 +208,9 @@ const Playlists = () => {
                         setSelectedPlaylist(playlist);
                         setEditDialogOpen(true);
                       }}
-                      className="p-3 bg-white/90 hover:bg-white rounded-full transition-colors shadow-lg"
+                      className="p-3 bg-slate-700 hover:bg-slate-600 rounded-full transition-colors shadow-lg"
                     >
-                      <Pencil className="h-5 w-5 text-gray-800" />
+                      <Pencil className="h-5 w-5 text-white" />
                     </button>
                     <button
                       onClick={(e) => {
@@ -218,32 +218,31 @@ const Playlists = () => {
                         setSelectedPlaylist(playlist);
                         setDeleteDialogOpen(true);
                       }}
-                      className="p-3 bg-white/90 hover:bg-white rounded-full transition-colors shadow-lg"
+                      className="p-3 bg-red-600 hover:bg-red-700 rounded-full transition-colors shadow-lg"
                     >
-                      <Trash2 className="h-5 w-5 text-red-600" />
+                      <Trash2 className="h-5 w-5 text-white" />
                     </button>
                   </div>
 
                   {/* Stats Badge */}
-                  <div className="absolute bottom-3 right-3 px-3 py-1 bg-white/90 backdrop-blur-sm rounded-full text-xs font-medium text-gray-700">
-                    10.5K Cozies
+                  <div className="absolute bottom-3 right-3 px-3 py-1 bg-blue-600/80 backdrop-blur-sm rounded-full text-xs font-medium text-white">
+                    Music
                   </div>
                 </div>
 
                 {/* Card Content */}
                 <div className="p-4">
-                  <h3 className="font-medium text-gray-800 mb-1 truncate">{playlist.name}</h3>
-                  <p className="text-sm text-gray-600 line-clamp-2 min-h-[2.5rem] font-light">
-                    {playlist.description || 'A collection of amazing tracks from ambient vibes'}
+                  <h3 className="font-medium text-white mb-1 truncate">{playlist.name}</h3>
+                  <p className="text-sm text-blue-200 line-clamp-2 min-h-[2.5rem] font-light">
+                    {playlist.description || 'A collection of beautiful tracks'}
                   </p>
                   
                   {/* Stats */}
-                  <div className="flex items-center gap-4 mt-3 text-xs text-gray-500">
+                  <div className="flex items-center gap-4 mt-3 text-xs text-blue-300">
                     <div className="flex items-center gap-1">
                       <Heart className="w-3 h-3" />
-                      <span>1309 Aww sweet</span>
+                      <span>Favorite</span>
                     </div>
-                    <span>12:16</span>
                   </div>
                 </div>
               </div>
