@@ -182,15 +182,18 @@ backend:
 
   - task: "UPDATE Playlist API with Image Upload"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/controllers/playlistController.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "PUT /api/playlists/:id - Updates playlist with optional new cover image, deletes old image"
+      - working: true
+        agent: "testing"
+        comment: "TESTED: PUT /api/playlists/:id working perfectly. Updates name, description, and cover image independently. Properly deletes old cover image when new one is uploaded. Returns 404 for non-existent playlists. Updates timestamps correctly."
 
   - task: "DELETE Playlist API"
     implemented: true
