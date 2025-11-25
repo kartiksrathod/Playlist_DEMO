@@ -122,15 +122,18 @@ backend:
 
   - task: "File Upload Middleware (Multer)"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/middleware/upload.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Configured multer for image upload with 5MB limit, file type validation, and unique filename generation"
+      - working: true
+        agent: "testing"
+        comment: "TESTED: File upload middleware working correctly. Validates image types (jpeg, jpg, png, gif, webp), rejects non-image files, generates unique filenames, and saves to /uploads/covers/ directory."
 
   - task: "GET All Playlists API"
     implemented: true
