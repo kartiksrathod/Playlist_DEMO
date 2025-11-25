@@ -102,7 +102,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Test the MERN stack backend that was just restructured from Python FastAPI to Node.js/Express"
+user_problem_statement: "Music Playlist Manager - Phase 1: Core Playlist CRUD with cover image upload functionality"
 
 backend:
   - task: "Root API Endpoint"
