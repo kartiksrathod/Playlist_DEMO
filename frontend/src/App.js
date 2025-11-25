@@ -122,6 +122,53 @@ const Home = () => {
             </div>
           </div>
         </div>
+
+        {/* Recently Played Section */}
+        <div className="py-20 px-4 bg-slate-950">
+          <div className="max-w-6xl mx-auto">
+            <div className="flex items-center justify-between mb-8">
+              <div>
+                <h2 className="text-3xl font-light text-white mb-2">Recently Played</h2>
+                <p className="text-blue-100 font-light">Pick up where you left off</p>
+              </div>
+              <a href="/history">
+                <button className="flex items-center gap-2 px-4 py-2 bg-slate-900/60 hover:bg-slate-800/60 text-blue-100 rounded-xl font-medium transition-all border border-blue-800/30">
+                  <span>View All</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </a>
+            </div>
+
+            {/* Recently Played Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {mockRecentlyPlayed.slice(0, 6).map((track, index) => (
+                <div
+                  key={track.id}
+                  className="group bg-slate-900/60 backdrop-blur-xl rounded-xl p-4 border border-blue-800/30 hover:border-blue-600/50 transition-all hover:shadow-xl hover:shadow-blue-700/30"
+                >
+                  <div className="flex items-center gap-4">
+                    {/* Album Art Placeholder */}
+                    <div className="w-14 h-14 rounded-lg bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center shadow-lg shadow-blue-700/40 flex-shrink-0">
+                      <Music className="w-7 h-7 text-white" />
+                    </div>
+
+                    {/* Track Info */}
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-white font-medium text-sm mb-1 truncate group-hover:text-blue-300 transition-colors">
+                        {track.trackName}
+                      </h3>
+                      <p className="text-blue-200 text-xs truncate">{track.artist}</p>
+                      <div className="flex items-center gap-2 mt-1">
+                        <Play className="w-3 h-3 text-blue-400" />
+                        <span className="text-xs text-blue-300">{track.playCount} plays</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
     </AppLayout>
   );
