@@ -113,18 +113,16 @@ const Home = () => {
 
 function App() {
   return (
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-      <div className="App">
-        <Toaster position="top-center" richColors />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/playlists" element={<Playlists />} />
-            <Route path="/playlists/:playlistId" element={<PlaylistDetail />} />
-          </Routes>
-        </BrowserRouter>
-      </div>
-    </ThemeProvider>
+    <div className="App">
+      <Toaster position="top-center" richColors />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/playlists" element={<Playlists />} />
+          <Route path="/playlists/:playlistId" element={<PlaylistDetail />} />
+        </Routes>
+      </BrowserRouter>
+    </div>
   );
 }
 
