@@ -102,7 +102,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Music Playlist Manager - Phase 1: Core Playlist CRUD with cover image upload functionality"
+user_problem_statement: "Music Playlist Manager - Phase 1: Core Playlist CRUD with cover image upload functionality. Phase 2: Track Management with audio URL and file upload support"
 
 backend:
   - task: "Playlist Model with Cover Image Support"
@@ -230,6 +230,114 @@ backend:
       - working: true
         agent: "testing"
         comment: "RETESTED: Static file serving now WORKING perfectly via /api/uploads route. All tests passed: 1) Created playlist with cover image - coverImage path correctly uses /api/uploads/covers/ prefix, 2) Image URL returns actual image content with proper Content-Type (image/jpeg), 3) Image deletion on update - old image properly deleted from filesystem when new image uploaded, 4) Image deletion on playlist delete - image file properly cleaned up when playlist deleted. All image URLs accessible and serving correct content."
+
+  - task: "Track Model with Audio File Support"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/models/Track.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "PHASE 2: Updated Track model with audioFile field to support uploaded audio files in addition to audioUrl. Model includes: id, playlistId, songName, artist, album, duration, audioUrl, audioFile, timestamps"
+
+  - task: "Audio Upload Middleware (Multer)"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/middleware/audioUpload.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "PHASE 2: Created separate multer middleware for audio uploads with 50MB limit, file type validation (mp3, wav, ogg, m4a, aac, flac, wma), and unique filename generation. Saves to /uploads/audio/ directory"
+
+  - task: "GET All Tracks in Playlist API"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/controllers/trackController.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "PHASE 2: GET /api/playlists/:playlistId/tracks - Returns all tracks in a playlist sorted by creation date. Validates playlist exists before returning tracks"
+
+  - task: "GET Single Track API"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/controllers/trackController.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "PHASE 2: GET /api/playlists/:playlistId/tracks/:trackId - Returns single track by ID"
+
+  - task: "CREATE Track API with Audio Upload"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/controllers/trackController.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "PHASE 2: POST /api/playlists/:playlistId/tracks - Creates track with optional audio file upload. Supports both audioUrl (external links) and audioFile (uploaded file). Validates playlist exists and songName is required. Cleans up uploaded file on error"
+
+  - task: "UPDATE Track API with Audio Upload"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/controllers/trackController.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "PHASE 2: PUT /api/playlists/:playlistId/tracks/:trackId - Updates track with optional new audio file. Deletes old audio file when new one is uploaded. Validates songName cannot be empty"
+
+  - task: "DELETE Track API with Audio Cleanup"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/controllers/trackController.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "PHASE 2: DELETE /api/playlists/:playlistId/tracks/:trackId - Deletes track and associated audio file from filesystem"
+
+  - task: "Playlist Delete Cascade"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/controllers/playlistController.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "PHASE 2: Updated playlist delete to cascade delete all tracks and their audio files. Ensures complete cleanup when playlist is deleted"
+
+  - task: "Track Routes and Static Audio Serving"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/routes/trackRoutes.js, /app/backend/server.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "PHASE 2: Created track routes nested under /api/playlists/:playlistId/tracks. Registered in server.js. Audio files served via /api/uploads/audio/ path using existing static middleware"
 
 frontend:
   - task: "Playlists Page with Grid Layout"
