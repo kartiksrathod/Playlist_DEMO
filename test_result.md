@@ -197,15 +197,18 @@ backend:
 
   - task: "DELETE Playlist API"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/controllers/playlistController.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "DELETE /api/playlists/:id - Deletes playlist and associated cover image file"
+      - working: true
+        agent: "testing"
+        comment: "TESTED: DELETE /api/playlists/:id working correctly. Successfully deletes playlists and associated cover image files from filesystem. Returns 404 for non-existent playlists. Proper cleanup confirmed."
 
   - task: "Static File Serving for Uploads"
     implemented: true
