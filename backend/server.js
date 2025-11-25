@@ -6,6 +6,7 @@ const connectDB = require('./config/database');
 const statusRoutes = require('./routes/statusRoutes');
 const playlistRoutes = require('./routes/playlistRoutes');
 const trackRoutes = require('./routes/trackRoutes');
+const libraryRoutes = require('./routes/libraryRoutes');
 const errorHandler = require('./middleware/errorHandler');
 
 // Load environment variables
