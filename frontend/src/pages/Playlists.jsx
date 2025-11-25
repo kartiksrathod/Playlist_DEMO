@@ -91,13 +91,13 @@ const Playlists = () => {
 
   return (
     <AppLayout>
-      <div className="min-h-screen px-8 py-8">
+      <div className="min-h-screen px-8 py-8 bg-slate-950">
         {/* Header with Search */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h1 className="text-4xl font-light text-gray-800 mb-2">Playlists</h1>
-              <p className="text-gray-600 font-light">Your music collection</p>
+              <h1 className="text-4xl font-light text-white mb-2">Playlists</h1>
+              <p className="text-blue-200 font-light">Your music collection</p>
             </div>
             <Button 
               onClick={() => setCreateDialogOpen(true)}
