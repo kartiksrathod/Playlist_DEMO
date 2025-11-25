@@ -31,7 +31,7 @@ const Home = () => {
         <ThemeToggle />
       </div>
       
-      <header className="min-h-screen flex flex-col items-center justify-center">
+      <header className="min-h-screen flex flex-col items-center justify-center px-4">
         <a
           href="https://emergent.sh"
           target="_blank"
@@ -44,8 +44,18 @@ const Home = () => {
             className="w-32 h-32 rounded-lg"
           />
         </a>
-        <p className="mt-5 text-2xl font-semibold">Building something incredible ~!</p>
-        <p className="mt-2 text-sm text-muted-foreground">
+        <h1 className="mt-5 text-4xl font-bold text-center">🎵 Music Playlist Manager</h1>
+        <p className="mt-3 text-lg text-muted-foreground text-center">
+          Create, organize, and manage your music playlists with ease
+        </p>
+        <div className="mt-8 flex gap-4">
+          <a href="/playlists" className="inline-block">
+            <button className="px-6 py-3 bg-primary text-primary-foreground rounded-lg font-semibold hover:opacity-90 transition-opacity">
+              View My Playlists
+            </button>
+          </a>
+        </div>
+        <p className="mt-8 text-sm text-muted-foreground">
           Try the theme toggle in the top-right corner ↗
         </p>
       </header>
