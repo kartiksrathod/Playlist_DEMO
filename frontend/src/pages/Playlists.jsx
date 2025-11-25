@@ -91,17 +91,17 @@ const Playlists = () => {
 
   return (
     <AppLayout>
-      <div className="min-h-screen px-8 py-8 bg-slate-950">
+      <div className="min-h-screen px-8 py-8 bg-gradient-to-b from-slate-950 via-blue-950 to-slate-950">
         {/* Header with Search */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h1 className="text-4xl font-light text-white mb-2">Playlists</h1>
-              <p className="text-blue-200 font-light">Your music collection</p>
+              <h1 className="text-4xl font-light text-white mb-2 drop-shadow-lg">Playlists</h1>
+              <p className="text-blue-100 font-light">Your music collection</p>
             </div>
             <Button 
               onClick={() => setCreateDialogOpen(true)}
-              className="px-6 py-6 bg-blue-600 hover:bg-blue-700 text-white rounded-xl shadow-lg hover:shadow-blue-500/50 transition-all"
+              className="px-6 py-6 bg-blue-700 hover:bg-blue-600 text-white rounded-xl shadow-2xl hover:shadow-blue-600/60 transition-all backdrop-blur-xl border border-blue-500/30"
             >
               <Plus className="mr-2 h-5 w-5" />
               Create Playlist
@@ -119,14 +119,14 @@ const Playlists = () => {
         {/* View Controls */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex gap-2">
-            <button className="px-4 py-2 bg-blue-900/30 border border-blue-500/30 rounded-lg text-sm text-blue-200 hover:bg-blue-900/50 transition-colors backdrop-blur-sm">
+            <button className="px-4 py-2 bg-blue-900/40 border border-blue-700/40 rounded-lg text-sm text-blue-100 hover:bg-blue-900/60 transition-colors backdrop-blur-xl shadow-lg">
               Grid
             </button>
-            <button className="px-4 py-2 text-blue-300 text-sm hover:bg-blue-900/30 rounded-lg transition-colors">
+            <button className="px-4 py-2 text-blue-200 text-sm hover:bg-blue-900/40 rounded-lg transition-colors backdrop-blur-sm">
               List
             </button>
           </div>
-          <p className="text-sm text-blue-300">
+          <p className="text-sm text-blue-200">
             {filteredPlaylists.length} {filteredPlaylists.length === 1 ? 'playlist' : 'playlists'}
           </p>
         </div>
