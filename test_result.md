@@ -212,11 +212,11 @@ backend:
 
   - task: "Static File Serving for Uploads"
     implemented: true
-    working: false
+    working: "NA"
     file: "/app/backend/server.js"
     stuck_count: 1
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
       - working: "NA"
         agent: "main"
@@ -224,6 +224,9 @@ backend:
       - working: false
         agent: "testing"
         comment: "TESTED: Static file serving NOT working. Files are uploaded correctly to /app/backend/uploads/covers/ but accessing https://playlist-tracker.preview.emergentagent.com/uploads/covers/filename.png returns HTML (text/html; charset=utf-8) instead of image content. This suggests the /uploads route is being intercepted by frontend routing instead of being served by Express static middleware. Backend Express config looks correct: app.use('/uploads', express.static(path.join(__dirname, 'uploads')))"
+      - working: "NA"
+        agent: "main"
+        comment: "FIXED: Changed static file serving to use /api/uploads instead of /uploads to match K8s ingress routing rules. Updated all coverImage paths in controller to use /api/uploads/covers/ prefix. Backend restarted successfully."
 
 frontend:
   - task: "Playlists Page with Grid Layout"
