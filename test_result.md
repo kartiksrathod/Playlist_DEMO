@@ -105,80 +105,101 @@
 user_problem_statement: "Music Playlist Manager - Phase 1: Core Playlist CRUD with cover image upload functionality"
 
 backend:
-  - task: "Root API Endpoint"
+  - task: "Playlist Model with Cover Image Support"
     implemented: true
-    working: true
-    file: "/app/backend/routes/statusRoutes.js"
+    working: "NA"
+    file: "/app/backend/models/Playlist.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
-      - working: true
-        agent: "testing"
-        comment: "GET /api/ endpoint working correctly, returns {message: 'Hello World'}"
+      - working: "NA"
+        agent: "main"
+        comment: "Created Playlist model with id, name, description, coverImage, createdAt, updatedAt fields"
 
-  - task: "Health Check Endpoint"
+  - task: "File Upload Middleware (Multer)"
     implemented: true
-    working: true
-    file: "/app/backend/routes/statusRoutes.js"
+    working: "NA"
+    file: "/app/backend/middleware/upload.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
-      - working: false
-        agent: "testing"
-        comment: "Initial test failed - /health endpoint not accessible due to routing configuration"
-      - working: true
-        agent: "testing"
-        comment: "Fixed by adding health endpoint to /api/health route. Returns status and ISO timestamp correctly"
+      - working: "NA"
+        agent: "main"
+        comment: "Configured multer for image upload with 5MB limit, file type validation, and unique filename generation"
 
-  - task: "Create Status Check API"
+  - task: "GET All Playlists API"
     implemented: true
-    working: true
-    file: "/app/backend/controllers/statusController.js"
+    working: "NA"
+    file: "/app/backend/controllers/playlistController.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
-      - working: true
-        agent: "testing"
-        comment: "POST /api/status working correctly. Validates client_name, generates UUID, returns proper response format"
+      - working: "NA"
+        agent: "main"
+        comment: "GET /api/playlists - Returns all playlists sorted by creation date"
 
-  - task: "Get All Status Checks API"
+  - task: "GET Single Playlist by ID API"
     implemented: true
-    working: true
-    file: "/app/backend/controllers/statusController.js"
+    working: "NA"
+    file: "/app/backend/controllers/playlistController.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
-      - working: true
-        agent: "testing"
-        comment: "GET /api/status working correctly. Returns array of status checks with proper UUID and timestamp format"
+      - working: "NA"
+        agent: "main"
+        comment: "GET /api/playlists/:id - Returns single playlist by UUID"
 
-  - task: "MongoDB Integration"
+  - task: "CREATE Playlist API with Image Upload"
     implemented: true
-    working: true
-    file: "/app/backend/config/database.js"
+    working: "NA"
+    file: "/app/backend/controllers/playlistController.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
-      - working: true
-        agent: "testing"
-        comment: "MongoDB connection successful. Data persistence working correctly for status checks"
+      - working: "NA"
+        agent: "main"
+        comment: "POST /api/playlists - Creates playlist with name, description, and optional cover image upload"
 
-  - task: "Input Validation"
+  - task: "UPDATE Playlist API with Image Upload"
     implemented: true
-    working: true
-    file: "/app/backend/controllers/statusController.js"
+    working: "NA"
+    file: "/app/backend/controllers/playlistController.js"
     stuck_count: 0
-    priority: "medium"
-    needs_retesting: false
+    priority: "high"
+    needs_retesting: true
     status_history:
-      - working: true
-        agent: "testing"
-        comment: "Validation working correctly. Returns 400 error for missing client_name with appropriate error message"
+      - working: "NA"
+        agent: "main"
+        comment: "PUT /api/playlists/:id - Updates playlist with optional new cover image, deletes old image"
+
+  - task: "DELETE Playlist API"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/controllers/playlistController.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "DELETE /api/playlists/:id - Deletes playlist and associated cover image file"
+
+  - task: "Static File Serving for Uploads"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Configured Express to serve uploaded images from /uploads directory"
 
 frontend:
   # Frontend testing not performed as per testing agent instructions
