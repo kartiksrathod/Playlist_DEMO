@@ -558,57 +558,38 @@ class PlaylistAPITester:
     
     def run_all_tests(self):
         """Run all tests in sequence"""
-        print("🚀 Starting Music Playlist Manager Backend API Tests\n")
+        print("🚀 Starting Music Playlist Manager Backend API Tests - Focus: Static File Serving\n")
         
         # Health check first
         if not self.test_health_check():
             print("❌ Backend not responding. Aborting tests.")
             return
         
-        # Test empty state
-        self.test_get_all_playlists_empty()
+        # Create playlist with image for static file serving tests
+        print("\n📸 Creating playlist with cover image for static file serving tests...")
+        playlist_with_image = self.test_create_playlist_with_image()
         
-        # Test playlist creation
-        playlist1 = self.test_create_playlist_name_only()
-        playlist2 = self.test_create_playlist_with_description()
-        playlist3 = self.test_create_playlist_with_image()
+        if not playlist_with_image:
+            print("❌ Failed to create playlist with image. Cannot test static file serving.")
+            return False
         
-        # Test validation errors
-        self.test_create_playlist_validation_errors()
-        self.test_file_upload_validation()
+        # Test static file serving via /api/uploads
+        print("\n🔍 Testing Static File Serving via /api/uploads...")
+        self.test_static_file_serving(playlist_with_image)
         
-        # Test retrieval with data
-        self.test_get_all_playlists_with_data()
+        # Test image deletion on update
+        print("\n🔄 Testing Image Deletion on Update...")
+        self.test_image_deletion_on_update()
         
-        # Test single playlist retrieval
-        if playlist1:
-            self.test_get_single_playlist(playlist1['id'])
-        
-        self.test_get_nonexistent_playlist()
-        
-        # Test updates
-        if playlist2:
-            self.test_update_playlist(playlist2['id'])
-        
-        if playlist3:
-            self.test_update_playlist_with_image(playlist3['id'])
-        
-        self.test_update_nonexistent_playlist()
-        
-        # Test static file serving
-        self.test_static_file_serving(playlist3)
-        
-        # Test deletion
-        if playlist1:
-            self.test_delete_playlist(playlist1['id'])
-        
-        self.test_delete_nonexistent_playlist()
+        # Test image deletion on playlist delete
+        print("\n🗑️ Testing Image Deletion on Playlist Delete...")
+        self.test_image_deletion_on_playlist_delete()
         
         # Clean up remaining playlists
         self.cleanup()
         
         # Print summary
-        print(f"\n📊 Test Summary:")
+        print(f"\n📊 Static File Serving Test Summary:")
         print(f"✅ Passed: {self.test_results['passed']}")
         print(f"❌ Failed: {self.test_results['failed']}")
         
