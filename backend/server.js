@@ -5,6 +5,7 @@ const path = require('path');
 const connectDB = require('./config/database');
 const statusRoutes = require('./routes/statusRoutes');
 const playlistRoutes = require('./routes/playlistRoutes');
+const trackRoutes = require('./routes/trackRoutes');
 const errorHandler = require('./middleware/errorHandler');
 
 // Load environment variables
@@ -36,6 +37,7 @@ app.use((req, res, next) => {
 // API Routes
 app.use('/api', statusRoutes);
 app.use('/api/playlists', playlistRoutes);
+app.use('/api/playlists/:playlistId/tracks', trackRoutes);
 
 // Health check route (not under /api prefix)
 app.get('/health', (req, res) => {
