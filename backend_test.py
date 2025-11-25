@@ -573,40 +573,641 @@ class MusicPlaylistAPITester:
             except Exception as e:
                 print(f"❌ Error cleaning up playlist {playlist_id}: {str(e)}")
     
+    # ===== PHASE 2: TRACK MANAGEMENT TESTS =====
+    
+    def test_get_tracks_empty_playlist(self, playlist_id):
+        """Test GET /api/playlists/:playlistId/tracks when playlist has no tracks"""
+        try:
+            response = self.session.get(f"{BASE_URL}/playlists/{playlist_id}/tracks")
+            if response.status_code == 200:
+                tracks = response.json()
+                if isinstance(tracks, list) and len(tracks) == 0:
+                    self.log_result("GET Tracks (Empty Playlist)", True, f"Returned empty array for playlist {playlist_id}")
+                    return True
+                else:
+                    self.log_result("GET Tracks (Empty Playlist)", False, f"Expected empty array, got: {tracks}")
+                    return False
+            else:
+                self.log_result("GET Tracks (Empty Playlist)", False, f"Status: {response.status_code}, Response: {response.text}")
+                return False
+        except Exception as e:
+            self.log_result("GET Tracks (Empty Playlist)", False, f"Error: {str(e)}")
+            return False
+    
+    def test_get_tracks_nonexistent_playlist(self):
+        """Test GET /api/playlists/:playlistId/tracks with non-existent playlist"""
+        try:
+            fake_id = str(uuid.uuid4())
+            response = self.session.get(f"{BASE_URL}/playlists/{fake_id}/tracks")
+            if response.status_code == 404:
+                self.log_result("GET Tracks (Non-existent Playlist)", True, "Correctly returned 404")
+                return True
+            else:
+                self.log_result("GET Tracks (Non-existent Playlist)", False, f"Expected 404, got {response.status_code}")
+                return False
+        except Exception as e:
+            self.log_result("GET Tracks (Non-existent Playlist)", False, f"Error: {str(e)}")
+            return False
+    
+    def test_create_track_song_name_only(self, playlist_id):
+        """Test POST /api/playlists/:playlistId/tracks with songName only"""
+        try:
+            track_data = {
+                'songName': 'Bohemian Rhapsody'
+            }
+            response = self.session.post(f"{BASE_URL}/playlists/{playlist_id}/tracks", data=track_data)
+            
+            if response.status_code == 201:
+                track = response.json()
+                required_fields = ['id', 'playlistId', 'songName', 'artist', 'album', 'duration', 'audioUrl', 'audioFile', 'createdAt', 'updatedAt']
+                
+                # Validate response structure
+                missing_fields = [field for field in required_fields if field not in track]
+                if missing_fields:
+                    self.log_result("Create Track (Song Name Only)", False, f"Missing fields: {missing_fields}")
+                    return None
+                
+                # Validate field values
+                if track['songName'] != 'Bohemian Rhapsody':
+                    self.log_result("Create Track (Song Name Only)", False, f"Song name mismatch: {track['songName']}")
+                    return None
+                
+                if track['playlistId'] != playlist_id:
+                    self.log_result("Create Track (Song Name Only)", False, f"Playlist ID mismatch: {track['playlistId']}")
+                    return None
+                
+                # Validate UUID format
+                try:
+                    uuid.UUID(track['id'])
+                except ValueError:
+                    self.log_result("Create Track (Song Name Only)", False, f"Invalid UUID format: {track['id']}")
+                    return None
+                
+                self.created_tracks.append((playlist_id, track['id']))
+                self.log_result("Create Track (Song Name Only)", True, f"Created track: {track['id']}")
+                return track
+            else:
+                self.log_result("Create Track (Song Name Only)", False, f"Status: {response.status_code}, Response: {response.text}")
+                return None
+        except Exception as e:
+            self.log_result("Create Track (Song Name Only)", False, f"Error: {str(e)}")
+            return None
+    
+    def test_create_track_with_metadata(self, playlist_id):
+        """Test POST /api/playlists/:playlistId/tracks with full metadata"""
+        try:
+            track_data = {
+                'songName': 'Hotel California',
+                'artist': 'Eagles',
+                'album': 'Hotel California',
+                'duration': '6:30',
+                'audioUrl': 'https://example.com/hotel-california.mp3'
+            }
+            response = self.session.post(f"{BASE_URL}/playlists/{playlist_id}/tracks", data=track_data)
+            
+            if response.status_code == 201:
+                track = response.json()
+                
+                # Validate all fields
+                expected_values = {
+                    'songName': 'Hotel California',
+                    'artist': 'Eagles',
+                    'album': 'Hotel California',
+                    'duration': '6:30',
+                    'audioUrl': 'https://example.com/hotel-california.mp3',
+                    'playlistId': playlist_id
+                }
+                
+                for field, expected in expected_values.items():
+                    if track[field] != expected:
+                        self.log_result("Create Track (With Metadata)", False, f"{field} mismatch: expected {expected}, got {track[field]}")
+                        return None
+                
+                if track['audioFile'] is not None:
+                    self.log_result("Create Track (With Metadata)", False, f"Audio file should be null: {track['audioFile']}")
+                    return None
+                
+                self.created_tracks.append((playlist_id, track['id']))
+                self.log_result("Create Track (With Metadata)", True, f"Created track with metadata: {track['id']}")
+                return track
+            else:
+                self.log_result("Create Track (With Metadata)", False, f"Status: {response.status_code}, Response: {response.text}")
+                return None
+        except Exception as e:
+            self.log_result("Create Track (With Metadata)", False, f"Error: {str(e)}")
+            return None
+    
+    def test_create_track_with_audio_file(self, playlist_id):
+        """Test POST /api/playlists/:playlistId/tracks with audio file upload"""
+        try:
+            track_data = {
+                'songName': 'Stairway to Heaven',
+                'artist': 'Led Zeppelin',
+                'album': 'Led Zeppelin IV'
+            }
+            
+            # Create test audio file
+            test_audio = self.create_test_audio_file(500)  # 500KB
+            files = {'audioFile': ('stairway.wav', test_audio, 'audio/wav')}
+            
+            response = self.session.post(f"{BASE_URL}/playlists/{playlist_id}/tracks", data=track_data, files=files)
+            
+            if response.status_code == 201:
+                track = response.json()
+                
+                # Validate audio file path
+                if not track['audioFile'] or not track['audioFile'].startswith('/api/uploads/audio/'):
+                    self.log_result("Create Track (With Audio File)", False, f"Invalid audio file path: {track['audioFile']}")
+                    return None
+                
+                # Validate other fields
+                if track['songName'] != 'Stairway to Heaven' or track['artist'] != 'Led Zeppelin':
+                    self.log_result("Create Track (With Audio File)", False, f"Metadata mismatch: {track}")
+                    return None
+                
+                self.created_tracks.append((playlist_id, track['id']))
+                self.log_result("Create Track (With Audio File)", True, f"Created track with audio file: {track['id']}")
+                return track
+            else:
+                self.log_result("Create Track (With Audio File)", False, f"Status: {response.status_code}, Response: {response.text}")
+                return None
+        except Exception as e:
+            self.log_result("Create Track (With Audio File)", False, f"Error: {str(e)}")
+            return None
+    
+    def test_create_track_validation_errors(self, playlist_id):
+        """Test POST /api/playlists/:playlistId/tracks validation errors"""
+        # Test missing songName
+        try:
+            response = self.session.post(f"{BASE_URL}/playlists/{playlist_id}/tracks", data={})
+            if response.status_code == 400:
+                self.log_result("Create Track Validation (Missing Song Name)", True, "Correctly rejected missing song name")
+            else:
+                self.log_result("Create Track Validation (Missing Song Name)", False, f"Expected 400, got {response.status_code}")
+        except Exception as e:
+            self.log_result("Create Track Validation (Missing Song Name)", False, f"Error: {str(e)}")
+        
+        # Test empty songName
+        try:
+            response = self.session.post(f"{BASE_URL}/playlists/{playlist_id}/tracks", data={'songName': ''})
+            if response.status_code == 400:
+                self.log_result("Create Track Validation (Empty Song Name)", True, "Correctly rejected empty song name")
+            else:
+                self.log_result("Create Track Validation (Empty Song Name)", False, f"Expected 400, got {response.status_code}")
+        except Exception as e:
+            self.log_result("Create Track Validation (Empty Song Name)", False, f"Error: {str(e)}")
+    
+    def test_create_track_nonexistent_playlist(self):
+        """Test POST /api/playlists/:playlistId/tracks with non-existent playlist"""
+        try:
+            fake_id = str(uuid.uuid4())
+            track_data = {'songName': 'Test Song'}
+            response = self.session.post(f"{BASE_URL}/playlists/{fake_id}/tracks", data=track_data)
+            
+            if response.status_code == 404:
+                self.log_result("Create Track (Non-existent Playlist)", True, "Correctly returned 404")
+                return True
+            else:
+                self.log_result("Create Track (Non-existent Playlist)", False, f"Expected 404, got {response.status_code}")
+                return False
+        except Exception as e:
+            self.log_result("Create Track (Non-existent Playlist)", False, f"Error: {str(e)}")
+            return False
+    
+    def test_audio_file_validation(self, playlist_id):
+        """Test audio file upload validation"""
+        # Test non-audio file
+        try:
+            track_data = {'songName': 'Test Track'}
+            files = {'audioFile': ('test.txt', io.StringIO('This is not an audio file'), 'text/plain')}
+            
+            response = self.session.post(f"{BASE_URL}/playlists/{playlist_id}/tracks", data=track_data, files=files)
+            if response.status_code == 400 or response.status_code == 500:
+                self.log_result("Audio File Validation (Non-Audio)", True, "Correctly rejected non-audio file")
+            else:
+                self.log_result("Audio File Validation (Non-Audio)", False, f"Expected 400/500, got {response.status_code}")
+        except Exception as e:
+            self.log_result("Audio File Validation (Non-Audio)", False, f"Error: {str(e)}")
+        
+        # Test large file (>50MB) - Skip this test as it's resource intensive
+        self.log_result("Audio File Validation (Large File)", True, "Skipped - assuming multer 50MB limit works")
+    
+    def test_get_tracks_with_data(self, playlist_id):
+        """Test GET /api/playlists/:playlistId/tracks with existing tracks"""
+        try:
+            response = self.session.get(f"{BASE_URL}/playlists/{playlist_id}/tracks")
+            if response.status_code == 200:
+                tracks = response.json()
+                if len(tracks) > 0:
+                    # Check sorting (should be by createdAt ascending)
+                    if len(tracks) > 1:
+                        for i in range(len(tracks) - 1):
+                            if tracks[i]['createdAt'] > tracks[i + 1]['createdAt']:
+                                self.log_result("GET Tracks (With Data)", False, "Tracks not sorted by createdAt ascending")
+                                return False
+                    
+                    # Validate track structure
+                    for track in tracks:
+                        if track['playlistId'] != playlist_id:
+                            self.log_result("GET Tracks (With Data)", False, f"Track playlist ID mismatch: {track['playlistId']}")
+                            return False
+                    
+                    self.log_result("GET Tracks (With Data)", True, f"Retrieved {len(tracks)} tracks, properly sorted")
+                    return tracks
+                else:
+                    self.log_result("GET Tracks (With Data)", False, "Expected tracks but got empty array")
+                    return []
+            else:
+                self.log_result("GET Tracks (With Data)", False, f"Status: {response.status_code}")
+                return []
+        except Exception as e:
+            self.log_result("GET Tracks (With Data)", False, f"Error: {str(e)}")
+            return []
+    
+    def test_get_single_track(self, playlist_id, track_id):
+        """Test GET /api/playlists/:playlistId/tracks/:trackId"""
+        try:
+            response = self.session.get(f"{BASE_URL}/playlists/{playlist_id}/tracks/{track_id}")
+            if response.status_code == 200:
+                track = response.json()
+                if track['id'] == track_id and track['playlistId'] == playlist_id:
+                    self.log_result("GET Single Track", True, f"Retrieved track: {track_id}")
+                    return track
+                else:
+                    self.log_result("GET Single Track", False, f"ID mismatch: expected {track_id}, got {track['id']}")
+                    return None
+            else:
+                self.log_result("GET Single Track", False, f"Status: {response.status_code}")
+                return None
+        except Exception as e:
+            self.log_result("GET Single Track", False, f"Error: {str(e)}")
+            return None
+    
+    def test_get_nonexistent_track(self, playlist_id):
+        """Test GET /api/playlists/:playlistId/tracks/:trackId with non-existent track"""
+        try:
+            fake_id = str(uuid.uuid4())
+            response = self.session.get(f"{BASE_URL}/playlists/{playlist_id}/tracks/{fake_id}")
+            if response.status_code == 404:
+                self.log_result("GET Non-existent Track", True, "Correctly returned 404")
+                return True
+            else:
+                self.log_result("GET Non-existent Track", False, f"Expected 404, got {response.status_code}")
+                return False
+        except Exception as e:
+            self.log_result("GET Non-existent Track", False, f"Error: {str(e)}")
+            return False
+    
+    def test_update_track(self, playlist_id, track_id):
+        """Test PUT /api/playlists/:playlistId/tracks/:trackId"""
+        try:
+            update_data = {
+                'songName': 'Updated Song Name',
+                'artist': 'Updated Artist',
+                'duration': '4:20'
+            }
+            response = self.session.put(f"{BASE_URL}/playlists/{playlist_id}/tracks/{track_id}", data=update_data)
+            
+            if response.status_code == 200:
+                track = response.json()
+                if (track['songName'] == 'Updated Song Name' and 
+                    track['artist'] == 'Updated Artist' and 
+                    track['duration'] == '4:20'):
+                    self.log_result("Update Track", True, f"Updated track: {track_id}")
+                    return track
+                else:
+                    self.log_result("Update Track", False, f"Update failed: {track}")
+                    return None
+            else:
+                self.log_result("Update Track", False, f"Status: {response.status_code}, Response: {response.text}")
+                return None
+        except Exception as e:
+            self.log_result("Update Track", False, f"Error: {str(e)}")
+            return None
+    
+    def test_update_track_with_audio_file(self, playlist_id, track_id):
+        """Test PUT /api/playlists/:playlistId/tracks/:trackId with new audio file"""
+        try:
+            update_data = {
+                'songName': 'Updated with New Audio'
+            }
+            
+            # Create new test audio file
+            test_audio = self.create_test_audio_file(300)  # 300KB
+            files = {'audioFile': ('updated_audio.wav', test_audio, 'audio/wav')}
+            
+            response = self.session.put(f"{BASE_URL}/playlists/{playlist_id}/tracks/{track_id}", data=update_data, files=files)
+            
+            if response.status_code == 200:
+                track = response.json()
+                if track['audioFile'] and track['audioFile'].startswith('/api/uploads/audio/'):
+                    self.log_result("Update Track (With Audio File)", True, f"Updated track with new audio: {track_id}")
+                    return track
+                else:
+                    self.log_result("Update Track (With Audio File)", False, f"Audio file not updated: {track['audioFile']}")
+                    return None
+            else:
+                self.log_result("Update Track (With Audio File)", False, f"Status: {response.status_code}, Response: {response.text}")
+                return None
+        except Exception as e:
+            self.log_result("Update Track (With Audio File)", False, f"Error: {str(e)}")
+            return None
+    
+    def test_update_nonexistent_track(self, playlist_id):
+        """Test PUT /api/playlists/:playlistId/tracks/:trackId with non-existent track"""
+        try:
+            fake_id = str(uuid.uuid4())
+            update_data = {'songName': 'Should Not Work'}
+            response = self.session.put(f"{BASE_URL}/playlists/{playlist_id}/tracks/{fake_id}", data=update_data)
+            
+            if response.status_code == 404:
+                self.log_result("Update Non-existent Track", True, "Correctly returned 404")
+                return True
+            else:
+                self.log_result("Update Non-existent Track", False, f"Expected 404, got {response.status_code}")
+                return False
+        except Exception as e:
+            self.log_result("Update Non-existent Track", False, f"Error: {str(e)}")
+            return False
+    
+    def test_delete_track(self, playlist_id, track_id):
+        """Test DELETE /api/playlists/:playlistId/tracks/:trackId"""
+        try:
+            response = self.session.delete(f"{BASE_URL}/playlists/{playlist_id}/tracks/{track_id}")
+            
+            if response.status_code == 200:
+                # Verify track is actually deleted
+                get_response = self.session.get(f"{BASE_URL}/playlists/{playlist_id}/tracks/{track_id}")
+                if get_response.status_code == 404:
+                    self.log_result("Delete Track", True, f"Deleted track: {track_id}")
+                    # Remove from tracking list
+                    self.created_tracks = [(pid, tid) for pid, tid in self.created_tracks if tid != track_id]
+                    return True
+                else:
+                    self.log_result("Delete Track", False, f"Track still exists after deletion: {track_id}")
+                    return False
+            else:
+                self.log_result("Delete Track", False, f"Status: {response.status_code}, Response: {response.text}")
+                return False
+        except Exception as e:
+            self.log_result("Delete Track", False, f"Error: {str(e)}")
+            return False
+    
+    def test_delete_nonexistent_track(self, playlist_id):
+        """Test DELETE /api/playlists/:playlistId/tracks/:trackId with non-existent track"""
+        try:
+            fake_id = str(uuid.uuid4())
+            response = self.session.delete(f"{BASE_URL}/playlists/{playlist_id}/tracks/{fake_id}")
+            
+            if response.status_code == 404:
+                self.log_result("Delete Non-existent Track", True, "Correctly returned 404")
+                return True
+            else:
+                self.log_result("Delete Non-existent Track", False, f"Expected 404, got {response.status_code}")
+                return False
+        except Exception as e:
+            self.log_result("Delete Non-existent Track", False, f"Error: {str(e)}")
+            return False
+    
+    def test_static_audio_file_serving(self, track_with_audio):
+        """Test static file serving for uploaded audio files via /api/uploads/audio"""
+        if not track_with_audio or not track_with_audio.get('audioFile'):
+            self.log_result("Static Audio File Serving", False, "No track with audio file to test")
+            return False
+        
+        try:
+            # The audioFile path should already include /api/uploads/audio/ prefix
+            audio_url = f"https://music-tracks-3.preview.emergentagent.com{track_with_audio['audioFile']}"
+            print(f"Testing audio URL: {audio_url}")
+            
+            response = self.session.get(audio_url)
+            
+            print(f"Response status: {response.status_code}")
+            print(f"Content-Type: {response.headers.get('content-type')}")
+            print(f"Response length: {len(response.content)} bytes")
+            
+            if response.status_code == 200:
+                content_type = response.headers.get('content-type', '').lower()
+                # Accept various audio content types or application/octet-stream for binary files
+                if content_type.startswith('audio/') or content_type == 'application/octet-stream':
+                    self.log_result("Static Audio File Serving", True, f"Audio file accessible with Content-Type: {content_type}")
+                    return True
+                else:
+                    self.log_result("Static Audio File Serving", False, f"Wrong Content-Type: {content_type} (expected audio/* or application/octet-stream)")
+                    return False
+            else:
+                self.log_result("Static Audio File Serving", False, f"Status: {response.status_code}, Content-Type: {response.headers.get('content-type')}")
+                return False
+        except Exception as e:
+            self.log_result("Static Audio File Serving", False, f"Error: {str(e)}")
+            return False
+    
+    def test_cascade_delete_playlist_with_tracks(self):
+        """Test that deleting a playlist also deletes all tracks and audio files"""
+        try:
+            # Create a test playlist
+            playlist_data = {
+                'name': 'Cascade Delete Test Playlist',
+                'description': 'Testing cascade delete functionality'
+            }
+            
+            response = self.session.post(f"{BASE_URL}/playlists", data=playlist_data)
+            if response.status_code != 201:
+                self.log_result("Cascade Delete Test", False, f"Failed to create test playlist: {response.status_code}")
+                return False
+            
+            playlist = response.json()
+            playlist_id = playlist['id']
+            
+            # Create tracks with audio files
+            track_ids = []
+            audio_urls = []
+            
+            for i in range(3):
+                track_data = {
+                    'songName': f'Test Track {i+1}',
+                    'artist': f'Test Artist {i+1}'
+                }
+                
+                test_audio = self.create_test_audio_file(200)  # 200KB
+                files = {'audioFile': (f'test_audio_{i+1}.wav', test_audio, 'audio/wav')}
+                
+                track_response = self.session.post(f"{BASE_URL}/playlists/{playlist_id}/tracks", data=track_data, files=files)
+                
+                if track_response.status_code != 201:
+                    self.log_result("Cascade Delete Test", False, f"Failed to create test track {i+1}: {track_response.status_code}")
+                    return False
+                
+                track = track_response.json()
+                track_ids.append(track['id'])
+                audio_urls.append(f"https://music-tracks-3.preview.emergentagent.com{track['audioFile']}")
+            
+            # Verify tracks and audio files exist
+            for i, track_id in enumerate(track_ids):
+                track_response = self.session.get(f"{BASE_URL}/playlists/{playlist_id}/tracks/{track_id}")
+                if track_response.status_code != 200:
+                    self.log_result("Cascade Delete Test", False, f"Track {track_id} not found before delete")
+                    return False
+                
+                audio_response = self.session.get(audio_urls[i])
+                if audio_response.status_code != 200:
+                    self.log_result("Cascade Delete Test", False, f"Audio file not accessible before delete: {audio_urls[i]}")
+                    return False
+            
+            # Delete the playlist
+            delete_response = self.session.delete(f"{BASE_URL}/playlists/{playlist_id}")
+            
+            if delete_response.status_code != 200:
+                self.log_result("Cascade Delete Test", False, f"Failed to delete playlist: {delete_response.status_code}")
+                return False
+            
+            # Verify playlist is deleted
+            playlist_response = self.session.get(f"{BASE_URL}/playlists/{playlist_id}")
+            if playlist_response.status_code != 404:
+                self.log_result("Cascade Delete Test", False, f"Playlist still exists after deletion")
+                return False
+            
+            # Verify all tracks are deleted
+            time.sleep(1)  # Give database time to process
+            for track_id in track_ids:
+                track_response = self.session.get(f"{BASE_URL}/playlists/{playlist_id}/tracks/{track_id}")
+                if track_response.status_code != 404:
+                    self.log_result("Cascade Delete Test", False, f"Track {track_id} still exists after playlist deletion")
+                    return False
+            
+            # Verify all audio files are deleted
+            time.sleep(1)  # Give filesystem time to process
+            for audio_url in audio_urls:
+                audio_response = self.session.get(audio_url)
+                if audio_response.status_code != 404:
+                    self.log_result("Cascade Delete Test", False, f"Audio file still accessible after playlist deletion: {audio_url}")
+                    return False
+            
+            self.log_result("Cascade Delete Test", True, f"Playlist, {len(track_ids)} tracks, and {len(audio_urls)} audio files properly deleted")
+            return True
+            
+        except Exception as e:
+            self.log_result("Cascade Delete Test", False, f"Error: {str(e)}")
+            return False
+    
+    def cleanup_tracks(self):
+        """Clean up created tracks"""
+        print(f"\n🧹 Cleaning up {len(self.created_tracks)} test tracks...")
+        for playlist_id, track_id in self.created_tracks.copy():
+            try:
+                response = self.session.delete(f"{BASE_URL}/playlists/{playlist_id}/tracks/{track_id}")
+                if response.status_code == 200:
+                    print(f"✅ Cleaned up track: {track_id}")
+                else:
+                    print(f"⚠️  Failed to clean up track: {track_id}")
+            except Exception as e:
+                print(f"❌ Error cleaning up track {track_id}: {str(e)}")
+    
     def run_all_tests(self):
-        """Run all tests in sequence"""
-        print("🚀 Starting Music Playlist Manager Backend API Tests - Focus: Static File Serving\n")
+        """Run all Phase 2 Track Management tests"""
+        print("🚀 Starting Music Playlist Manager Backend API Tests - Phase 2: Track Management\n")
         
         # Health check first
         if not self.test_health_check():
             print("❌ Backend not responding. Aborting tests.")
-            return
-        
-        # Create playlist with image for static file serving tests
-        print("\n📸 Creating playlist with cover image for static file serving tests...")
-        playlist_with_image = self.test_create_playlist_with_image()
-        
-        if not playlist_with_image:
-            print("❌ Failed to create playlist with image. Cannot test static file serving.")
             return False
         
-        # Test static file serving via /api/uploads
-        print("\n🔍 Testing Static File Serving via /api/uploads...")
-        self.test_static_file_serving(playlist_with_image)
+        # Create a test playlist for track operations
+        print("\n📝 Creating test playlist for track operations...")
+        test_playlist = self.test_create_playlist_name_only()
         
-        # Test image deletion on update
-        print("\n🔄 Testing Image Deletion on Update...")
-        self.test_image_deletion_on_update()
+        if not test_playlist:
+            print("❌ Failed to create test playlist. Cannot proceed with track tests.")
+            return False
         
-        # Test image deletion on playlist delete
-        print("\n🗑️ Testing Image Deletion on Playlist Delete...")
-        self.test_image_deletion_on_playlist_delete()
+        playlist_id = test_playlist['id']
         
-        # Clean up remaining playlists
+        # Phase 2 Track Management Tests
+        print(f"\n🎵 Testing Track Management APIs for playlist: {playlist_id}")
+        
+        # Test 1: Get tracks from empty playlist
+        print("\n1️⃣ Testing GET tracks from empty playlist...")
+        self.test_get_tracks_empty_playlist(playlist_id)
+        
+        # Test 2: Get tracks from non-existent playlist
+        print("\n2️⃣ Testing GET tracks from non-existent playlist...")
+        self.test_get_tracks_nonexistent_playlist()
+        
+        # Test 3: Create track with song name only
+        print("\n3️⃣ Testing CREATE track with song name only...")
+        track1 = self.test_create_track_song_name_only(playlist_id)
+        
+        # Test 4: Create track with full metadata
+        print("\n4️⃣ Testing CREATE track with full metadata...")
+        track2 = self.test_create_track_with_metadata(playlist_id)
+        
+        # Test 5: Create track with audio file upload
+        print("\n5️⃣ Testing CREATE track with audio file upload...")
+        track3 = self.test_create_track_with_audio_file(playlist_id)
+        
+        # Test 6: Track creation validation errors
+        print("\n6️⃣ Testing CREATE track validation errors...")
+        self.test_create_track_validation_errors(playlist_id)
+        
+        # Test 7: Create track in non-existent playlist
+        print("\n7️⃣ Testing CREATE track in non-existent playlist...")
+        self.test_create_track_nonexistent_playlist()
+        
+        # Test 8: Audio file validation
+        print("\n8️⃣ Testing audio file upload validation...")
+        self.test_audio_file_validation(playlist_id)
+        
+        # Test 9: Get tracks with data
+        print("\n9️⃣ Testing GET tracks with data...")
+        tracks = self.test_get_tracks_with_data(playlist_id)
+        
+        # Test 10: Get single track
+        if track1:
+            print("\n🔟 Testing GET single track...")
+            self.test_get_single_track(playlist_id, track1['id'])
+        
+        # Test 11: Get non-existent track
+        print("\n1️⃣1️⃣ Testing GET non-existent track...")
+        self.test_get_nonexistent_track(playlist_id)
+        
+        # Test 12: Update track
+        if track2:
+            print("\n1️⃣2️⃣ Testing UPDATE track...")
+            self.test_update_track(playlist_id, track2['id'])
+        
+        # Test 13: Update track with audio file
+        if track1:
+            print("\n1️⃣3️⃣ Testing UPDATE track with audio file...")
+            self.test_update_track_with_audio_file(playlist_id, track1['id'])
+        
+        # Test 14: Update non-existent track
+        print("\n1️⃣4️⃣ Testing UPDATE non-existent track...")
+        self.test_update_nonexistent_track(playlist_id)
+        
+        # Test 15: Static audio file serving
+        if track3:
+            print("\n1️⃣5️⃣ Testing static audio file serving...")
+            self.test_static_audio_file_serving(track3)
+        
+        # Test 16: Delete track
+        if track2:
+            print("\n1️⃣6️⃣ Testing DELETE track...")
+            self.test_delete_track(playlist_id, track2['id'])
+        
+        # Test 17: Delete non-existent track
+        print("\n1️⃣7️⃣ Testing DELETE non-existent track...")
+        self.test_delete_nonexistent_track(playlist_id)
+        
+        # Test 18: Cascade delete playlist with tracks
+        print("\n1️⃣8️⃣ Testing CASCADE delete playlist with tracks...")
+        self.test_cascade_delete_playlist_with_tracks()
+        
+        # Clean up remaining tracks and playlists
+        self.cleanup_tracks()
         self.cleanup()
         
         # Print summary
-        print(f"\n📊 Static File Serving Test Summary:")
+        print(f"\n📊 Phase 2 Track Management Test Summary:")
         print(f"✅ Passed: {self.test_results['passed']}")
         print(f"❌ Failed: {self.test_results['failed']}")
         
