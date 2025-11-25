@@ -135,6 +135,7 @@ function App() {
           <Route path="/preview/neon" element={<PreviewNeon />} />
           <Route path="/preview/retro" element={<PreviewRetro />} />
           <Route path="/preview/mesh" element={<PreviewMesh />} />
+          <Route path="/preview/premium" element={<PreviewPremium />} />
         </Routes>
       </BrowserRouter>
     </div>
