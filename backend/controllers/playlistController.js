@@ -167,9 +167,11 @@ const deletePlaylist = async (req, res) => {
 
     // Delete cover image if exists
     if (playlist.coverImage) {
-      const imagePath = path.join(__dirname, '..', playlist.coverImage);
-      if (fs.existsSync(imagePath)) {
-        fs.unlinkSync(imagePath);
+      // Remove /api prefix for filesystem path
+      const imagePath = playlist.coverImage.replace('/api/uploads', '/uploads');
+      const imageFullPath = path.join(__dirname, '..', imagePath);
+      if (fs.existsSync(imageFullPath)) {
+        fs.unlinkSync(imageFullPath);
       }
     }
 
