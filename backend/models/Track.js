@@ -33,9 +33,13 @@ const trackSchema = new mongoose.Schema(
       trim: true,
     },
     audioUrl: {
-      type: String,
+      type: String, // External audio URL (YouTube, Spotify, etc.)
       default: '',
       trim: true,
+    },
+    audioFile: {
+      type: String, // Path to uploaded audio file
+      default: null,
     },
     createdAt: {
       type: Date,
