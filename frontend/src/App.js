@@ -7,6 +7,8 @@ import Playlists from "@/pages/Playlists";
 import PlaylistDetail from "@/pages/PlaylistDetail";
 import Settings from "@/pages/Settings";
 import Profile from "@/pages/Profile";
+import History from "@/pages/History";
+import Favorites from "@/pages/Favorites";
 import AppLayout from "@/components/AppLayout";
 import PreviewGlass from "@/pages/PreviewGlass";
 import PreviewVibrant from "@/pages/PreviewVibrant";
@@ -14,7 +16,8 @@ import PreviewNeon from "@/pages/PreviewNeon";
 import PreviewRetro from "@/pages/PreviewRetro";
 import PreviewMesh from "@/pages/PreviewMesh";
 import PreviewPremium from "@/pages/PreviewPremium";
-import { ArrowRight, Music, ListMusic, Sparkles } from 'lucide-react';
+import { ArrowRight, Music, ListMusic, Sparkles, Play, TrendingUp } from 'lucide-react';
+import { mockRecentlyPlayed } from '@/data/mockData';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
