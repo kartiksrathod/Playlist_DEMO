@@ -226,147 +226,148 @@ const PlaylistDetail = () => {
             </div>
           </div>
 
-        {/* Tracks Section */}
-        <div className="px-8 pb-8">
-          {/* Loading State */}
-          {loading && (
-            <div className="bg-white rounded-2xl shadow-sm p-6">
-              <div className="space-y-4">
-                {[...Array(5)].map((_, i) => (
-                  <div key={i} className="flex items-center gap-4 animate-pulse">
-                    <div className="w-12 h-12 bg-gray-200 rounded" />
-                    <div className="flex-1">
-                      <div className="h-4 bg-gray-200 rounded w-1/3 mb-2" />
-                      <div className="h-3 bg-gray-200 rounded w-1/4" />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Empty State */}
-          {!loading && tracks.length === 0 && (
-            <div className="bg-white rounded-2xl shadow-sm p-16">
-              <div className="flex flex-col items-center justify-center text-center">
-                <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center mb-6">
-                  <Music className="h-10 w-10 text-white" />
-                </div>
-                <h2 className="text-2xl font-light text-gray-800 mb-2">No tracks yet</h2>
-                <p className="text-gray-600 mb-6 font-light">Add your first track to this playlist</p>
-                <Button 
-                  onClick={() => setAddDialogOpen(true)}
-                  className="px-6 py-3 bg-amber-500 hover:bg-amber-600 text-white rounded-xl"
-                >
-                  <Plus className="mr-2 h-4 w-4" />
-                  Add Your First Track
-                </Button>
-              </div>
-            </div>
-          )}
-
-          {/* Tracks Table */}
-          {!loading && tracks.length > 0 && (
-            <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
-              {/* Table Header */}
-              <div className="px-6 py-4 border-b border-gray-100 bg-gray-50/50">
-                <div className="grid grid-cols-12 gap-4 text-xs font-medium text-gray-600 uppercase tracking-wider">
-                  <div className="col-span-1">#</div>
-                  <div className="col-span-5">Title</div>
-                  <div className="col-span-2">Source</div>
-                  <div className="col-span-2">Duration</div>
-                  <div className="col-span-2 text-right">Actions</div>
-                </div>
-              </div>
-
-              {/* Table Body */}
-              <div className="divide-y divide-gray-100">
-                {tracks.map((track, index) => {
-                  const sourceBadge = getSourceBadge(track);
-                  const isPlaying = playingTrack?.id === track.id;
-                  
-                  return (
-                    <div 
-                      key={track.id} 
-                      className="px-6 py-4 hover:bg-gray-50 transition-colors group"
-                    >
-                      <div className="grid grid-cols-12 gap-4 items-center">
-                        {/* Track Number / Play Button */}
-                        <div className="col-span-1">
-                          {getAudioUrl(track) ? (
-                            <button
-                              onClick={() => togglePlay(track)}
-                              className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${
-                                isPlaying 
-                                  ? 'bg-amber-500 text-white' 
-                                  : 'bg-gray-100 hover:bg-amber-500 hover:text-white text-gray-600'
-                              }`}
-                            >
-                              {isPlaying ? (
-                                <Pause className="h-4 w-4" />
-                              ) : (
-                                <Play className="h-4 w-4 ml-0.5" />
-                              )}
-                            </button>
-                          ) : (
-                            <span className="text-gray-400 font-medium">{index + 1}</span>
-                          )}
-                        </div>
-
-                        {/* Track Info */}
-                        <div className="col-span-5">
-                          <h3 className="font-medium text-gray-800 truncate">{track.songName}</h3>
-                          <p className="text-sm text-gray-600 truncate font-light">
-                            {track.artist || 'Unknown Artist'}
-                            {track.album && ` • ${track.album}`}
-                          </p>
-                        </div>
-
-                        {/* Source */}
-                        <div className="col-span-2">
-                          {sourceBadge && (
-                            <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${sourceBadge.color}`}>
-                              {sourceBadge.label}
-                            </span>
-                          )}
-                        </div>
-
-                        {/* Duration */}
-                        <div className="col-span-2 text-gray-600 text-sm">
-                          {track.duration || '—'}
-                        </div>
-
-                        {/* Actions */}
-                        <div className="col-span-2 flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                          <button
-                            onClick={() => {
-                              setSelectedTrack(track);
-                              setEditDialogOpen(true);
-                            }}
-                            className="p-2 hover:bg-gray-200 rounded-lg transition-colors"
-                          >
-                            <Pencil className="h-4 w-4 text-gray-600" />
-                          </button>
-                          <button
-                            onClick={() => {
-                              setSelectedTrack(track);
-                              setDeleteDialogOpen(true);
-                            }}
-                            className="p-2 hover:bg-red-100 rounded-lg transition-colors"
-                          >
-                            <Trash2 className="h-4 w-4 text-red-600" />
-                          </button>
-                          <button className="p-2 hover:bg-gray-200 rounded-lg transition-colors">
-                            <MoreVertical className="h-4 w-4 text-gray-600" />
-                          </button>
-                        </div>
+          {/* Tracks Section */}
+          <div className="px-8 pb-8">
+            {/* Loading State */}
+            {loading && (
+              <div className="bg-slate-800/40 backdrop-blur-xl rounded-2xl shadow-sm p-6 border border-blue-500/20">
+                <div className="space-y-4">
+                  {[...Array(5)].map((_, i) => (
+                    <div key={i} className="flex items-center gap-4 animate-pulse">
+                      <div className="w-12 h-12 bg-blue-900/50 rounded" />
+                      <div className="flex-1">
+                        <div className="h-4 bg-blue-900/50 rounded w-1/3 mb-2" />
+                        <div className="h-3 bg-blue-900/50 rounded w-1/4" />
                       </div>
                     </div>
-                  );
-                })}
+                  ))}
+                </div>
               </div>
-            </div>
-          )}
+            )}
+
+            {/* Empty State */}
+            {!loading && tracks.length === 0 && (
+              <div className="bg-slate-800/40 backdrop-blur-xl rounded-2xl shadow-sm p-16 border border-blue-500/20">
+                <div className="flex flex-col items-center justify-center text-center">
+                  <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center mb-6 shadow-lg shadow-blue-500/50">
+                    <Music className="h-10 w-10 text-white" />
+                  </div>
+                  <h2 className="text-2xl font-light text-white mb-2">No tracks yet</h2>
+                  <p className="text-blue-200 mb-6 font-light">Add your first track to this playlist</p>
+                  <Button 
+                    onClick={() => setAddDialogOpen(true)}
+                    className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl shadow-lg shadow-blue-500/30"
+                  >
+                    <Plus className="mr-2 h-4 w-4" />
+                    Add Your First Track
+                  </Button>
+                </div>
+              </div>
+            )}
+
+            {/* Tracks Table */}
+            {!loading && tracks.length > 0 && (
+              <div className="bg-slate-800/40 backdrop-blur-xl rounded-2xl shadow-xl overflow-hidden border border-blue-500/20">
+                {/* Table Header */}
+                <div className="px-6 py-4 border-b border-blue-500/20 bg-slate-900/50">
+                  <div className="grid grid-cols-12 gap-4 text-xs font-medium text-blue-300 uppercase tracking-wider">
+                    <div className="col-span-1">#</div>
+                    <div className="col-span-5">Title</div>
+                    <div className="col-span-2">Source</div>
+                    <div className="col-span-2">Duration</div>
+                    <div className="col-span-2 text-right">Actions</div>
+                  </div>
+                </div>
+
+                {/* Table Body */}
+                <div className="divide-y divide-blue-500/10">
+                  {tracks.map((track, index) => {
+                    const sourceBadge = getSourceBadge(track);
+                    const isPlaying = playingTrack?.id === track.id;
+                    
+                    return (
+                      <div 
+                        key={track.id} 
+                        className="px-6 py-4 hover:bg-blue-900/20 transition-colors group"
+                      >
+                        <div className="grid grid-cols-12 gap-4 items-center">
+                          {/* Track Number / Play Button */}
+                          <div className="col-span-1">
+                            {getAudioUrl(track) ? (
+                              <button
+                                onClick={() => togglePlay(track)}
+                                className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${
+                                  isPlaying 
+                                    ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/50' 
+                                    : 'bg-blue-900/30 hover:bg-blue-600 hover:text-white text-blue-300'
+                                }`}
+                              >
+                                {isPlaying ? (
+                                  <Pause className="h-4 w-4" />
+                                ) : (
+                                  <Play className="h-4 w-4 ml-0.5" />
+                                )}
+                              </button>
+                            ) : (
+                              <span className="text-blue-400 font-medium">{index + 1}</span>
+                            )}
+                          </div>
+
+                          {/* Track Info */}
+                          <div className="col-span-5">
+                            <h3 className="font-medium text-white truncate">{track.songName}</h3>
+                            <p className="text-sm text-blue-200 truncate font-light">
+                              {track.artist || 'Unknown Artist'}
+                              {track.album && ` • ${track.album}`}
+                            </p>
+                          </div>
+
+                          {/* Source */}
+                          <div className="col-span-2">
+                            {sourceBadge && (
+                              <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${sourceBadge.color}`}>
+                                {sourceBadge.label}
+                              </span>
+                            )}
+                          </div>
+
+                          {/* Duration */}
+                          <div className="col-span-2 text-blue-300 text-sm">
+                            {track.duration || '—'}
+                          </div>
+
+                          {/* Actions */}
+                          <div className="col-span-2 flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <button
+                              onClick={() => {
+                                setSelectedTrack(track);
+                                setEditDialogOpen(true);
+                              }}
+                              className="p-2 hover:bg-blue-900/50 rounded-lg transition-colors"
+                            >
+                              <Pencil className="h-4 w-4 text-blue-300" />
+                            </button>
+                            <button
+                              onClick={() => {
+                                setSelectedTrack(track);
+                                setDeleteDialogOpen(true);
+                              }}
+                              className="p-2 hover:bg-red-900/50 rounded-lg transition-colors"
+                            >
+                              <Trash2 className="h-4 w-4 text-red-400" />
+                            </button>
+                            <button className="p-2 hover:bg-blue-900/50 rounded-lg transition-colors">
+                              <MoreVertical className="h-4 w-4 text-blue-300" />
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Add Track Dialog */}
