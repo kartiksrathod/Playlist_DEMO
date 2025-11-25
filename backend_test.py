@@ -14,8 +14,8 @@ import uuid
 import time
 
 # Configuration
-BASE_URL = "https://playlist-upgrade.preview.emergentagent.com/api"
-UPLOADS_URL = "https://playlist-upgrade.preview.emergentagent.com/uploads"
+BASE_URL = "https://playlist-tracker.preview.emergentagent.com/api"
+UPLOADS_URL = "https://playlist-tracker.preview.emergentagent.com/uploads"
 
 class PlaylistAPITester:
     def __init__(self):
