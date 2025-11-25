@@ -1,4 +1,5 @@
 const Playlist = require('../models/Playlist');
+const Track = require('../models/Track');
 const { v4: uuidv4 } = require('uuid');
 const path = require('path');
 const fs = require('fs');
@@ -165,6 +166,21 @@ const deletePlaylist = async (req, res) => {
       return res.status(404).json({ message: 'Playlist not found' });
     }
 
+    // Delete all tracks associated with this playlist
+    const tracks = await Track.find({ playlistId: req.params.id });
+    for (const track of tracks) {
+      // Delete audio file if exists
+      if (track.audioFile) {
+        const audioPath = track.audioFile.replace('/api/uploads', '/uploads');
+        const audioFullPath = path.join(__dirname, '..', audioPath);
+        if (fs.existsSync(audioFullPath)) {
+          fs.unlinkSync(audioFullPath);
+        }
+      }
+    }
+    // Delete all tracks from database
+    await Track.deleteMany({ playlistId: req.params.id });
+
     // Delete cover image if exists
     if (playlist.coverImage) {
       // Remove /api prefix for filesystem path
@@ -177,7 +193,7 @@ const deletePlaylist = async (req, res) => {
 
     await Playlist.deleteOne({ id: req.params.id });
 
-    res.json({ message: 'Playlist deleted successfully' });
+    res.json({ message: 'Playlist and associated tracks deleted successfully' });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
