@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Home, ListMusic, Settings, User } from 'lucide-react';
+import { Home, ListMusic, Settings, User, Clock, Heart } from 'lucide-react';
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -9,6 +9,8 @@ const Sidebar = () => {
   const menuItems = [
     { icon: Home, label: 'Home', path: '/' },
     { icon: ListMusic, label: 'Playlists', path: '/playlists' },
+    { icon: Heart, label: 'Favorites', path: '/favorites' },
+    { icon: Clock, label: 'History', path: '/history' },
     { icon: Settings, label: 'Settings', path: '/settings' },
     { icon: User, label: 'Profile', path: '/profile' },
   ];
