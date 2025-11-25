@@ -462,13 +462,17 @@ frontend:
 
 metadata:
   created_by: "main_agent"
-  version: "2.0"
-  test_sequence: 2
+  version: "3.0"
+  test_sequence: 3
   run_ui: false
 
 test_plan:
   current_focus:
-    - "Phase 1 Complete - All backend functionality working"
+    - "Phase 2 Backend - Track Management APIs"
+    - "Track Model with Audio File Support"
+    - "Audio Upload Middleware"
+    - "Track CRUD APIs with Audio Upload"
+    - "Playlist Delete Cascade"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
@@ -537,3 +541,60 @@ agent_communication:
     ISSUE RESOLVED: The /api/uploads route fix implemented by main agent is working perfectly. All image URLs now use /api/uploads/covers/ prefix and are properly served by Express static middleware. Image cleanup on update and delete operations working correctly.
     
     Phase 1 backend functionality is now 100% working including static file serving."
+
+  - agent: "main"
+    message: "PHASE 2 IMPLEMENTATION COMPLETE - Track Management
+
+    Backend Implementation:
+    - Updated Track model with audioFile field for uploaded audio support
+    - Created audioUpload middleware for audio file uploads (50MB limit, mp3/wav/ogg/m4a/aac/flac/wma)
+    - Updated track controller with full CRUD operations:
+      * Create track with optional audio file upload
+      * Update track with audio file update (deletes old file)
+      * Delete track with audio file cleanup
+      * Get all tracks in playlist
+      * Get single track by ID
+    - Created track routes nested under /api/playlists/:playlistId/tracks
+    - Updated playlist delete to cascade delete tracks and audio files
+    - Configured static file serving for audio files via /api/uploads/audio/
+    - Fixed supervisord.conf to use Node.js instead of Python uvicorn
+    - Installed backend dependencies via yarn
+
+    Frontend Implementation:
+    - Created PlaylistDetail page with:
+      * Playlist header showing cover image and description
+      * Track list with play/pause functionality
+      * Built-in audio player supporting both uploaded files and URLs
+      * Empty and loading states
+      * Add, edit, and delete track functionality
+    - Created AddTrackDialog with dual input methods:
+      * Tab 1: Paste audio URL (YouTube, Spotify, etc.)
+      * Tab 2: Upload audio file with drag-and-drop UI
+      * Form validation for required fields and file types
+    - Created EditTrackDialog for updating tracks:
+      * Pre-populated form data
+      * Update audio source (URL or new file)
+      * Shows current audio source
+    - Updated Playlists page:
+      * Click playlist card to navigate to detail page
+      * Edit/delete buttons with event stopPropagation
+    - Added /playlists/:playlistId route to App.js
+
+    Services Status:
+    - Backend running successfully on port 8001 (Node.js)
+    - Frontend running successfully on port 3000
+    - MongoDB running successfully
+
+    Testing Priority:
+    1. Test track creation with audioUrl only
+    2. Test track creation with audio file upload
+    3. Test track creation with both URL and file
+    4. Test audio file validation (type and size)
+    5. Test track update with new audio file (verify old file deleted)
+    6. Test track delete (verify audio file cleanup)
+    7. Test playlist delete cascade (verify all tracks and audio files deleted)
+    8. Test static file serving for audio files (/api/uploads/audio)
+    9. Test track list retrieval
+    10. Test playlist validation in track operations
+
+    All Phase 2 backend APIs ready for testing. Frontend not yet tested as per protocol."
