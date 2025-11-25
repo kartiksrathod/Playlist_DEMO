@@ -101,7 +101,7 @@ const Playlists = () => {
             </div>
             <Button 
               onClick={() => setCreateDialogOpen(true)}
-              className="px-6 py-6 bg-amber-500 hover:bg-amber-600 text-white rounded-xl shadow-md hover:shadow-lg transition-all"
+              className="px-6 py-6 bg-blue-600 hover:bg-blue-700 text-white rounded-xl shadow-lg hover:shadow-blue-500/50 transition-all"
             >
               <Plus className="mr-2 h-5 w-5" />
               Create Playlist
@@ -119,14 +119,14 @@ const Playlists = () => {
         {/* View Controls */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex gap-2">
-            <button className="px-4 py-2 bg-white border border-gray-200 rounded-lg text-sm hover:bg-gray-50 transition-colors">
+            <button className="px-4 py-2 bg-blue-900/30 border border-blue-500/30 rounded-lg text-sm text-blue-200 hover:bg-blue-900/50 transition-colors backdrop-blur-sm">
               Grid
             </button>
-            <button className="px-4 py-2 text-gray-600 text-sm hover:bg-gray-50 rounded-lg transition-colors">
+            <button className="px-4 py-2 text-blue-300 text-sm hover:bg-blue-900/30 rounded-lg transition-colors">
               List
             </button>
           </div>
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-blue-300">
             {filteredPlaylists.length} {filteredPlaylists.length === 1 ? 'playlist' : 'playlists'}
           </p>
         </div>
@@ -135,11 +135,11 @@ const Playlists = () => {
         {loading && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {[...Array(8)].map((_, i) => (
-              <div key={i} className="bg-white rounded-2xl overflow-hidden shadow-sm animate-pulse">
-                <div className="h-48 bg-gray-200" />
+              <div key={i} className="bg-slate-800/40 backdrop-blur-sm rounded-2xl overflow-hidden shadow-sm animate-pulse border border-blue-500/20">
+                <div className="h-48 bg-blue-900/30" />
                 <div className="p-4">
-                  <div className="h-4 bg-gray-200 rounded w-3/4 mb-2" />
-                  <div className="h-3 bg-gray-200 rounded w-1/2" />
+                  <div className="h-4 bg-blue-900/30 rounded w-3/4 mb-2" />
+                  <div className="h-3 bg-blue-900/30 rounded w-1/2" />
                 </div>
               </div>
             ))}
@@ -149,14 +149,14 @@ const Playlists = () => {
         {/* Empty State */}
         {!loading && filteredPlaylists.length === 0 && playlists.length === 0 && (
           <div className="flex flex-col items-center justify-center py-20">
-            <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center mb-6">
+            <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center mb-6 shadow-lg shadow-blue-500/50">
               <Music className="h-10 w-10 text-white" />
             </div>
-            <h2 className="text-2xl font-light text-gray-800 mb-2">No playlists yet</h2>
-            <p className="text-gray-600 mb-6 font-light">Create your first playlist to get started</p>
+            <h2 className="text-2xl font-light text-white mb-2">No playlists yet</h2>
+            <p className="text-blue-200 mb-6 font-light">Create your first playlist to get started</p>
             <Button 
               onClick={() => setCreateDialogOpen(true)}
-              className="px-6 py-3 bg-amber-500 hover:bg-amber-600 text-white rounded-xl"
+              className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl shadow-lg shadow-blue-500/30"
             >
               <Plus className="mr-2 h-5 w-5" />
               Create Your First Playlist
@@ -167,9 +167,9 @@ const Playlists = () => {
         {/* No Search Results */}
         {!loading && filteredPlaylists.length === 0 && playlists.length > 0 && (
           <div className="flex flex-col items-center justify-center py-20">
-            <Music className="h-16 w-16 text-gray-300 mb-4" />
-            <h2 className="text-xl font-light text-gray-600 mb-2">No playlists found</h2>
-            <p className="text-gray-500 font-light">Try a different search term</p>
+            <Music className="h-16 w-16 text-blue-700 mb-4" />
+            <h2 className="text-xl font-light text-blue-200 mb-2">No playlists found</h2>
+            <p className="text-blue-300 font-light">Try a different search term</p>
           </div>
         )}
 
@@ -179,7 +179,7 @@ const Playlists = () => {
             {filteredPlaylists.map((playlist, index) => (
               <div 
                 key={playlist.id} 
-                className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer"
+                className="group bg-slate-800/40 backdrop-blur-sm rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:shadow-blue-500/20 transition-all duration-300 cursor-pointer border border-blue-500/20"
                 onClick={() => navigate(`/playlists/${playlist.id}`)}
               >
                 {/* Cover Image */}
