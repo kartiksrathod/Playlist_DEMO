@@ -135,11 +135,11 @@ const Playlists = () => {
         {loading && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {[...Array(8)].map((_, i) => (
-              <div key={i} className="bg-slate-800/40 backdrop-blur-sm rounded-2xl overflow-hidden shadow-sm animate-pulse border border-blue-500/20">
-                <div className="h-48 bg-blue-900/30" />
+              <div key={i} className="bg-slate-900/50 backdrop-blur-xl rounded-2xl overflow-hidden shadow-xl animate-pulse border border-blue-700/30">
+                <div className="h-48 bg-blue-900/40" />
                 <div className="p-4">
-                  <div className="h-4 bg-blue-900/30 rounded w-3/4 mb-2" />
-                  <div className="h-3 bg-blue-900/30 rounded w-1/2" />
+                  <div className="h-4 bg-blue-900/40 rounded w-3/4 mb-2" />
+                  <div className="h-3 bg-blue-900/40 rounded w-1/2" />
                 </div>
               </div>
             ))}
@@ -149,14 +149,14 @@ const Playlists = () => {
         {/* Empty State */}
         {!loading && filteredPlaylists.length === 0 && playlists.length === 0 && (
           <div className="flex flex-col items-center justify-center py-20">
-            <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center mb-6 shadow-lg shadow-blue-500/50">
+            <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center mb-6 shadow-2xl shadow-blue-700/60">
               <Music className="h-10 w-10 text-white" />
             </div>
             <h2 className="text-2xl font-light text-white mb-2">No playlists yet</h2>
-            <p className="text-blue-200 mb-6 font-light">Create your first playlist to get started</p>
+            <p className="text-blue-50 mb-6 font-light">Create your first playlist to get started</p>
             <Button 
               onClick={() => setCreateDialogOpen(true)}
-              className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl shadow-lg shadow-blue-500/30"
+              className="px-6 py-3 bg-blue-700 hover:bg-blue-600 text-white rounded-xl shadow-2xl shadow-blue-700/50 backdrop-blur-xl border border-blue-500/30"
             >
               <Plus className="mr-2 h-5 w-5" />
               Create Your First Playlist
@@ -167,9 +167,9 @@ const Playlists = () => {
         {/* No Search Results */}
         {!loading && filteredPlaylists.length === 0 && playlists.length > 0 && (
           <div className="flex flex-col items-center justify-center py-20">
-            <Music className="h-16 w-16 text-blue-700 mb-4" />
-            <h2 className="text-xl font-light text-blue-200 mb-2">No playlists found</h2>
-            <p className="text-blue-300 font-light">Try a different search term</p>
+            <Music className="h-16 w-16 text-blue-400 mb-4" />
+            <h2 className="text-xl font-light text-blue-100 mb-2">No playlists found</h2>
+            <p className="text-blue-200 font-light">Try a different search term</p>
           </div>
         )}
 
@@ -179,7 +179,7 @@ const Playlists = () => {
             {filteredPlaylists.map((playlist, index) => (
               <div 
                 key={playlist.id} 
-                className="group bg-slate-800/40 backdrop-blur-sm rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:shadow-blue-500/20 transition-all duration-300 cursor-pointer border border-blue-500/20"
+                className="group bg-slate-900/50 backdrop-blur-xl rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl hover:shadow-blue-600/40 transition-all duration-300 cursor-pointer border border-blue-700/30"
                 onClick={() => navigate(`/playlists/${playlist.id}`)}
               >
                 {/* Cover Image */}
@@ -189,7 +189,7 @@ const Playlists = () => {
                     alt={playlist.name}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-blue-950/70 via-blue-950/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                   
                   {/* Hover Actions */}
                   <div className="absolute inset-0 flex items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -198,7 +198,7 @@ const Playlists = () => {
                         e.stopPropagation();
                         navigate(`/playlists/${playlist.id}`);
                       }}
-                      className="p-3 bg-blue-600 hover:bg-blue-700 rounded-full transition-colors shadow-lg"
+                      className="p-3 bg-blue-700 hover:bg-blue-600 rounded-full transition-colors shadow-xl backdrop-blur-sm border border-blue-500/30"
                     >
                       <Play className="h-5 w-5 text-white" />
                     </button>
@@ -208,7 +208,7 @@ const Playlists = () => {
                         setSelectedPlaylist(playlist);
                         setEditDialogOpen(true);
                       }}
-                      className="p-3 bg-slate-700 hover:bg-slate-600 rounded-full transition-colors shadow-lg"
+                      className="p-3 bg-slate-800 hover:bg-slate-700 rounded-full transition-colors shadow-xl backdrop-blur-sm border border-slate-600/30"
                     >
                       <Pencil className="h-5 w-5 text-white" />
                     </button>
@@ -218,27 +218,27 @@ const Playlists = () => {
                         setSelectedPlaylist(playlist);
                         setDeleteDialogOpen(true);
                       }}
-                      className="p-3 bg-red-600 hover:bg-red-700 rounded-full transition-colors shadow-lg"
+                      className="p-3 bg-red-700 hover:bg-red-600 rounded-full transition-colors shadow-xl backdrop-blur-sm border border-red-500/30"
                     >
                       <Trash2 className="h-5 w-5 text-white" />
                     </button>
                   </div>
 
                   {/* Stats Badge */}
-                  <div className="absolute bottom-3 right-3 px-3 py-1 bg-blue-600/80 backdrop-blur-sm rounded-full text-xs font-medium text-white">
+                  <div className="absolute bottom-3 right-3 px-3 py-1 bg-blue-700/90 backdrop-blur-md rounded-full text-xs font-medium text-white shadow-lg">
                     Music
                   </div>
                 </div>
 
                 {/* Card Content */}
                 <div className="p-4">
-                  <h3 className="font-medium text-white mb-1 truncate">{playlist.name}</h3>
-                  <p className="text-sm text-blue-200 line-clamp-2 min-h-[2.5rem] font-light">
+                  <h3 className="font-medium text-white mb-1 truncate drop-shadow-sm">{playlist.name}</h3>
+                  <p className="text-sm text-blue-100 line-clamp-2 min-h-[2.5rem] font-light">
                     {playlist.description || 'A collection of beautiful tracks'}
                   </p>
                   
                   {/* Stats */}
-                  <div className="flex items-center gap-4 mt-3 text-xs text-blue-300">
+                  <div className="flex items-center gap-4 mt-3 text-xs text-blue-200">
                     <div className="flex items-center gap-1">
                       <Heart className="w-3 h-3" />
                       <span>Favorite</span>
