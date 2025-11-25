@@ -55,6 +55,21 @@ class MusicPlaylistAPITester:
         img_bytes.seek(0)
         return img_bytes
     
+    def create_test_audio_file(self, size_kb=100):
+        """Create a dummy audio file for testing"""
+        # Create a simple WAV-like file structure (not a real audio file, but has correct extension)
+        audio_data = b'RIFF' + (size_kb * 1024).to_bytes(4, 'little') + b'WAVE'
+        audio_data += b'fmt ' + (16).to_bytes(4, 'little')  # Format chunk
+        audio_data += b'\x01\x00\x02\x00\x44\xac\x00\x00\x10\xb1\x02\x00\x04\x00\x10\x00'  # PCM format
+        audio_data += b'data' + (size_kb * 1024 - 44).to_bytes(4, 'little')  # Data chunk
+        audio_data += b'\x00' * (size_kb * 1024 - len(audio_data))  # Padding with zeros
+        
+        return io.BytesIO(audio_data)
+    
+    def create_large_test_audio(self, size_mb=60):
+        """Create a large test audio file (>50MB)"""
+        return self.create_test_audio_file(size_mb * 1024)
+    
     def test_health_check(self):
         """Test if backend is responding"""
         try:
