@@ -161,54 +161,70 @@ const PlaylistDetail = () => {
 
   return (
     <AppLayout>
-      <div className="min-h-screen">
-        {/* Back Button */}
-        <div className="px-8 pt-6">
-          <Button 
-            variant="ghost" 
-            onClick={() => navigate('/playlists')}
-            className="hover:bg-gray-100 rounded-xl -ml-2"
+      <div className="min-h-screen relative bg-slate-950">
+        {/* Cinematic Video Background */}
+        <div className="fixed inset-0 z-0">
+          <video 
+            autoPlay 
+            loop 
+            muted 
+            playsInline
+            className="w-full h-full object-cover"
           >
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Playlists
-          </Button>
+            <source src="https://cdn.pixabay.com/video/2021/06/28/79929-570024193_large.mp4" type="video/mp4" />
+          </video>
+          <div className="absolute inset-0 bg-gradient-to-b from-slate-900/85 via-blue-950/80 to-slate-900/90" />
         </div>
 
-        {/* Playlist Header with Large Banner */}
-        <div className="px-8 py-6">
-          <div className="relative h-64 rounded-3xl overflow-hidden shadow-xl mb-6">
-            <img 
-              src={getImageUrl(playlist.coverImage)} 
-              alt={playlist.name}
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-            
-            {/* Playlist Info Overlay */}
-            <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
-              <h1 className="text-5xl font-light mb-3">{playlist.name}</h1>
-              <p className="text-lg text-white/90 font-light mb-2">
-                {playlist.description || 'A collection of upbeat tracks to start the day'}
-              </p>
-              <div className="flex items-center gap-4 text-sm text-white/80">
-                <span>{tracks.length} tracks</span>
-                <span>•</span>
-                <span>From ambient vibes</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Add Track Button */}
-          <div className="mb-6">
+        {/* Content Overlay */}
+        <div className="relative z-10">
+          {/* Back Button */}
+          <div className="px-8 pt-6">
             <Button 
-              onClick={() => setAddDialogOpen(true)}
-              className="px-6 py-6 bg-amber-500 hover:bg-amber-600 text-white rounded-xl shadow-md hover:shadow-lg transition-all"
+              variant="ghost" 
+              onClick={() => navigate('/playlists')}
+              className="hover:bg-blue-900/30 text-blue-100 hover:text-white rounded-xl -ml-2 backdrop-blur-sm"
             >
-              <Plus className="mr-2 h-5 w-5" />
-              Add Track
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Back to Playlists
             </Button>
           </div>
-        </div>
+
+          {/* Playlist Header - Glassmorphism Style */}
+          <div className="px-8 py-6">
+            <div className="relative h-64 rounded-3xl overflow-hidden shadow-2xl mb-6 bg-slate-800/30 backdrop-blur-xl border border-blue-500/20">
+              <img 
+                src={getImageUrl(playlist.coverImage)} 
+                alt={playlist.name}
+                className="w-full h-full object-cover opacity-40"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-blue-950/90 via-slate-900/60 to-transparent" />
+              
+              {/* Playlist Info Overlay */}
+              <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
+                <h1 className="text-5xl font-light mb-3 text-white drop-shadow-lg">{playlist.name}</h1>
+                <p className="text-lg text-blue-100 font-light mb-2">
+                  {playlist.description || 'A collection of beautiful tracks'}
+                </p>
+                <div className="flex items-center gap-4 text-sm text-blue-200">
+                  <span>{tracks.length} tracks</span>
+                  <span>•</span>
+                  <span>Immersive experience</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Add Track Button */}
+            <div className="mb-6">
+              <Button 
+                onClick={() => setAddDialogOpen(true)}
+                className="px-6 py-6 bg-blue-600 hover:bg-blue-700 text-white rounded-xl shadow-lg hover:shadow-blue-500/50 transition-all backdrop-blur-sm"
+              >
+                <Plus className="mr-2 h-5 w-5" />
+                Add Track
+              </Button>
+            </div>
+          </div>
 
         {/* Tracks Section */}
         <div className="px-8 pb-8">
