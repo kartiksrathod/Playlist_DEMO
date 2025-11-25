@@ -14,8 +14,8 @@ import uuid
 import time
 
 # Configuration
-BASE_URL = "https://playlist-tracker.preview.emergentagent.com/api"
-UPLOADS_URL = "https://playlist-tracker.preview.emergentagent.com/uploads"
+BASE_URL = "https://music-tracks-3.preview.emergentagent.com/api"
+UPLOADS_URL = "https://music-tracks-3.preview.emergentagent.com/uploads"
 
 class PlaylistAPITester:
     def __init__(self):
@@ -367,7 +367,7 @@ class PlaylistAPITester:
         
         try:
             # The coverImage path should already include /api/uploads/covers/ prefix
-            image_url = f"https://playlist-tracker.preview.emergentagent.com{playlist_with_image['coverImage']}"
+            image_url = f"https://music-tracks-3.preview.emergentagent.com{playlist_with_image['coverImage']}"
             print(f"Testing image URL: {image_url}")
             
             response = self.session.get(image_url)
@@ -452,7 +452,7 @@ class PlaylistAPITester:
             playlist_id = playlist['id']
             self.created_playlists.append(playlist_id)
             
-            initial_image_url = f"https://playlist-tracker.preview.emergentagent.com{playlist['coverImage']}"
+            initial_image_url = f"https://music-tracks-3.preview.emergentagent.com{playlist['coverImage']}"
             
             # Verify initial image is accessible
             initial_response = self.session.get(initial_image_url)
@@ -472,7 +472,7 @@ class PlaylistAPITester:
                 return False
             
             updated_playlist = update_response.json()
-            new_image_url = f"https://playlist-tracker.preview.emergentagent.com{updated_playlist['coverImage']}"
+            new_image_url = f"https://music-tracks-3.preview.emergentagent.com{updated_playlist['coverImage']}"
             
             # Verify new image is accessible
             new_response = self.session.get(new_image_url)
@@ -514,7 +514,7 @@ class PlaylistAPITester:
             
             playlist = response.json()
             playlist_id = playlist['id']
-            image_url = f"https://playlist-tracker.preview.emergentagent.com{playlist['coverImage']}"
+            image_url = f"https://music-tracks-3.preview.emergentagent.com{playlist['coverImage']}"
             
             # Verify image is accessible before deletion
             image_response = self.session.get(image_url)
