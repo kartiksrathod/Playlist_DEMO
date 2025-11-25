@@ -174,8 +174,8 @@ class PlaylistAPITester:
             if response.status_code == 201:
                 playlist = response.json()
                 
-                # Validate cover image path
-                if not playlist['coverImage'] or not playlist['coverImage'].startswith('/uploads/covers/'):
+                # Validate cover image path (should now use /api/uploads/covers/ prefix)
+                if not playlist['coverImage'] or not playlist['coverImage'].startswith('/api/uploads/covers/'):
                     self.log_result("Create Playlist (With Image)", False, f"Invalid cover image path: {playlist['coverImage']}")
                     return None
                 
