@@ -13,6 +13,7 @@ import PreviewVibrant from "@/pages/PreviewVibrant";
 import PreviewNeon from "@/pages/PreviewNeon";
 import PreviewRetro from "@/pages/PreviewRetro";
 import PreviewMesh from "@/pages/PreviewMesh";
+import PreviewPremium from "@/pages/PreviewPremium";
 import { ArrowRight, Music, ListMusic, Sparkles } from 'lucide-react';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
