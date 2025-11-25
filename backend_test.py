@@ -430,6 +430,119 @@ class PlaylistAPITester:
             self.log_result("Delete Non-existent Playlist", False, f"Error: {str(e)}")
             return False
     
+    def test_image_deletion_on_update(self):
+        """Test that old image is deleted when playlist is updated with new image"""
+        try:
+            # Create playlist with initial image
+            playlist_data = {
+                'name': 'Image Update Test',
+                'description': 'Testing image replacement'
+            }
+            
+            test_image1 = self.create_test_image(size=(100, 100))
+            files = {'coverImage': ('initial_image.jpg', test_image1, 'image/jpeg')}
+            
+            response = self.session.post(f"{BASE_URL}/playlists", data=playlist_data, files=files)
+            
+            if response.status_code != 201:
+                self.log_result("Image Deletion on Update", False, f"Failed to create initial playlist: {response.status_code}")
+                return False
+            
+            playlist = response.json()
+            playlist_id = playlist['id']
+            self.created_playlists.append(playlist_id)
+            
+            initial_image_url = f"https://playlist-tracker.preview.emergentagent.com{playlist['coverImage']}"
+            
+            # Verify initial image is accessible
+            initial_response = self.session.get(initial_image_url)
+            if initial_response.status_code != 200:
+                self.log_result("Image Deletion on Update", False, f"Initial image not accessible: {initial_response.status_code}")
+                return False
+            
+            # Update playlist with new image
+            update_data = {'name': 'Updated with New Image'}
+            test_image2 = self.create_test_image(size=(150, 150))
+            files = {'coverImage': ('new_image.jpg', test_image2, 'image/jpeg')}
+            
+            update_response = self.session.put(f"{BASE_URL}/playlists/{playlist_id}", data=update_data, files=files)
+            
+            if update_response.status_code != 200:
+                self.log_result("Image Deletion on Update", False, f"Failed to update playlist: {update_response.status_code}")
+                return False
+            
+            updated_playlist = update_response.json()
+            new_image_url = f"https://playlist-tracker.preview.emergentagent.com{updated_playlist['coverImage']}"
+            
+            # Verify new image is accessible
+            new_response = self.session.get(new_image_url)
+            if new_response.status_code != 200:
+                self.log_result("Image Deletion on Update", False, f"New image not accessible: {new_response.status_code}")
+                return False
+            
+            # Verify old image is no longer accessible (should return 404)
+            time.sleep(1)  # Give filesystem time to process deletion
+            old_response = self.session.get(initial_image_url)
+            if old_response.status_code == 404:
+                self.log_result("Image Deletion on Update", True, "Old image properly deleted, new image accessible")
+                return True
+            else:
+                self.log_result("Image Deletion on Update", False, f"Old image still accessible: {old_response.status_code}")
+                return False
+                
+        except Exception as e:
+            self.log_result("Image Deletion on Update", False, f"Error: {str(e)}")
+            return False
+    
+    def test_image_deletion_on_playlist_delete(self):
+        """Test that image is deleted when playlist is deleted"""
+        try:
+            # Create playlist with image
+            playlist_data = {
+                'name': 'Delete Test Playlist',
+                'description': 'Testing image cleanup on delete'
+            }
+            
+            test_image = self.create_test_image(size=(120, 120))
+            files = {'coverImage': ('delete_test.jpg', test_image, 'image/jpeg')}
+            
+            response = self.session.post(f"{BASE_URL}/playlists", data=playlist_data, files=files)
+            
+            if response.status_code != 201:
+                self.log_result("Image Deletion on Playlist Delete", False, f"Failed to create playlist: {response.status_code}")
+                return False
+            
+            playlist = response.json()
+            playlist_id = playlist['id']
+            image_url = f"https://playlist-tracker.preview.emergentagent.com{playlist['coverImage']}"
+            
+            # Verify image is accessible before deletion
+            image_response = self.session.get(image_url)
+            if image_response.status_code != 200:
+                self.log_result("Image Deletion on Playlist Delete", False, f"Image not accessible before delete: {image_response.status_code}")
+                return False
+            
+            # Delete the playlist
+            delete_response = self.session.delete(f"{BASE_URL}/playlists/{playlist_id}")
+            
+            if delete_response.status_code != 200:
+                self.log_result("Image Deletion on Playlist Delete", False, f"Failed to delete playlist: {delete_response.status_code}")
+                return False
+            
+            # Verify image is no longer accessible (should return 404)
+            time.sleep(1)  # Give filesystem time to process deletion
+            final_response = self.session.get(image_url)
+            if final_response.status_code == 404:
+                self.log_result("Image Deletion on Playlist Delete", True, "Image properly deleted with playlist")
+                return True
+            else:
+                self.log_result("Image Deletion on Playlist Delete", False, f"Image still accessible after playlist deletion: {final_response.status_code}")
+                return False
+                
+        except Exception as e:
+            self.log_result("Image Deletion on Playlist Delete", False, f"Error: {str(e)}")
+            return False
+    
     def cleanup(self):
         """Clean up created playlists"""
         print(f"\n🧹 Cleaning up {len(self.created_playlists)} test playlists...")
