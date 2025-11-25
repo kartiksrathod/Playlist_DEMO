@@ -183,6 +183,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/playlists" element={<Playlists />} />
           <Route path="/playlists/:playlistId" element={<PlaylistDetail />} />
+          <Route path="/history" element={<History />} />
+          <Route path="/favorites" element={<Favorites />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/preview/glass" element={<PreviewGlass />} />
