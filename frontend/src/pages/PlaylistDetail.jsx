@@ -162,7 +162,7 @@ const PlaylistDetail = () => {
   return (
     <AppLayout>
       <div className="min-h-screen relative bg-slate-950">
-        {/* Cinematic Video Background */}
+        {/* Cinematic Video Background - Nature/Urban Scenes */}
         <div className="fixed inset-0 z-0">
           <video 
             autoPlay 
@@ -171,9 +171,10 @@ const PlaylistDetail = () => {
             playsInline
             className="w-full h-full object-cover"
           >
-            <source src="https://cdn.pixabay.com/video/2021/06/28/79929-570024193_large.mp4" type="video/mp4" />
+            <source src="https://cdn.pixabay.com/video/2022/11/07/137716-768970096_large.mp4" type="video/mp4" />
           </video>
-          <div className="absolute inset-0 bg-gradient-to-b from-slate-900/85 via-blue-950/80 to-slate-900/90" />
+          {/* Softer, darker overlay for eye comfort */}
+          <div className="absolute inset-0 bg-gradient-to-b from-slate-950/90 via-blue-950/88 to-slate-950/92" />
         </div>
 
         {/* Content Overlay */}
@@ -183,30 +184,30 @@ const PlaylistDetail = () => {
             <Button 
               variant="ghost" 
               onClick={() => navigate('/playlists')}
-              className="hover:bg-blue-900/30 text-blue-100 hover:text-white rounded-xl -ml-2 backdrop-blur-sm"
+              className="hover:bg-blue-900/40 text-blue-50 hover:text-white rounded-xl -ml-2 backdrop-blur-xl border border-blue-800/20 shadow-lg"
             >
               <ArrowLeft className="mr-2 h-4 w-4" />
               Back to Playlists
             </Button>
           </div>
 
-          {/* Playlist Header - Glassmorphism Style */}
+          {/* Playlist Header - Enhanced Glassmorphism Style */}
           <div className="px-8 py-6">
-            <div className="relative h-64 rounded-3xl overflow-hidden shadow-2xl mb-6 bg-slate-800/30 backdrop-blur-xl border border-blue-500/20">
+            <div className="relative h-64 rounded-3xl overflow-hidden shadow-2xl mb-6 bg-slate-900/40 backdrop-blur-2xl border border-blue-700/30">
               <img 
                 src={getImageUrl(playlist.coverImage)} 
                 alt={playlist.name}
-                className="w-full h-full object-cover opacity-40"
+                className="w-full h-full object-cover opacity-30"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-blue-950/90 via-slate-900/60 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-blue-950/95 via-slate-950/70 to-transparent" />
               
               {/* Playlist Info Overlay */}
               <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
-                <h1 className="text-5xl font-light mb-3 text-white drop-shadow-lg">{playlist.name}</h1>
-                <p className="text-lg text-blue-100 font-light mb-2">
+                <h1 className="text-5xl font-light mb-3 text-white drop-shadow-2xl">{playlist.name}</h1>
+                <p className="text-lg text-blue-50 font-light mb-2 drop-shadow-lg">
                   {playlist.description || 'A collection of beautiful tracks'}
                 </p>
-                <div className="flex items-center gap-4 text-sm text-blue-200">
+                <div className="flex items-center gap-4 text-sm text-blue-100">
                   <span>{tracks.length} tracks</span>
                   <span>•</span>
                   <span>Immersive experience</span>
@@ -218,7 +219,7 @@ const PlaylistDetail = () => {
             <div className="mb-6">
               <Button 
                 onClick={() => setAddDialogOpen(true)}
-                className="px-6 py-6 bg-blue-600 hover:bg-blue-700 text-white rounded-xl shadow-lg hover:shadow-blue-500/50 transition-all backdrop-blur-sm"
+                className="px-6 py-6 bg-blue-700 hover:bg-blue-600 text-white rounded-xl shadow-2xl hover:shadow-blue-600/60 transition-all backdrop-blur-xl border border-blue-500/30"
               >
                 <Plus className="mr-2 h-5 w-5" />
                 Add Track
