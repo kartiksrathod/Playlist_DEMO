@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import AppLayout from '@/components/AppLayout';
-import { User, Mail, Calendar, Music, ListMusic, Clock, Award } from 'lucide-react';
+import { User, Mail, Calendar, Music, ListMusic, Clock, Award, Camera, Upload } from 'lucide-react';
 import axios from 'axios';
 import { toast } from 'sonner';
+import { mockUser } from '@/data/mockData';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
 const Profile = () => {
   const [profile, setProfile] = useState({
-    name: 'Music Lover',
-    email: 'user@example.com',
-    joinedDate: 'January 2024',
-    bio: 'Passionate about discovering and organizing great music.',
+    name: mockUser.name,
+    email: mockUser.email,
+    joinedDate: new Date(mockUser.joinedDate).toLocaleDateString('en-US', { month: 'long', year: 'numeric' }),
+    bio: mockUser.bio,
+    avatar: mockUser.avatar,
   });
 
   const [stats, setStats] = useState({
@@ -23,6 +25,7 @@ const Profile = () => {
 
   const [isEditing, setIsEditing] = useState(false);
   const [editedProfile, setEditedProfile] = useState(profile);
+  const [avatarPreview, setAvatarPreview] = useState(null);
 
   useEffect(() => {
     fetchStats();
