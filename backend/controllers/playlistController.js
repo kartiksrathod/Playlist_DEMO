@@ -50,7 +50,7 @@ const createPlaylist = async (req, res) => {
     // Handle cover image if uploaded
     let coverImagePath = null;
     if (req.file) {
-      coverImagePath = `/uploads/covers/${req.file.filename}`;
+      coverImagePath = `/api/uploads/covers/${req.file.filename}`;
     }
 
     const playlist = new Playlist({
