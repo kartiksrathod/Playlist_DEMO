@@ -166,39 +166,39 @@ const Profile = () => {
           {/* Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             {/* Playlists Stat */}
-            <div className="bg-white rounded-2xl shadow-sm p-6">
+            <div className="bg-slate-900/60 backdrop-blur-xl rounded-2xl shadow-xl p-6 border border-blue-800/30">
               <div className="flex items-center justify-between mb-4">
-                <div className="p-3 rounded-xl bg-gradient-to-br from-blue-400 to-blue-600">
+                <div className="p-3 rounded-xl bg-gradient-to-br from-blue-600 to-blue-800 shadow-lg shadow-blue-700/50">
                   <ListMusic className="w-6 h-6 text-white" />
                 </div>
-                <Award className="w-5 h-5 text-gray-300" />
+                <Award className="w-5 h-5 text-blue-400" />
               </div>
-              <div className="text-3xl font-light text-gray-800 mb-1">{stats.totalPlaylists}</div>
-              <div className="text-sm text-gray-600 font-light">Total Playlists</div>
+              <div className="text-3xl font-light text-white mb-1">{mockUser.stats.totalPlaylists}</div>
+              <div className="text-sm text-blue-200 font-light">Total Playlists</div>
             </div>
 
             {/* Tracks Stat */}
-            <div className="bg-white rounded-2xl shadow-sm p-6">
+            <div className="bg-slate-900/60 backdrop-blur-xl rounded-2xl shadow-xl p-6 border border-purple-800/30">
               <div className="flex items-center justify-between mb-4">
-                <div className="p-3 rounded-xl bg-gradient-to-br from-purple-400 to-purple-600">
+                <div className="p-3 rounded-xl bg-gradient-to-br from-purple-600 to-purple-800 shadow-lg shadow-purple-700/50">
                   <Music className="w-6 h-6 text-white" />
                 </div>
-                <Award className="w-5 h-5 text-gray-300" />
+                <Award className="w-5 h-5 text-purple-400" />
               </div>
-              <div className="text-3xl font-light text-gray-800 mb-1">{stats.totalTracks}</div>
-              <div className="text-sm text-gray-600 font-light">Total Tracks</div>
+              <div className="text-3xl font-light text-white mb-1">{mockUser.stats.totalTracks}</div>
+              <div className="text-sm text-blue-200 font-light">Total Tracks</div>
             </div>
 
             {/* Listening Time Stat */}
-            <div className="bg-white rounded-2xl shadow-sm p-6">
+            <div className="bg-slate-900/60 backdrop-blur-xl rounded-2xl shadow-xl p-6 border border-cyan-800/30">
               <div className="flex items-center justify-between mb-4">
-                <div className="p-3 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500">
+                <div className="p-3 rounded-xl bg-gradient-to-br from-cyan-600 to-cyan-800 shadow-lg shadow-cyan-700/50">
                   <Clock className="w-6 h-6 text-white" />
                 </div>
-                <Award className="w-5 h-5 text-gray-300" />
+                <Award className="w-5 h-5 text-cyan-400" />
               </div>
-              <div className="text-3xl font-light text-gray-800 mb-1">{stats.totalListeningTime}</div>
-              <div className="text-sm text-gray-600 font-light">Minutes of Music</div>
+              <div className="text-3xl font-light text-white mb-1">{mockUser.stats.listeningMinutes}</div>
+              <div className="text-sm text-blue-200 font-light">Minutes of Music</div>
             </div>
           </div>
 
