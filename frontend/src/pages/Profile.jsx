@@ -87,6 +87,23 @@ const Profile = () => {
     }));
   };
 
+  const handleAvatarChange = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (!file.type.startsWith('image/')) {
+        toast.error('Please select an image file');
+        return;
+      }
+      
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setAvatarPreview(reader.result);
+        toast.success('Avatar preview updated (demo mode)');
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
     <AppLayout>
       <div className="min-h-screen px-8 py-8">
