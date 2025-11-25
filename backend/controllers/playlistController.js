@@ -119,12 +119,14 @@ const updatePlaylist = async (req, res) => {
     if (req.file) {
       // Delete old cover image if exists
       if (playlist.coverImage) {
-        const oldImagePath = path.join(__dirname, '..', playlist.coverImage);
+        // Remove /api prefix for filesystem path
+        const imagePath = playlist.coverImage.replace('/api/uploads', '/uploads');
+        const oldImagePath = path.join(__dirname, '..', imagePath);
         if (fs.existsSync(oldImagePath)) {
           fs.unlinkSync(oldImagePath);
         }
       }
-      playlist.coverImage = `/uploads/covers/${req.file.filename}`;
+      playlist.coverImage = `/api/uploads/covers/${req.file.filename}`;
     }
 
     playlist.updatedAt = Date.now();
