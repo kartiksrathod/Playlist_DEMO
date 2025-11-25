@@ -1,8 +1,10 @@
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
+const path = require('path');
 const connectDB = require('./config/database');
 const statusRoutes = require('./routes/statusRoutes');
+const playlistRoutes = require('./routes/playlistRoutes');
 const errorHandler = require('./middleware/errorHandler');
 
 // Load environment variables
