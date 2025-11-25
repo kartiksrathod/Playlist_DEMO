@@ -360,23 +360,35 @@ class PlaylistAPITester:
             return False
     
     def test_static_file_serving(self, playlist_with_image):
-        """Test static file serving for uploaded images"""
+        """Test static file serving for uploaded images via /api/uploads"""
         if not playlist_with_image or not playlist_with_image.get('coverImage'):
             self.log_result("Static File Serving", False, "No playlist with image to test")
             return False
         
         try:
-            image_url = f"{UPLOADS_URL}{playlist_with_image['coverImage'].replace('/uploads', '')}"
+            # The coverImage path should already include /api/uploads/covers/ prefix
+            image_url = f"https://playlist-tracker.preview.emergentagent.com{playlist_with_image['coverImage']}"
+            print(f"Testing image URL: {image_url}")
+            
             response = self.session.get(image_url)
             
-            if response.status_code == 200 and response.headers.get('content-type', '').startswith('image/'):
-                self.log_result("Static File Serving", True, f"Image accessible at: {image_url}")
-                return True
+            print(f"Response status: {response.status_code}")
+            print(f"Content-Type: {response.headers.get('content-type')}")
+            print(f"Response length: {len(response.content)} bytes")
+            
+            if response.status_code == 200:
+                content_type = response.headers.get('content-type', '').lower()
+                if content_type.startswith('image/'):
+                    self.log_result("Static File Serving via /api/uploads", True, f"Image accessible with correct Content-Type: {content_type}")
+                    return True
+                else:
+                    self.log_result("Static File Serving via /api/uploads", False, f"Wrong Content-Type: {content_type} (expected image/*)")
+                    return False
             else:
-                self.log_result("Static File Serving", False, f"Status: {response.status_code}, Content-Type: {response.headers.get('content-type')}")
+                self.log_result("Static File Serving via /api/uploads", False, f"Status: {response.status_code}, Content-Type: {response.headers.get('content-type')}")
                 return False
         except Exception as e:
-            self.log_result("Static File Serving", False, f"Error: {str(e)}")
+            self.log_result("Static File Serving via /api/uploads", False, f"Error: {str(e)}")
             return False
     
     def test_delete_playlist(self, playlist_id):
