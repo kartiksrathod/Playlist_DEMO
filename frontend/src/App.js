@@ -5,6 +5,8 @@ import axios from "axios";
 import { Toaster } from "sonner";
 import Playlists from "@/pages/Playlists";
 import PlaylistDetail from "@/pages/PlaylistDetail";
+import Library from "@/pages/Library";
+import TrackDetail from "@/pages/TrackDetail";
 import Settings from "@/pages/Settings";
 import Profile from "@/pages/Profile";
 import History from "@/pages/History";
