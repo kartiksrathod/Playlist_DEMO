@@ -203,13 +203,13 @@ const Profile = () => {
           </div>
 
           {/* Profile Details */}
-          <div className="bg-white rounded-2xl shadow-sm p-8 mb-6">
+          <div className="bg-slate-900/60 backdrop-blur-xl rounded-2xl shadow-xl p-8 mb-6 border border-blue-800/30">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-medium text-gray-800">Profile Information</h2>
+              <h2 className="text-xl font-medium text-white">Profile Information</h2>
               {!isEditing ? (
                 <button
                   onClick={handleEdit}
-                  className="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white rounded-xl font-medium transition-colors"
+                  className="px-4 py-2 bg-blue-700 hover:bg-blue-600 text-white rounded-xl font-medium transition-colors shadow-lg shadow-blue-700/30"
                 >
                   Edit Profile
                 </button>
@@ -217,13 +217,13 @@ const Profile = () => {
                 <div className="flex gap-2">
                   <button
                     onClick={handleCancel}
-                    className="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-xl font-medium transition-colors"
+                    className="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-blue-100 rounded-xl font-medium transition-colors"
                   >
                     Cancel
                   </button>
                   <button
                     onClick={handleSave}
-                    className="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white rounded-xl font-medium transition-colors"
+                    className="px-4 py-2 bg-blue-700 hover:bg-blue-600 text-white rounded-xl font-medium transition-colors shadow-lg shadow-blue-700/30"
                   >
                     Save Changes
                   </button>
@@ -234,66 +234,66 @@ const Profile = () => {
             <div className="space-y-6">
               {/* Name */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Name</label>
+                <label className="block text-sm font-medium text-blue-200 mb-2">Name</label>
                 {isEditing ? (
                   <input
                     type="text"
                     value={editedProfile.name}
                     onChange={(e) => handleChange('name', e.target.value)}
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
+                    className="w-full px-4 py-3 bg-slate-800 border border-blue-700/30 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all"
                   />
                 ) : (
-                  <div className="px-4 py-3 bg-gray-50 rounded-xl text-gray-800">{profile.name}</div>
+                  <div className="px-4 py-3 bg-slate-800/60 rounded-xl text-white border border-blue-800/30">{profile.name}</div>
                 )}
               </div>
 
               {/* Email */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                <label className="block text-sm font-medium text-blue-200 mb-2">Email</label>
                 {isEditing ? (
                   <input
                     type="email"
                     value={editedProfile.email}
                     onChange={(e) => handleChange('email', e.target.value)}
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
+                    className="w-full px-4 py-3 bg-slate-800 border border-blue-700/30 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all"
                   />
                 ) : (
-                  <div className="px-4 py-3 bg-gray-50 rounded-xl text-gray-800">{profile.email}</div>
+                  <div className="px-4 py-3 bg-slate-800/60 rounded-xl text-white border border-blue-800/30">{profile.email}</div>
                 )}
               </div>
 
               {/* Bio */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Bio</label>
+                <label className="block text-sm font-medium text-blue-200 mb-2">Bio</label>
                 {isEditing ? (
                   <textarea
                     value={editedProfile.bio}
                     onChange={(e) => handleChange('bio', e.target.value)}
                     rows={3}
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all resize-none"
+                    className="w-full px-4 py-3 bg-slate-800 border border-blue-700/30 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all resize-none"
                   />
                 ) : (
-                  <div className="px-4 py-3 bg-gray-50 rounded-xl text-gray-800">{profile.bio}</div>
+                  <div className="px-4 py-3 bg-slate-800/60 rounded-xl text-white border border-blue-800/30">{profile.bio}</div>
                 )}
               </div>
             </div>
           </div>
 
           {/* Account Actions */}
-          <div className="bg-white rounded-2xl shadow-sm p-8">
-            <h2 className="text-xl font-medium text-gray-800 mb-6">Account Actions</h2>
+          <div className="bg-slate-900/60 backdrop-blur-xl rounded-2xl shadow-xl p-8 border border-blue-800/30">
+            <h2 className="text-xl font-medium text-white mb-6">Account Actions</h2>
             <div className="space-y-3">
-              <button className="w-full text-left py-3 px-4 rounded-xl hover:bg-gray-50 transition-colors border border-gray-200">
-                <div className="font-medium text-gray-800">Change Password</div>
-                <div className="text-sm text-gray-600 font-light">Update your account password</div>
+              <button className="w-full text-left py-3 px-4 rounded-xl hover:bg-slate-800/60 transition-colors border border-blue-800/30">
+                <div className="font-medium text-white">Change Password</div>
+                <div className="text-sm text-blue-200 font-light">Update your account password</div>
               </button>
               
-              <button className="w-full text-left py-3 px-4 rounded-xl hover:bg-gray-50 transition-colors border border-gray-200">
-                <div className="font-medium text-gray-800">Privacy Settings</div>
-                <div className="text-sm text-gray-600 font-light">Manage your privacy preferences</div>
+              <button className="w-full text-left py-3 px-4 rounded-xl hover:bg-slate-800/60 transition-colors border border-blue-800/30">
+                <div className="font-medium text-white">Privacy Settings</div>
+                <div className="text-sm text-blue-200 font-light">Manage your privacy preferences</div>
               </button>
               
-              <button className="w-full text-left py-3 px-4 rounded-xl hover:bg-red-50 transition-colors border border-red-200 text-red-600">
+              <button className="w-full text-left py-3 px-4 rounded-xl hover:bg-red-900/30 transition-colors border border-red-700/30 text-red-400">
                 <div className="font-medium">Delete Account</div>
                 <div className="text-sm font-light opacity-80">Permanently delete your account and data</div>
               </button>
