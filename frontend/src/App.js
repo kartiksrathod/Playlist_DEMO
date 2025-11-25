@@ -57,11 +57,11 @@ function App() {
   return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
       <div className="App">
+        <Toaster position="top-center" richColors />
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Home />}>
-              <Route index element={<Home />} />
-            </Route>
+            <Route path="/" element={<Home />} />
+            <Route path="/playlists" element={<Playlists />} />
           </Routes>
         </BrowserRouter>
       </div>
