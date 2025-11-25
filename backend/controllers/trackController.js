@@ -232,6 +232,16 @@ const deleteTrack = async (req, res) => {
       return res.status(404).json({ message: 'Track not found' });
     }
 
+    // Delete audio file if exists
+    if (track.audioFile) {
+      // Remove /api prefix for filesystem path
+      const audioPath = track.audioFile.replace('/api/uploads', '/uploads');
+      const audioFullPath = path.join(__dirname, '..', audioPath);
+      if (fs.existsSync(audioFullPath)) {
+        fs.unlinkSync(audioFullPath);
+      }
+    }
+
     await Track.deleteOne({ id: trackId, playlistId });
 
     res.json({ message: 'Track deleted successfully' });
