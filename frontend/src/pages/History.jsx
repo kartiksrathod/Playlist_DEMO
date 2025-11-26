@@ -213,64 +213,80 @@ const History = () => {
             </div>
           </div>
 
-          {/* History List */}
-          <div className="space-y-3">
-            {sortedHistory.map((item, index) => (
-              <div
-                key={item.id}
-                className="bg-slate-900/60 backdrop-blur-xl rounded-xl p-5 border border-purple-800/30 hover:border-purple-600/50 transition-all group"
-              >
-                <div className="flex items-center gap-4">
-                  {/* Track Number */}
-                  <div className="w-8 text-center">
-                    <span className="text-blue-200 text-sm font-medium">{index + 1}</span>
-                  </div>
+          {/* Loading State */}
+          {loading && (
+            <div className="text-center py-20">
+              <div className="w-16 h-16 border-4 border-purple-600/30 border-t-purple-600 rounded-full animate-spin mx-auto mb-4"></div>
+              <p className="text-blue-100">Loading history...</p>
+            </div>
+          )}
 
-                  {/* Track Info */}
-                  <div className="flex-1 min-w-0">
-                    <h3 className="text-white font-medium mb-1 truncate group-hover:text-purple-300 transition-colors">
-                      {item.trackName}
-                    </h3>
-                    <div className="flex items-center gap-3 text-sm text-blue-200">
-                      <span className="truncate">{item.artist}</span>
-                      {item.album && (
-                        <>
-                          <span className="text-purple-500">•</span>
-                          <span className="truncate">{item.album}</span>
-                        </>
-                      )}
+          {/* History List */}
+          {!loading && sortedHistory.length > 0 && (
+            <div className="space-y-3">
+              {sortedHistory.map((item, index) => (
+                <div
+                  key={item.id}
+                  className="bg-slate-900/60 backdrop-blur-xl rounded-xl p-5 border border-purple-800/30 hover:border-purple-600/50 transition-all group"
+                >
+                  <div className="flex items-center gap-4">
+                    {/* Track Number */}
+                    <div className="w-8 text-center">
+                      <span className="text-blue-200 text-sm font-medium">{index + 1}</span>
+                    </div>
+
+                    {/* Track Info */}
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-white font-medium mb-1 truncate group-hover:text-purple-300 transition-colors">
+                        {item.track?.songName || 'Unknown Track'}
+                      </h3>
+                      <div className="flex items-center gap-3 text-sm text-blue-200">
+                        <span className="truncate">{item.track?.artist || 'Unknown Artist'}</span>
+                        {item.track?.album && (
+                          <>
+                            <span className="text-purple-500">•</span>
+                            <span className="truncate">{item.track.album}</span>
+                          </>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Playlist Badge */}
+                    {item.playlist && (
+                      <div className="hidden md:block">
+                        <span className="px-3 py-1 bg-purple-700/30 text-purple-200 text-xs rounded-full border border-purple-600/30">
+                          {item.playlist.name}
+                        </span>
+                      </div>
+                    )}
+
+                    {/* Play Count (only for Most Played view) */}
+                    {sortBy === 'mostPlayed' && item.playCount && (
+                      <div className="flex items-center gap-2 text-blue-200">
+                        <Play className="w-4 h-4 text-purple-400" />
+                        <span className="text-sm font-medium">{item.playCount} plays</span>
+                      </div>
+                    )}
+
+                    {/* Duration */}
+                    {item.track?.duration && (
+                      <div className="hidden sm:block text-blue-200 text-sm w-16 text-right">
+                        {item.track.duration}
+                      </div>
+                    )}
+
+                    {/* Time Ago */}
+                    <div className="hidden lg:block text-blue-200 text-sm w-32 text-right">
+                      {formatDate(sortBy === 'mostPlayed' ? item.lastPlayedAt : item.playedAt)}
                     </div>
                   </div>
-
-                  {/* Playlist Badge */}
-                  <div className="hidden md:block">
-                    <span className="px-3 py-1 bg-purple-700/30 text-purple-200 text-xs rounded-full border border-purple-600/30">
-                      {item.playlistName}
-                    </span>
-                  </div>
-
-                  {/* Play Count */}
-                  <div className="flex items-center gap-2 text-blue-200">
-                    <Play className="w-4 h-4 text-purple-400" />
-                    <span className="text-sm font-medium">{item.playCount}</span>
-                  </div>
-
-                  {/* Duration */}
-                  <div className="hidden sm:block text-blue-200 text-sm w-16 text-right">
-                    {item.duration}
-                  </div>
-
-                  {/* Time Ago */}
-                  <div className="hidden lg:block text-blue-200 text-sm w-32 text-right">
-                    {formatDate(item.playedAt)}
-                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
 
-          {/* Empty State (for future when no history) */}
-          {sortedHistory.length === 0 && (
+          {/* Empty State */}
+          {!loading && sortedHistory.length === 0 && (
             <div className="text-center py-20">
               <div className="w-20 h-20 rounded-full bg-slate-900/60 backdrop-blur-xl flex items-center justify-center mx-auto mb-6 border border-purple-800/30">
                 <Clock className="w-10 h-10 text-purple-400" />
@@ -279,6 +295,27 @@ const History = () => {
               <p className="text-blue-100 mb-6">Start playing some tracks to see your history here</p>
             </div>
           )}
+
+          {/* Clear History Confirmation Dialog */}
+          <AlertDialog open={showClearDialog} onOpenChange={setShowClearDialog}>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Clear Listen History?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  This will permanently delete all your listening history. This action cannot be undone.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction
+                  onClick={handleClearHistory}
+                  className="bg-red-600 hover:bg-red-700"
+                >
+                  Clear History
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </div>
       </div>
     </AppLayout>
