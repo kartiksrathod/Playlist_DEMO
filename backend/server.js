@@ -42,6 +42,8 @@ app.use('/api', statusRoutes);
 app.use('/api/playlists', playlistRoutes);
 app.use('/api/playlists/:playlistId/tracks', trackRoutes);
 app.use('/api/library', libraryRoutes);
+app.use('/api/history', historyRoutes);
+app.use('/api/settings', settingsRoutes);
 
 // Health check route (not under /api prefix)
 app.get('/health', (req, res) => {
