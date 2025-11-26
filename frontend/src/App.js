@@ -24,12 +24,15 @@ import MusicPlayer from "@/components/MusicPlayer";
 import KeyboardShortcutsHelp from "@/components/KeyboardShortcutsHelp";
 import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
 import { ArrowRight, Music, ListMusic, Sparkles, Play, TrendingUp } from 'lucide-react';
-import { mockRecentlyPlayed } from '@/data/mockData';
+import { useState } from 'react';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
 const Home = () => {
+  const [recentlyPlayed, setRecentlyPlayed] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   const helloWorldApi = async () => {
     try {
       const response = await axios.get(`${API}/`);
@@ -39,8 +42,22 @@ const Home = () => {
     }
   };
 
+  // Fetch recently played tracks
+  const fetchRecentlyPlayed = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get(`${API}/history?limit=6`);
+      setRecentlyPlayed(response.data.history || []);
+    } catch (error) {
+      console.error('Error fetching recently played:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     helloWorldApi();
+    fetchRecentlyPlayed();
   }, []);
 
   return (
