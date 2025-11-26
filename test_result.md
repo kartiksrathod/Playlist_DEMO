@@ -756,7 +756,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Real Listen History Tracking - Feature 3"
+    - "Playlist Sharing & Collaboration - Feature 4"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
