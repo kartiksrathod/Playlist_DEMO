@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import AppLayout from '@/components/AppLayout';
-import { Settings as SettingsIcon, Music, Bell, Database, HelpCircle } from 'lucide-react';
+import { Settings as SettingsIcon, Music, Bell, Database, HelpCircle, Palette, Check } from 'lucide-react';
 import { toast } from 'sonner';
+import { useTheme } from '@/context/ThemeContext';
+import { getThemePreviews } from '@/config/themes';
 
 const Settings = () => {
   const [settings, setSettings] = useState({
