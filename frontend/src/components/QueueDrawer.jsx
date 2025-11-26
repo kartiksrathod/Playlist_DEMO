@@ -1,6 +1,22 @@
 import React from 'react';
 import { usePlayer } from '../context/PlayerContext';
-import { X, Music, Trash2, Play } from 'lucide-react';
+import { X, Music, Trash2, Play, GripVertical } from 'lucide-react';
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  useSortable,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
 const QueueDrawer = ({ isOpen, onClose }) => {
   const { queue, currentTrack, removeFromQueue, clearQueue, play } = usePlayer();
