@@ -18,6 +18,8 @@ import PreviewNeon from "@/pages/PreviewNeon";
 import PreviewRetro from "@/pages/PreviewRetro";
 import PreviewMesh from "@/pages/PreviewMesh";
 import PreviewPremium from "@/pages/PreviewPremium";
+import { PlayerProvider } from "@/context/PlayerContext";
+import MusicPlayer from "@/components/MusicPlayer";
 import { ArrowRight, Music, ListMusic, Sparkles, Play, TrendingUp } from 'lucide-react';
 import { mockRecentlyPlayed } from '@/data/mockData';
 
