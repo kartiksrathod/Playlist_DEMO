@@ -77,61 +77,33 @@ const PlaylistDetail = () => {
     }
   };
 
-  // Get audio URL
-  const getAudioUrl = (track) => {
-    if (track.audioFile) {
-      return `${BACKEND_URL}${track.audioFile}`;
-    }
-    return track.audioUrl || null;
+  // Handle play track
+  const handlePlayTrack = (track) => {
+    // Add playlist info and cover image to track
+    const trackWithPlaylist = {
+      ...track,
+      playlistId: playlist.id,
+      coverImage: playlist.coverImage,
+    };
+    play(trackWithPlaylist, playlist);
   };
 
-  // Handle play/pause
-  const togglePlay = (track) => {
-    const audioUrl = getAudioUrl(track);
-    if (!audioUrl) {
-      toast.error('No audio available for this track');
+  // Handle play all tracks
+  const handlePlayAll = () => {
+    if (tracks.length === 0) {
+      toast.error('No tracks to play');
       return;
     }
-
-    // If same track, toggle play/pause
-    if (playingTrack?.id === track.id && audioElement) {
-      if (audioElement.paused) {
-        audioElement.play();
-        setPlayingTrack(track);
-      } else {
-        audioElement.pause();
-        setPlayingTrack(null);
-      }
-      return;
-    }
-
-    // Stop current audio if playing
-    if (audioElement) {
-      audioElement.pause();
-      audioElement.currentTime = 0;
-    }
-
-    // Create and play new audio
-    const audio = new Audio(audioUrl);
-    audio.play();
-    audio.onended = () => setPlayingTrack(null);
-    audio.onerror = () => {
-      toast.error('Failed to play audio');
-      setPlayingTrack(null);
-    };
-    setAudioElement(audio);
-    setPlayingTrack(track);
+    
+    // Add playlist info to all tracks
+    const tracksWithPlaylist = tracks.map(track => ({
+      ...track,
+      playlistId: playlist.id,
+      coverImage: playlist.coverImage,
+    }));
+    
+    playAll(tracksWithPlaylist, 0, playlist);
   };
-
-  // Cleanup audio on unmount
-  useEffect(() => {
-    return () => {
-      if (audioElement) {
-        audioElement.pause();
-        audioElement.currentTime = 0;
-      }
-    };
-  }, [audioElement]);
 
   // Get image URL
   const getImageUrl = (coverImage) => {
