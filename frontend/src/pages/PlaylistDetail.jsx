@@ -282,12 +282,12 @@ const PlaylistDetail = () => {
                               <button
                                 onClick={() => handlePlayTrack(track)}
                                 className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${
-                                  isPlaying 
-                                    ? 'bg-blue-600 text-white shadow-xl shadow-blue-600/60' 
+                                  isTrackPlaying 
+                                    ? 'bg-green-600 text-white shadow-xl shadow-green-600/60' 
                                     : 'bg-blue-900/40 hover:bg-blue-600 hover:text-white text-blue-200 backdrop-blur-sm border border-blue-700/30'
                                 }`}
                               >
-                                {isPlaying ? (
+                                {isTrackPlaying ? (
                                   <Pause className="h-4 w-4" />
                                 ) : (
                                   <Play className="h-4 w-4 ml-0.5" />
