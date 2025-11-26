@@ -110,6 +110,7 @@ exports.resetSettings = async (req, res) => {
         autoPlay: true,
         shuffle: false,
         repeat: 'off',
+        theme: 'dark',
         lastUpdated: new Date(),
       },
       { new: true, upsert: true }
@@ -123,6 +124,7 @@ exports.resetSettings = async (req, res) => {
         autoPlay: settings.autoPlay,
         shuffle: settings.shuffle,
         repeat: settings.repeat,
+        theme: settings.theme,
         lastUpdated: settings.lastUpdated,
       },
     });
