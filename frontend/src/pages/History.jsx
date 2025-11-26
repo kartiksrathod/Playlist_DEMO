@@ -134,11 +134,22 @@ const History = () => {
         <div className="max-w-5xl mx-auto">
           {/* Header */}
           <div className="mb-8">
-            <div className="flex items-center gap-3 mb-3">
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-600 to-purple-800 flex items-center justify-center shadow-lg shadow-purple-700/50">
-                <Clock className="w-6 h-6 text-white" />
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-600 to-purple-800 flex items-center justify-center shadow-lg shadow-purple-700/50">
+                  <Clock className="w-6 h-6 text-white" />
+                </div>
+                <h1 className="text-4xl font-light text-white">Listen History</h1>
               </div>
-              <h1 className="text-4xl font-light text-white">Listen History</h1>
+              {history.length > 0 && (
+                <button
+                  onClick={() => setShowClearDialog(true)}
+                  className="px-4 py-2 bg-red-900/30 hover:bg-red-900/50 text-red-200 rounded-lg border border-red-800/30 hover:border-red-700/50 transition-all flex items-center gap-2"
+                >
+                  <Trash2 className="w-4 h-4" />
+                  Clear History
+                </button>
+              )}
             </div>
             <p className="text-blue-100 text-lg font-light">Track your musical journey</p>
           </div>
