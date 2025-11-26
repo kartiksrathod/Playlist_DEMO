@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Music, Pencil, Trash2, Heart, Play } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Plus, Music, Pencil, Trash2, Heart, Play, Keyboard } from 'lucide-react';
 import AppLayout from '@/components/AppLayout';
 import SearchBar from '@/components/SearchBar';
 import { Button } from '@/components/ui/button';
@@ -9,6 +10,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import CreatePlaylistDialog from '@/components/CreatePlaylistDialog';
 import EditPlaylistDialog from '@/components/EditPlaylistDialog';
 import { toast } from 'sonner';
+import { PlaylistGridSkeleton } from '@/components/SkeletonLoader';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
