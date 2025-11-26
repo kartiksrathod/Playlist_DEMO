@@ -199,10 +199,193 @@ const deletePlaylist = async (req, res) => {
   }
 };
 
+// @desc    Generate share token for playlist
+// @route   POST /api/playlists/:id/share
+// @access  Public
+const generateShareLink = async (req, res) => {
+  try {
+    const playlist = await Playlist.findOne({ id: req.params.id });
+
+    if (!playlist) {
+      return res.status(404).json({ message: 'Playlist not found' });
+    }
+
+    // Generate share token if doesn't exist
+    if (!playlist.shareToken) {
+      playlist.shareToken = uuidv4();
+      await playlist.save();
+    }
+
+    res.json({
+      message: 'Share link generated successfully',
+      shareToken: playlist.shareToken,
+      shareUrl: `/shared/${playlist.shareToken}`,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// @desc    Get playlist by share token
+// @route   GET /api/playlists/shared/:token
+// @access  Public
+const getPlaylistByShareToken = async (req, res) => {
+  try {
+    const playlist = await Playlist.findOne({ shareToken: req.params.token })
+      .select('-_id');
+
+    if (!playlist) {
+      return res.status(404).json({ message: 'Shared playlist not found' });
+    }
+
+    // Get tracks in the playlist
+    const tracks = await Track.find({ playlistId: playlist.id })
+      .select('-_id')
+      .sort({ createdAt: 1 });
+
+    res.json({
+      playlist,
+      tracks,
+      isShared: true,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// @desc    Toggle playlist public/private
+// @route   PUT /api/playlists/:id/toggle-public
+// @access  Public
+const togglePublic = async (req, res) => {
+  try {
+    const playlist = await Playlist.findOne({ id: req.params.id });
+
+    if (!playlist) {
+      return res.status(404).json({ message: 'Playlist not found' });
+    }
+
+    playlist.isPublic = !playlist.isPublic;
+    await playlist.save();
+
+    res.json({
+      message: `Playlist is now ${playlist.isPublic ? 'public' : 'private'}`,
+      isPublic: playlist.isPublic,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// @desc    Toggle playlist collaborative mode
+// @route   PUT /api/playlists/:id/toggle-collaborative
+// @access  Public
+const toggleCollaborative = async (req, res) => {
+  try {
+    const playlist = await Playlist.findOne({ id: req.params.id });
+
+    if (!playlist) {
+      return res.status(404).json({ message: 'Playlist not found' });
+    }
+
+    playlist.isCollaborative = !playlist.isCollaborative;
+    await playlist.save();
+
+    res.json({
+      message: `Collaborative mode is now ${playlist.isCollaborative ? 'enabled' : 'disabled'}`,
+      isCollaborative: playlist.isCollaborative,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// @desc    Import/copy shared playlist
+// @route   POST /api/playlists/import/:token
+// @access  Public
+const importSharedPlaylist = async (req, res) => {
+  try {
+    const sourcePlaylist = await Playlist.findOne({ shareToken: req.params.token });
+
+    if (!sourcePlaylist) {
+      return res.status(404).json({ message: 'Shared playlist not found' });
+    }
+
+    // Create new playlist as a copy
+    const newPlaylist = new Playlist({
+      id: uuidv4(),
+      name: `${sourcePlaylist.name} (Copy)`,
+      description: sourcePlaylist.description,
+      coverImage: sourcePlaylist.coverImage,
+      isPublic: false, // Imported playlists are private by default
+      isCollaborative: false,
+      originalPlaylistId: sourcePlaylist.id,
+    });
+
+    await newPlaylist.save();
+
+    // Copy all tracks from source playlist
+    const sourceTracks = await Track.find({ playlistId: sourcePlaylist.id });
+    
+    const newTracks = sourceTracks.map(track => ({
+      id: uuidv4(),
+      playlistId: newPlaylist.id,
+      songName: track.songName,
+      artist: track.artist,
+      album: track.album,
+      duration: track.duration,
+      audioUrl: track.audioUrl,
+      audioFile: track.audioFile,
+    }));
+
+    if (newTracks.length > 0) {
+      await Track.insertMany(newTracks);
+    }
+
+    res.status(201).json({
+      message: 'Playlist imported successfully',
+      playlist: {
+        id: newPlaylist.id,
+        name: newPlaylist.name,
+        description: newPlaylist.description,
+        coverImage: newPlaylist.coverImage,
+        isPublic: newPlaylist.isPublic,
+        isCollaborative: newPlaylist.isCollaborative,
+        originalPlaylistId: newPlaylist.originalPlaylistId,
+        createdAt: newPlaylist.createdAt,
+        updatedAt: newPlaylist.updatedAt,
+      },
+      tracksCount: newTracks.length,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// @desc    Get all public playlists
+// @route   GET /api/playlists/public
+// @access  Public
+const getPublicPlaylists = async (req, res) => {
+  try {
+    const playlists = await Playlist.find({ isPublic: true })
+      .select('-_id')
+      .sort({ createdAt: -1 });
+
+    res.json(playlists);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   getAllPlaylists,
   getPlaylistById,
   createPlaylist,
   updatePlaylist,
   deletePlaylist,
+  generateShareLink,
+  getPlaylistByShareToken,
+  togglePublic,
+  toggleCollaborative,
+  importSharedPlaylist,
+  getPublicPlaylists,
 };
