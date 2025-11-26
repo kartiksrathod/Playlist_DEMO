@@ -18,10 +18,110 @@ import {
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
+// Sortable Track Item Component
+const SortableTrackItem = ({ track, index, isCurrentTrack, onPlay, onRemove, getCoverImage }) => {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: track.id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+  };
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      className={`group flex items-center gap-3 p-3 rounded-lg transition cursor-pointer ${
+        isCurrentTrack
+          ? 'bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-blue-500/30'
+          : 'hover:bg-slate-800'
+      }`}
+      onClick={() => onPlay(track)}
+    >
+      {/* Drag Handle */}
+      <button
+        {...attributes}
+        {...listeners}
+        className="cursor-grab active:cursor-grabbing text-slate-500 hover:text-slate-300 transition"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <GripVertical className="w-5 h-5" />
+      </button>
+
+      {/* Track Number / Play Icon */}
+      <div className="w-8 flex-shrink-0 text-center">
+        {isCurrentTrack ? (
+          <div className="flex items-center justify-center">
+            <div className="w-4 h-4 bg-blue-500 rounded animate-pulse" />
+          </div>
+        ) : (
+          <span className="text-slate-500 group-hover:hidden text-sm">
+            {index + 1}
+          </span>
+        )}
+        <Play className="w-4 h-4 text-white hidden group-hover:block mx-auto" />
+      </div>
+
+      {/* Cover Image */}
+      <img
+        src={getCoverImage(track)}
+        alt={track.songName}
+        className="w-12 h-12 rounded object-cover"
+      />
+
+      {/* Track Info */}
+      <div className="flex-1 min-w-0">
+        <h4
+          className={`font-medium truncate ${
+            isCurrentTrack ? 'text-blue-400' : 'text-white'
+          }`}
+        >
+          {track.songName}
+        </h4>
+        <p className="text-slate-400 text-sm truncate">
+          {track.artist || 'Unknown Artist'}
+        </p>
+      </div>
+
+      {/* Duration & Remove */}
+      <div className="flex items-center gap-2">
+        {track.duration && (
+          <span className="text-slate-500 text-sm">{track.duration}</span>
+        )}
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onRemove(track.id);
+          }}
+          className="p-1.5 rounded hover:bg-slate-700 text-slate-400 hover:text-red-400 transition opacity-0 group-hover:opacity-100"
+          title="Remove from queue"
+        >
+          <Trash2 className="w-4 h-4" />
+        </button>
+      </div>
+    </div>
+  );
+};
+
 const QueueDrawer = ({ isOpen, onClose }) => {
-  const { queue, currentTrack, removeFromQueue, clearQueue, play } = usePlayer();
+  const { queue, currentTrack, removeFromQueue, clearQueue, play, reorderQueue } = usePlayer();
 
   const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || '';
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
 
   if (!isOpen) return null;
 
@@ -30,6 +130,17 @@ const QueueDrawer = ({ isOpen, onClose }) => {
       return `${BACKEND_URL}${track.coverImage}`;
     }
     return 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=200';
+  };
+
+  const handleDragEnd = (event) => {
+    const { active, over } = event;
+
+    if (active.id !== over.id) {
+      const oldIndex = queue.findIndex((track) => track.id === active.id);
+      const newIndex = queue.findIndex((track) => track.id === over.id);
+      
+      reorderQueue(oldIndex, newIndex);
+    }
   };
 
   return (
