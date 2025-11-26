@@ -15,9 +15,12 @@ import {
   Clock,
   FileAudio,
   Link as LinkIcon,
-  Loader2
+  Loader2,
+  Play,
+  Pause
 } from 'lucide-react';
 import { toast } from 'sonner';
+import { usePlayer } from '@/context/PlayerContext';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
