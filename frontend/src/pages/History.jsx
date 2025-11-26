@@ -162,7 +162,7 @@ const History = () => {
                 <Play className="w-4 h-4 text-purple-400" />
               </div>
               <p className="text-3xl font-light text-white">
-                {mockListenHistory.reduce((sum, item) => sum + item.playCount, 0)}
+                {loading ? '...' : stats.totalPlays}
               </p>
             </div>
 
@@ -171,7 +171,9 @@ const History = () => {
                 <span className="text-blue-100 text-sm">Unique Tracks</span>
                 <TrendingUp className="w-4 h-4 text-purple-400" />
               </div>
-              <p className="text-3xl font-light text-white">{mockListenHistory.length}</p>
+              <p className="text-3xl font-light text-white">
+                {loading ? '...' : stats.uniqueTracks}
+              </p>
             </div>
 
             <div className="bg-slate-900/60 backdrop-blur-xl rounded-2xl p-6 border border-purple-800/30">
@@ -180,12 +182,7 @@ const History = () => {
                 <Calendar className="w-4 h-4 text-purple-400" />
               </div>
               <p className="text-3xl font-light text-white">
-                {mockListenHistory.filter(item => {
-                  const playedDate = new Date(item.playedAt);
-                  const weekAgo = new Date();
-                  weekAgo.setDate(weekAgo.getDate() - 7);
-                  return playedDate > weekAgo;
-                }).length}
+                {loading ? '...' : stats.playsThisWeek}
               </p>
             </div>
           </div>
