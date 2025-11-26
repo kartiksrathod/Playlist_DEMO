@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Search, 
   Grid3x3, 
@@ -21,6 +22,7 @@ import {
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { usePlayer } from '@/context/PlayerContext';
+import { LibraryGridSkeleton, TrackListSkeleton } from '@/components/SkeletonLoader';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
