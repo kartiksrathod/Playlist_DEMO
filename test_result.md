@@ -735,13 +735,13 @@ frontend:
 
 metadata:
   created_by: "main_agent"
-  version: "6.0"
-  test_sequence: 6
+  version: "7.0"
+  test_sequence: 7
   run_ui: true
 
 test_plan:
   current_focus:
-    - "Theme Toggle System - Frontend UI Testing"
+    - "Real Listen History Tracking - Feature 3"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
