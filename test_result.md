@@ -726,11 +726,8 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Backend - Theme Toggle - Settings Model Update"
-    - "Backend - Theme Toggle - Settings Controller Update"
-    - "Frontend - Theme Toggle - Theme Configuration System"
-    - "Frontend - Theme Toggle - ThemeContext Provider"
-    - "Frontend - Theme Toggle - Settings Page UI"
+    - "Theme Toggle System - Backend API Testing"
+    - "Theme Toggle System - Frontend UI Testing"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
