@@ -165,12 +165,21 @@ const Playlists = () => {
 
         {/* Playlists Grid */}
         {!loading && filteredPlaylists.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <motion.div 
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3 }}
+          >
             {filteredPlaylists.map((playlist, index) => (
-              <div 
+              <motion.div 
                 key={playlist.id} 
                 className="group bg-slate-900/50 backdrop-blur-xl rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl hover:shadow-blue-600/40 transition-all duration-300 cursor-pointer border border-blue-700/30"
                 onClick={() => navigate(`/playlists/${playlist.id}`)}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: index * 0.05 }}
+                whileHover={{ y: -5, transition: { duration: 0.2 } }}
               >
                 {/* Cover Image */}
                 <div className="relative h-48 overflow-hidden">
