@@ -27,7 +27,7 @@ const API = `${BACKEND_URL}/api`;
 
 const Library = () => {
   const navigate = useNavigate();
-  const { play, currentTrack, isPlaying } = usePlayer();
+  const { play, currentTrack, isPlaying, addToQueue } = usePlayer();
   
   // State management
   const [tracks, setTracks] = useState([]);
