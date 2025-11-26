@@ -21,6 +21,29 @@ const playlistSchema = new mongoose.Schema(
       type: String,
       default: null, // URL path to uploaded image
     },
+    // Sharing and Collaboration fields
+    isPublic: {
+      type: Boolean,
+      default: false, // Private by default
+    },
+    shareToken: {
+      type: String,
+      default: null, // Unique token for sharing
+      unique: true,
+      sparse: true, // Allow multiple null values
+    },
+    isCollaborative: {
+      type: Boolean,
+      default: false, // Not collaborative by default
+    },
+    collaborators: {
+      type: [String], // Array of user IDs (prepared for future auth)
+      default: [],
+    },
+    originalPlaylistId: {
+      type: String,
+      default: null, // Reference to original playlist if this is a copy
+    },
     createdAt: {
       type: Date,
       default: Date.now,
