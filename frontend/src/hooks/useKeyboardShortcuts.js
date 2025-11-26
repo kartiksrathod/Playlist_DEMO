@@ -28,6 +28,20 @@ export const useKeyboardShortcuts = () => {
     currentTrack,
   } = usePlayer();
 
+  // Show welcome message on first load
+  useEffect(() => {
+    const hasSeenWelcome = localStorage.getItem('keyboard-shortcuts-welcome');
+    if (!hasSeenWelcome) {
+      setTimeout(() => {
+        toast.info(
+          '⌨️ Keyboard Shortcuts Enabled! Press ? to see all shortcuts',
+          { duration: 5000 }
+        );
+        localStorage.setItem('keyboard-shortcuts-welcome', 'true');
+      }, 2000);
+    }
+  }, []);
+
   useEffect(() => {
     const handleKeyDown = (e) => {
       // Ignore if user is typing in an input/textarea
