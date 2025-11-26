@@ -179,33 +179,41 @@ const Home = () => {
   );
 };
 
+// Component to enable keyboard shortcuts
+const KeyboardShortcutsWrapper = ({ children }) => {
+  useKeyboardShortcuts();
+  return children;
+};
+
 function App() {
   return (
     <PlayerProvider>
-      <div className="App">
-        <Toaster position="top-center" richColors />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/playlists" element={<Playlists />} />
-            <Route path="/playlists/:playlistId" element={<PlaylistDetail />} />
-            <Route path="/library" element={<Library />} />
-            <Route path="/library/track/:trackId" element={<TrackDetail />} />
-            <Route path="/history" element={<History />} />
-            <Route path="/favorites" element={<Favorites />} />
-            <Route path="/settings" element={<Settings />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/preview/glass" element={<PreviewGlass />} />
-            <Route path="/preview/vibrant" element={<PreviewVibrant />} />
-            <Route path="/preview/neon" element={<PreviewNeon />} />
-            <Route path="/preview/retro" element={<PreviewRetro />} />
-            <Route path="/preview/mesh" element={<PreviewMesh />} />
-            <Route path="/preview/premium" element={<PreviewPremium />} />
-          </Routes>
-          {/* Global Music Player */}
-          <MusicPlayer />
-        </BrowserRouter>
-      </div>
+      <KeyboardShortcutsWrapper>
+        <div className="App">
+          <Toaster position="top-center" richColors />
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/playlists" element={<Playlists />} />
+              <Route path="/playlists/:playlistId" element={<PlaylistDetail />} />
+              <Route path="/library" element={<Library />} />
+              <Route path="/library/track/:trackId" element={<TrackDetail />} />
+              <Route path="/history" element={<History />} />
+              <Route path="/favorites" element={<Favorites />} />
+              <Route path="/settings" element={<Settings />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/preview/glass" element={<PreviewGlass />} />
+              <Route path="/preview/vibrant" element={<PreviewVibrant />} />
+              <Route path="/preview/neon" element={<PreviewNeon />} />
+              <Route path="/preview/retro" element={<PreviewRetro />} />
+              <Route path="/preview/mesh" element={<PreviewMesh />} />
+              <Route path="/preview/premium" element={<PreviewPremium />} />
+            </Routes>
+            {/* Global Music Player */}
+            <MusicPlayer />
+          </BrowserRouter>
+        </div>
+      </KeyboardShortcutsWrapper>
     </PlayerProvider>
   );
 }
