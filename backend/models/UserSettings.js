@@ -27,6 +27,11 @@ const userSettingsSchema = new mongoose.Schema(
       enum: ['off', 'one', 'all'],
       default: 'off',
     },
+    theme: {
+      type: String,
+      enum: ['dark', 'light', 'glass', 'vibrant', 'neon', 'retro', 'mesh', 'premium'],
+      default: 'dark',
+    },
     lastUpdated: {
       type: Date,
       default: Date.now,
