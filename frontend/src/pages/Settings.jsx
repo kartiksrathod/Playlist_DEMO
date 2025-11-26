@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AppLayout from '@/components/AppLayout';
 import { Settings as SettingsIcon, Music, Bell, Database, HelpCircle, Palette, Check } from 'lucide-react';
 import { toast } from 'sonner';
 import { useTheme } from '@/context/ThemeContext';
 import { getThemePreviews } from '@/config/themes';
+
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || process.env.REACT_APP_BACKEND_URL;
 
 const Settings = () => {
   const { currentTheme, changeTheme } = useTheme();
@@ -17,34 +19,128 @@ const Settings = () => {
     autoShuffle: false,
     crossfade: false,
   });
+  
+  const [loading, setLoading] = useState(true);
 
-  const handleToggle = (key) => {
-    setSettings(prev => ({
-      ...prev,
-      [key]: !prev[key]
-    }));
-    toast.success('Setting updated successfully');
+  // Fetch settings on mount
+  useEffect(() => {
+    fetchSettings();
+  }, []);
+
+  const fetchSettings = async () => {
+    try {
+      const response = await fetch(`${BACKEND_URL}/api/settings`);
+      if (response.ok) {
+        const data = await response.json();
+        setSettings({
+          autoplay: data.autoPlay,
+          autoShuffle: data.autoShuffle,
+          crossfade: data.crossfade,
+          volume: data.volume,
+          quality: data.quality,
+          notifications: data.notifications,
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching settings:', error);
+      toast.error('Failed to load settings');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const updateBackendSettings = async (updatedSettings) => {
+    try {
+      const response = await fetch(`${BACKEND_URL}/api/settings`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          autoPlay: updatedSettings.autoplay,
+          autoShuffle: updatedSettings.autoShuffle,
+          crossfade: updatedSettings.crossfade,
+          volume: updatedSettings.volume,
+          quality: updatedSettings.quality,
+          notifications: updatedSettings.notifications,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update settings');
+      }
+    } catch (error) {
+      console.error('Error updating settings:', error);
+      toast.error('Failed to save settings');
+      throw error;
+    }
+  };
+
+  const handleToggle = async (key) => {
+    const newSettings = {
+      ...settings,
+      [key]: !settings[key]
+    };
+    
+    setSettings(newSettings);
+    
+    try {
+      await updateBackendSettings(newSettings);
+      toast.success('Setting updated successfully');
+    } catch (error) {
+      // Revert on error
+      setSettings(settings);
+    }
   };
 
   const handleVolumeChange = (e) => {
+    const newVolume = parseInt(e.target.value);
     setSettings(prev => ({
       ...prev,
-      volume: parseInt(e.target.value)
+      volume: newVolume
     }));
   };
 
-  const handleQualityChange = (quality) => {
-    setSettings(prev => ({
-      ...prev,
+  const handleVolumeChangeComplete = async () => {
+    try {
+      await updateBackendSettings(settings);
+    } catch (error) {
+      // Volume already updated in UI, just log error
+      console.error('Failed to save volume:', error);
+    }
+  };
+
+  const handleQualityChange = async (quality) => {
+    const newSettings = {
+      ...settings,
       quality
-    }));
-    toast.success(`Audio quality set to ${quality}`);
+    };
+    
+    setSettings(newSettings);
+    
+    try {
+      await updateBackendSettings(newSettings);
+      toast.success(`Audio quality set to ${quality}`);
+    } catch (error) {
+      // Revert on error
+      setSettings(settings);
+    }
   };
 
   const handleThemeChange = (themeId) => {
     changeTheme(themeId);
     toast.success(`Theme changed to ${themeId}`);
   };
+
+  if (loading) {
+    return (
+      <AppLayout>
+        <div className="min-h-screen px-8 py-8 flex items-center justify-center">
+          <div className="text-gray-600">Loading settings...</div>
+        </div>
+      </AppLayout>
+    );
+  }
 
   return (
     <AppLayout>
@@ -170,6 +266,8 @@ const Settings = () => {
                   max="100"
                   value={settings.volume}
                   onChange={handleVolumeChange}
+                  onMouseUp={handleVolumeChangeComplete}
+                  onTouchEnd={handleVolumeChangeComplete}
                   className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
                   style={{
                     background: `linear-gradient(to right, #F59E0B 0%, #F59E0B ${settings.volume}%, #E5E7EB ${settings.volume}%, #E5E7EB 100%)`
