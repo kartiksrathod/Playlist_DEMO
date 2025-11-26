@@ -41,6 +41,11 @@ const Settings = () => {
     toast.success(`Audio quality set to ${quality}`);
   };
 
+  const handleThemeChange = (themeId) => {
+    changeTheme(themeId);
+    toast.success(`Theme changed to ${themeId}`);
+  };
+
   return (
     <AppLayout>
       <div className="min-h-screen px-8 py-8">
@@ -56,6 +61,53 @@ const Settings = () => {
         </div>
 
         <div className="max-w-4xl">
+          {/* Theme Selection */}
+          <div className="bg-white rounded-2xl shadow-sm p-8 mb-6">
+            <div className="flex items-center gap-3 mb-6">
+              <Palette className="w-5 h-5 text-amber-600" />
+              <h2 className="text-xl font-medium text-gray-800">Theme</h2>
+            </div>
+            
+            <p className="text-sm text-gray-600 font-light mb-6">Choose your preferred visual theme</p>
+            
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {themePreviews.map((theme) => (
+                <button
+                  key={theme.id}
+                  onClick={() => handleThemeChange(theme.id)}
+                  className={`relative group rounded-xl overflow-hidden border-2 transition-all ${
+                    currentTheme === theme.id
+                      ? 'border-amber-500 ring-2 ring-amber-200'
+                      : 'border-gray-200 hover:border-amber-300'
+                  }`}
+                >
+                  {/* Theme Preview */}
+                  <div className={`h-24 ${theme.preview}`}></div>
+                  
+                  {/* Theme Info */}
+                  <div className="p-3 bg-white">
+                    <div className="flex items-center justify-between">
+                      <div className="text-left">
+                        <div className="font-medium text-gray-800 text-sm">{theme.name}</div>
+                        <div className="text-xs text-gray-500 font-light">{theme.description}</div>
+                      </div>
+                      {currentTheme === theme.id && (
+                        <Check className="w-5 h-5 text-amber-600 flex-shrink-0" />
+                      )}
+                    </div>
+                  </div>
+                  
+                  {/* Selected Indicator */}
+                  {currentTheme === theme.id && (
+                    <div className="absolute top-2 right-2 w-6 h-6 bg-amber-500 rounded-full flex items-center justify-center shadow-lg">
+                      <Check className="w-4 h-4 text-white" />
+                    </div>
+                  )}
+                </button>
+              ))}
+            </div>
+          </div>
+
           {/* Playback Settings */}
           <div className="bg-white rounded-2xl shadow-sm p-8 mb-6">
             <div className="flex items-center gap-3 mb-6">
