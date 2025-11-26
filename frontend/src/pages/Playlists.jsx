@@ -244,9 +244,9 @@ const Playlists = () => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         )}
 
         {/* Create Playlist Dialog */}
