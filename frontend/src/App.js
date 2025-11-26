@@ -164,33 +164,58 @@ const Home = () => {
             </div>
 
             {/* Recently Played Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {mockRecentlyPlayed.slice(0, 6).map((track, index) => (
-                <div
-                  key={track.id}
-                  className="group bg-slate-900/60 backdrop-blur-xl rounded-xl p-4 border border-blue-800/30 hover:border-blue-600/50 transition-all hover:shadow-xl hover:shadow-blue-700/30"
-                >
-                  <div className="flex items-center gap-4">
-                    {/* Album Art Placeholder */}
-                    <div className="w-14 h-14 rounded-lg bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center shadow-lg shadow-blue-700/40 flex-shrink-0">
-                      <Music className="w-7 h-7 text-white" />
-                    </div>
+            {loading ? (
+              <div className="text-center py-12">
+                <div className="w-12 h-12 border-4 border-blue-600/30 border-t-blue-600 rounded-full animate-spin mx-auto mb-4"></div>
+                <p className="text-blue-100">Loading recently played...</p>
+              </div>
+            ) : recentlyPlayed.length === 0 ? (
+              <div className="text-center py-12">
+                <div className="w-16 h-16 rounded-full bg-slate-900/60 backdrop-blur-xl flex items-center justify-center mx-auto mb-4 border border-blue-800/30">
+                  <Music className="w-8 h-8 text-blue-400" />
+                </div>
+                <p className="text-blue-100 mb-2">No recently played tracks</p>
+                <p className="text-blue-200 text-sm">Start listening to see your history here</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {recentlyPlayed.map((item, index) => (
+                  <div
+                    key={item.id}
+                    className="group bg-slate-900/60 backdrop-blur-xl rounded-xl p-4 border border-blue-800/30 hover:border-blue-600/50 transition-all hover:shadow-xl hover:shadow-blue-700/30"
+                  >
+                    <div className="flex items-center gap-4">
+                      {/* Album Art or Playlist Cover */}
+                      {item.playlist?.coverImage ? (
+                        <img
+                          src={`${BACKEND_URL}${item.playlist.coverImage}`}
+                          alt={item.track?.songName}
+                          className="w-14 h-14 rounded-lg object-cover shadow-lg flex-shrink-0"
+                        />
+                      ) : (
+                        <div className="w-14 h-14 rounded-lg bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center shadow-lg shadow-blue-700/40 flex-shrink-0">
+                          <Music className="w-7 h-7 text-white" />
+                        </div>
+                      )}
 
-                    {/* Track Info */}
-                    <div className="flex-1 min-w-0">
-                      <h3 className="text-white font-medium text-sm mb-1 truncate group-hover:text-blue-300 transition-colors">
-                        {track.trackName}
-                      </h3>
-                      <p className="text-blue-200 text-xs truncate">{track.artist}</p>
-                      <div className="flex items-center gap-2 mt-1">
-                        <Play className="w-3 h-3 text-blue-400" />
-                        <span className="text-xs text-blue-300">{track.playCount} plays</span>
+                      {/* Track Info */}
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-white font-medium text-sm mb-1 truncate group-hover:text-blue-300 transition-colors">
+                          {item.track?.songName || 'Unknown Track'}
+                        </h3>
+                        <p className="text-blue-200 text-xs truncate">{item.track?.artist || 'Unknown Artist'}</p>
+                        <div className="flex items-center gap-2 mt-1">
+                          <Play className="w-3 h-3 text-blue-400" />
+                          <span className="text-xs text-blue-300">
+                            {new Date(item.playedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>
