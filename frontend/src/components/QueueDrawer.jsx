@@ -193,75 +193,34 @@ const QueueDrawer = ({ isOpen, onClose }) => {
               </p>
             </div>
           ) : (
-            <div className="p-4 space-y-2">
-              {queue.map((track, index) => {
-                const isCurrentTrack = currentTrack?.id === track.id;
+            <DndContext
+              sensors={sensors}
+              collisionDetection={closestCenter}
+              onDragEnd={handleDragEnd}
+            >
+              <SortableContext
+                items={queue.map((track) => track.id)}
+                strategy={verticalListSortingStrategy}
+              >
+                <div className="p-4 space-y-2">
+                  {queue.map((track, index) => {
+                    const isCurrentTrack = currentTrack?.id === track.id;
 
-                return (
-                  <div
-                    key={`${track.id}-${index}`}
-                    className={`group flex items-center gap-3 p-3 rounded-lg transition cursor-pointer ${
-                      isCurrentTrack
-                        ? 'bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-blue-500/30'
-                        : 'hover:bg-slate-800'
-                    }`}
-                    onClick={() => play(track)}
-                  >
-                    {/* Track Number / Play Icon */}
-                    <div className="w-8 flex-shrink-0 text-center">
-                      {isCurrentTrack ? (
-                        <div className="flex items-center justify-center">
-                          <div className="w-4 h-4 bg-blue-500 rounded animate-pulse" />
-                        </div>
-                      ) : (
-                        <span className="text-slate-500 group-hover:hidden text-sm">
-                          {index + 1}
-                        </span>
-                      )}
-                      <Play className="w-4 h-4 text-white hidden group-hover:block mx-auto" />
-                    </div>
-
-                    {/* Cover Image */}
-                    <img
-                      src={getCoverImage(track)}
-                      alt={track.songName}
-                      className="w-12 h-12 rounded object-cover"
-                    />
-
-                    {/* Track Info */}
-                    <div className="flex-1 min-w-0">
-                      <h4
-                        className={`font-medium truncate ${
-                          isCurrentTrack ? 'text-blue-400' : 'text-white'
-                        }`}
-                      >
-                        {track.songName}
-                      </h4>
-                      <p className="text-slate-400 text-sm truncate">
-                        {track.artist || 'Unknown Artist'}
-                      </p>
-                    </div>
-
-                    {/* Duration & Remove */}
-                    <div className="flex items-center gap-2">
-                      {track.duration && (
-                        <span className="text-slate-500 text-sm">{track.duration}</span>
-                      )}
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          removeFromQueue(track.id);
-                        }}
-                        className="p-1.5 rounded hover:bg-slate-700 text-slate-400 hover:text-red-400 transition opacity-0 group-hover:opacity-100"
-                        title="Remove from queue"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+                    return (
+                      <SortableTrackItem
+                        key={track.id}
+                        track={track}
+                        index={index}
+                        isCurrentTrack={isCurrentTrack}
+                        onPlay={play}
+                        onRemove={removeFromQueue}
+                        getCoverImage={getCoverImage}
+                      />
+                    );
+                  })}
+                </div>
+              </SortableContext>
+            </DndContext>
           )}
         </div>
 
