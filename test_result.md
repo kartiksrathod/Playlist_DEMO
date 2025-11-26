@@ -759,12 +759,55 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Playlist Sharing & Collaboration - Feature 4"
+    - "Settings Page - Complete Backend Integration"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
 
 agent_communication:
+  - agent: "main"
+    message: "TESTING COMPLETE SETTINGS FUNCTIONALITY
+    
+    Context: User reported Settings page not working. Implemented complete backend integration for all settings.
+    
+    Backend Changes:
+    - Expanded UserSettings model to include: volume, autoPlay, autoShuffle, shuffle, repeat, crossfade, quality, notifications, theme
+    - Updated settingsController to handle all fields with validation
+    - GET /api/settings returns all settings
+    - PUT /api/settings updates any combination of settings
+    - POST /api/settings/reset resets to defaults
+    
+    Frontend Changes:
+    - Settings.jsx now fetches settings from backend on mount
+    - All toggles save to backend immediately
+    - Volume slider saves on mouse/touch release
+    - Quality selector saves to backend
+    - Theme selector already working (from Phase 7)
+    - Loading state while fetching initial settings
+    - Optimistic UI updates with error rollback
+    - Individual toast notifications for each change
+    
+    Testing Priority:
+    1. Backend API Testing:
+       - GET /api/settings - verify all fields returned
+       - PUT /api/settings - test updating each field individually
+       - PUT /api/settings - test updating multiple fields at once
+       - Validate volume (0-100), quality (low/medium/high), theme (8 options)
+       - Test error handling for invalid values
+       - POST /api/settings/reset - verify defaults restored
+    
+    2. Frontend UI Testing:
+       - Navigate to Settings page
+       - Verify settings load from backend (not hardcoded)
+       - Toggle each switch (autoplay, autoShuffle, crossfade, notifications)
+       - Adjust volume slider and verify save
+       - Change quality (low, medium, high)
+       - Change theme and verify persistence
+       - Verify toast notifications appear
+       - Refresh page and verify settings persist
+    
+    Please test both backend APIs and frontend UI comprehensively."
+  
   - agent: "main"
     message: "TESTING FEATURE 3 - Real Listen History Tracking
     
