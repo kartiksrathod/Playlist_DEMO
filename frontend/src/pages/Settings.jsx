@@ -6,6 +6,9 @@ import { useTheme } from '@/context/ThemeContext';
 import { getThemePreviews } from '@/config/themes';
 
 const Settings = () => {
+  const { currentTheme, changeTheme } = useTheme();
+  const themePreviews = getThemePreviews();
+  
   const [settings, setSettings] = useState({
     autoplay: true,
     notifications: true,
