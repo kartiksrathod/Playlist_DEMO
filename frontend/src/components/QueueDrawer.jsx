@@ -228,7 +228,7 @@ const QueueDrawer = ({ isOpen, onClose }) => {
         {queue.length > 0 && (
           <div className="p-4 border-t border-slate-700">
             <p className="text-slate-500 text-xs text-center">
-              Click on any track to play it • Drag to reorder (coming soon)
+              Click on any track to play it • Drag to reorder
             </p>
           </div>
         )}
