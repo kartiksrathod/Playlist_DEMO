@@ -212,6 +212,8 @@ function App() {
             </Routes>
             {/* Global Music Player */}
             <MusicPlayer />
+            {/* Keyboard Shortcuts Help */}
+            <KeyboardShortcutsHelp />
           </BrowserRouter>
         </div>
       </KeyboardShortcutsWrapper>
