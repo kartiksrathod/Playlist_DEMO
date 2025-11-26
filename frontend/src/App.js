@@ -20,6 +20,7 @@ import PreviewMesh from "@/pages/PreviewMesh";
 import PreviewPremium from "@/pages/PreviewPremium";
 import { PlayerProvider } from "@/context/PlayerContext";
 import MusicPlayer from "@/components/MusicPlayer";
+import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
 import { ArrowRight, Music, ListMusic, Sparkles, Play, TrendingUp } from 'lucide-react';
 import { mockRecentlyPlayed } from '@/data/mockData';
 
