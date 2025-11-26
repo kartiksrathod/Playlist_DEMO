@@ -748,6 +748,34 @@ test_plan:
 
 agent_communication:
   - agent: "main"
+    message: "TESTING FEATURE 3 - Real Listen History Tracking
+    
+    Context: Feature 3 has been implemented but not yet tested. Backend APIs already exist:
+    - POST /api/history (record play)
+    - GET /api/history (get history with pagination)
+    - GET /api/history/stats (get statistics)
+    - DELETE /api/history (clear all history)
+    
+    Frontend updated to use real APIs:
+    - History.jsx page fetches real data from backend
+    - Home page Recently Played section uses real data
+    - Three sort options: Most Recent, Most Played, Oldest First
+    - Clear History button with confirmation dialog
+    - Stats cards display real data
+    
+    Testing Priority:
+    1. POST /api/history - Record track plays with trackId, playlistId, duration, completed
+    2. GET /api/history - Fetch history with pagination (limit=100)
+    3. GET /api/history/stats - Verify stats calculation (totalPlays, uniqueTracks, playsThisWeek, mostPlayed)
+    4. DELETE /api/history - Clear all history records
+    5. Test with multiple track plays to verify play counting
+    6. Test Most Played aggregation logic
+    7. Test week calculation for playsThisWeek
+    8. Test enrichment with track and playlist data
+    
+    Please test all history APIs comprehensively."
+  
+  - agent: "main"
     message: "Phase 1 Implementation Complete: Core Playlist CRUD with Cover Image Upload
     
     Backend Changes:
