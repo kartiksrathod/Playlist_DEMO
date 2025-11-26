@@ -703,13 +703,13 @@ frontend:
         agent: "main"
         comment: "PHASE 6: Added Library link to sidebar navigation with Library icon. Added routes for /library and /library/track/:trackId to App.js. Sidebar now shows: Home, Playlists, Library, Favorites, History, Settings, Profile."
 
-  - task: "Theme Toggle System"
+  - task: "Settings Page - Complete Backend Integration"
     implemented: true
-    working: true
-    file: "/app/backend/models/UserSettings.js, /app/frontend/src/context/ThemeContext.jsx"
+    working: "NA"
+    file: "/app/backend/models/UserSettings.js, /app/backend/controllers/settingsController.js, /app/frontend/src/pages/Settings.jsx"
     stuck_count: 0
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
       - working: "NA"
         agent: "main"
@@ -720,6 +720,9 @@ frontend:
       - working: true
         agent: "testing"
         comment: "BACKEND TESTING COMPLETE - Theme Toggle System: ✅ ALL TESTS PASSED (14/14): (1) UserSettings Model - Theme field working correctly with default 'dark' theme, (2) GET /api/settings - Returns theme field with proper structure and default value, (3) PUT /api/settings - All 8 valid theme options (dark, light, glass, vibrant, neon, retro, mesh, premium) update successfully, (4) Theme Validation - Invalid theme values correctly rejected with 400 status, (5) Theme Persistence - Theme values persist correctly across multiple requests and database operations, (6) Reset Settings - POST /api/settings/reset correctly resets theme to 'dark' default, (7) Partial Updates - Theme-only updates preserve other settings (volume, autoPlay, etc.). Backend API is production ready with 100% success rate. All theme functionality working perfectly."
+      - working: "NA"
+        agent: "main"
+        comment: "COMPLETE SETTINGS INTEGRATION: Expanded UserSettings model to include all settings fields: volume, autoPlay, autoShuffle, shuffle, repeat, crossfade, quality, notifications, theme. Updated backend controller to handle all new fields with proper validation. Updated frontend Settings.jsx to: (1) Fetch settings from backend on mount, (2) Display loading state, (3) Save all setting changes to backend immediately, (4) Update UI optimistically with error rollback, (5) Handle volume slider with onMouseUp/onTouchEnd to save after drag complete, (6) Individual toast notifications for each setting change. Fixed backend startup (yarn install, server.py wrapper for supervisor). All settings now persist to database and sync with backend."
 
   - task: "Real Listen History Tracking - Feature 3"
     implemented: true
