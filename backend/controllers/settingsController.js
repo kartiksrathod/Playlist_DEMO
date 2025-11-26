@@ -66,6 +66,7 @@ exports.updateSettings = async (req, res) => {
         autoPlay: autoPlay !== undefined ? autoPlay : true,
         shuffle: shuffle !== undefined ? shuffle : false,
         repeat: repeat || 'off',
+        theme: theme || 'dark',
       });
     } else {
       // Update only provided fields
@@ -73,6 +74,7 @@ exports.updateSettings = async (req, res) => {
       if (autoPlay !== undefined) settings.autoPlay = autoPlay;
       if (shuffle !== undefined) settings.shuffle = shuffle;
       if (repeat !== undefined) settings.repeat = repeat;
+      if (theme !== undefined) settings.theme = theme;
       settings.lastUpdated = new Date();
     }
 
