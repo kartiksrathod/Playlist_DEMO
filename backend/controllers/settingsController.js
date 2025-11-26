@@ -39,7 +39,7 @@ exports.getSettings = async (req, res) => {
 exports.updateSettings = async (req, res) => {
   try {
     const userId = 'default-user'; // Single user for now
-    const { volume, autoPlay, shuffle, repeat } = req.body;
+    const { volume, autoPlay, shuffle, repeat, theme } = req.body;
 
     // Validate volume if provided
     if (volume !== undefined && (volume < 0 || volume > 100)) {
@@ -49,6 +49,11 @@ exports.updateSettings = async (req, res) => {
     // Validate repeat if provided
     if (repeat !== undefined && !['off', 'one', 'all'].includes(repeat)) {
       return res.status(400).json({ error: "Repeat must be 'off', 'one', or 'all'" });
+    }
+
+    // Validate theme if provided
+    if (theme !== undefined && !['dark', 'light', 'glass', 'vibrant', 'neon', 'retro', 'mesh', 'premium'].includes(theme)) {
+      return res.status(400).json({ error: "Invalid theme value" });
     }
 
     // Find or create settings
