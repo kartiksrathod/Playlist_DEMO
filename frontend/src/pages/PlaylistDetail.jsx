@@ -189,8 +189,17 @@ const PlaylistDetail = () => {
               </div>
             </div>
 
-            {/* Add Track Button */}
-            <div className="mb-6">
+            {/* Action Buttons */}
+            <div className="mb-6 flex gap-4">
+              {tracks.length > 0 && (
+                <Button 
+                  onClick={handlePlayAll}
+                  className="px-6 py-6 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-500 hover:to-green-600 text-white rounded-xl shadow-2xl hover:shadow-green-600/60 transition-all backdrop-blur-xl border border-green-500/30"
+                >
+                  <PlayCircle className="mr-2 h-5 w-5" />
+                  Play All
+                </Button>
+              )}
               <Button 
                 onClick={() => setAddDialogOpen(true)}
                 className="px-6 py-6 bg-blue-700 hover:bg-blue-600 text-white rounded-xl shadow-2xl hover:shadow-blue-600/60 transition-all backdrop-blur-xl border border-blue-500/30"
