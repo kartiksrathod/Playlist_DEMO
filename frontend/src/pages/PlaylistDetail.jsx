@@ -266,8 +266,9 @@ const PlaylistDetail = () => {
                 {/* Table Body */}
                 <div className="divide-y divide-blue-800/20">
                   {tracks.map((track, index) => {
-                    const sourceBadge = getSourceBadge(track);
-                    const isPlaying = playingTrack?.id === track.id;
+    const sourceBadge = getSourceBadge(track);
+                    const isCurrentTrack = currentTrack?.id === track.id;
+                    const isTrackPlaying = isCurrentTrack && isPlaying;
                     
                     return (
                       <div 
@@ -277,9 +278,9 @@ const PlaylistDetail = () => {
                         <div className="grid grid-cols-12 gap-4 items-center">
                           {/* Track Number / Play Button */}
                           <div className="col-span-1">
-                            {getAudioUrl(track) ? (
+                            {(track.audioFile || track.audioUrl) ? (
                               <button
-                                onClick={() => togglePlay(track)}
+                                onClick={() => handlePlayTrack(track)}
                                 className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${
                                   isPlaying 
                                     ? 'bg-blue-600 text-white shadow-xl shadow-blue-600/60' 
