@@ -88,6 +88,7 @@ exports.updateSettings = async (req, res) => {
         autoPlay: settings.autoPlay,
         shuffle: settings.shuffle,
         repeat: settings.repeat,
+        theme: settings.theme,
         lastUpdated: settings.lastUpdated,
       },
     });
