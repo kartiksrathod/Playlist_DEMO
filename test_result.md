@@ -729,7 +729,6 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Theme Toggle System - Backend API Testing"
     - "Theme Toggle System - Frontend UI Testing"
   stuck_tasks: []
   test_all: false
