@@ -26,8 +26,9 @@ const PlaylistDetail = () => {
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedTrack, setSelectedTrack] = useState(null);
-  const [playingTrack, setPlayingTrack] = useState(null);
-  const [audioElement, setAudioElement] = useState(null);
+  
+  // Get player context
+  const { play, currentTrack, isPlaying, playAll } = usePlayer();
 
   // Fetch playlist details
   const fetchPlaylist = async () => {
