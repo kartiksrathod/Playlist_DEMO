@@ -26,6 +26,7 @@ exports.getSettings = async (req, res) => {
       autoPlay: settings.autoPlay,
       shuffle: settings.shuffle,
       repeat: settings.repeat,
+      theme: settings.theme || 'dark',
       lastUpdated: settings.lastUpdated,
     });
   } catch (error) {
