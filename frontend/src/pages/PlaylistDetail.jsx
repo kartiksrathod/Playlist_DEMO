@@ -79,13 +79,18 @@ const PlaylistDetail = () => {
 
   // Handle play track
   const handlePlayTrack = (track) => {
-    // Add playlist info and cover image to track
-    const trackWithPlaylist = {
-      ...track,
+    // When playing a track from a playlist, auto-add entire playlist to queue
+    const tracksWithPlaylist = tracks.map(t => ({
+      ...t,
       playlistId: playlist.id,
       coverImage: playlist.coverImage,
-    };
-    play(trackWithPlaylist, playlist);
+    }));
+    
+    // Find the index of the clicked track
+    const startIndex = tracks.findIndex(t => t.id === track.id);
+    
+    // Play all starting from the clicked track
+    playAll(tracksWithPlaylist, startIndex >= 0 ? startIndex : 0, playlist);
   };
 
   // Handle play all tracks
