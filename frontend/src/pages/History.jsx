@@ -1,23 +1,114 @@
-import React, { useState } from 'react';
-import { Clock, Play, TrendingUp, Calendar } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Clock, Play, TrendingUp, Calendar, Trash2 } from 'lucide-react';
 import AppLayout from '@/components/AppLayout';
-import { mockListenHistory } from '@/data/mockData';
+import axios from 'axios';
+import { toast } from 'sonner';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
+
+const API = process.env.REACT_APP_BACKEND_URL || '';
 
 const History = () => {
   const [sortBy, setSortBy] = useState('recent'); // recent, mostPlayed, oldest
+  const [history, setHistory] = useState([]);
+  const [stats, setStats] = useState({
+    totalPlays: 0,
+    uniqueTracks: 0,
+    playsThisWeek: 0,
+  });
+  const [loading, setLoading] = useState(true);
+  const [showClearDialog, setShowClearDialog] = useState(false);
+
+  // Fetch history data
+  const fetchHistory = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get(`${API}/api/history?limit=100`);
+      setHistory(response.data.history || []);
+    } catch (error) {
+      console.error('Error fetching history:', error);
+      toast.error('Failed to load history');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Fetch stats data
+  const fetchStats = async () => {
+    try {
+      const response = await axios.get(`${API}/api/history/stats`);
+      setStats({
+        totalPlays: response.data.totalPlays || 0,
+        uniqueTracks: response.data.uniqueTracks || 0,
+        playsThisWeek: response.data.playsThisWeek || 0,
+      });
+    } catch (error) {
+      console.error('Error fetching stats:', error);
+    }
+  };
+
+  // Load data on mount
+  useEffect(() => {
+    fetchHistory();
+    fetchStats();
+  }, []);
+
+  // Clear history handler
+  const handleClearHistory = async () => {
+    try {
+      await axios.delete(`${API}/api/history`);
+      setHistory([]);
+      setStats({ totalPlays: 0, uniqueTracks: 0, playsThisWeek: 0 });
+      toast.success('History cleared successfully');
+      setShowClearDialog(false);
+    } catch (error) {
+      console.error('Error clearing history:', error);
+      toast.error('Failed to clear history');
+    }
+  };
+
+  // Group history by track and count plays for "Most Played" sort
+  const getHistoryWithPlayCounts = () => {
+    const trackPlayCounts = {};
+    
+    history.forEach(item => {
+      const trackId = item.trackId;
+      if (!trackPlayCounts[trackId]) {
+        trackPlayCounts[trackId] = {
+          ...item,
+          playCount: 0,
+          lastPlayedAt: item.playedAt,
+        };
+      }
+      trackPlayCounts[trackId].playCount += 1;
+      // Keep the most recent playedAt
+      if (new Date(item.playedAt) > new Date(trackPlayCounts[trackId].lastPlayedAt)) {
+        trackPlayCounts[trackId].lastPlayedAt = item.playedAt;
+      }
+    });
+
+    return Object.values(trackPlayCounts);
+  };
 
   // Sort history based on selected option
   const getSortedHistory = () => {
-    const history = [...mockListenHistory];
-    
-    switch (sortBy) {
-      case 'mostPlayed':
-        return history.sort((a, b) => b.playCount - a.playCount);
-      case 'oldest':
-        return history.sort((a, b) => new Date(a.playedAt) - new Date(b.playedAt));
-      case 'recent':
-      default:
-        return history.sort((a, b) => new Date(b.playedAt) - new Date(a.playedAt));
+    if (sortBy === 'mostPlayed') {
+      // For most played, group by track and count plays
+      const historyWithCounts = getHistoryWithPlayCounts();
+      return historyWithCounts.sort((a, b) => b.playCount - a.playCount);
+    } else if (sortBy === 'oldest') {
+      return [...history].sort((a, b) => new Date(a.playedAt) - new Date(b.playedAt));
+    } else {
+      // Default: most recent
+      return [...history].sort((a, b) => new Date(b.playedAt) - new Date(a.playedAt));
     }
   };
 
