@@ -12,7 +12,7 @@ import time
 from datetime import datetime, timedelta
 
 # Configuration
-BASE_URL = "https://playcount-analytics.preview.emergentagent.com/api"
+BASE_URL = "https://music-tracker-8.preview.emergentagent.com/api"
 
 class HistoryAPITester:
     def __init__(self):
