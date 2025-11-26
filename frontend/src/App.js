@@ -19,6 +19,7 @@ import PreviewRetro from "@/pages/PreviewRetro";
 import PreviewMesh from "@/pages/PreviewMesh";
 import PreviewPremium from "@/pages/PreviewPremium";
 import { PlayerProvider } from "@/context/PlayerContext";
+import { ThemeProvider } from "@/context/ThemeContext";
 import MusicPlayer from "@/components/MusicPlayer";
 import KeyboardShortcutsHelp from "@/components/KeyboardShortcutsHelp";
 import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
