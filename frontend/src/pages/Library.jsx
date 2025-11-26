@@ -448,6 +448,29 @@ const Library = () => {
                       <LinkIcon className="w-4 h-4 text-blue-400" />
                     )}
                   </div>
+                  
+                  {/* Play Button Overlay */}
+                  {(track.audioFile || track.audioUrl) && (
+                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          play(track);
+                        }}
+                        className={`p-4 rounded-full transition-all shadow-2xl ${
+                          currentTrack?.id === track.id && isPlaying
+                            ? 'bg-green-500 hover:bg-green-600'
+                            : 'bg-white hover:bg-gray-100'
+                        }`}
+                      >
+                        {currentTrack?.id === track.id && isPlaying ? (
+                          <Pause className="w-6 h-6 text-black" />
+                        ) : (
+                          <Play className="w-6 h-6 text-black ml-0.5" />
+                        )}
+                      </button>
+                    </div>
+                  )}
                 </div>
 
                 {/* Track Info */}
