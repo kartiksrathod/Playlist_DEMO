@@ -10,13 +10,17 @@ const userSettingsSchema = new mongoose.Schema(
     },
     volume: {
       type: Number,
-      default: 70,
+      default: 75,
       min: 0,
       max: 100,
     },
     autoPlay: {
       type: Boolean,
       default: true,
+    },
+    autoShuffle: {
+      type: Boolean,
+      default: false,
     },
     shuffle: {
       type: Boolean,
@@ -26,6 +30,19 @@ const userSettingsSchema = new mongoose.Schema(
       type: String,
       enum: ['off', 'one', 'all'],
       default: 'off',
+    },
+    crossfade: {
+      type: Boolean,
+      default: false,
+    },
+    quality: {
+      type: String,
+      enum: ['low', 'medium', 'high'],
+      default: 'high',
+    },
+    notifications: {
+      type: Boolean,
+      default: true,
     },
     theme: {
       type: String,

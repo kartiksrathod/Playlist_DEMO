@@ -12,10 +12,15 @@ exports.getSettings = async (req, res) => {
       // Create default settings if not exists
       settings = new UserSettings({
         id: userId,
-        volume: 70,
+        volume: 75,
         autoPlay: true,
+        autoShuffle: false,
         shuffle: false,
         repeat: 'off',
+        crossfade: false,
+        quality: 'high',
+        notifications: true,
+        theme: 'dark',
       });
       await settings.save();
     }
@@ -24,8 +29,12 @@ exports.getSettings = async (req, res) => {
       id: settings.id,
       volume: settings.volume,
       autoPlay: settings.autoPlay,
+      autoShuffle: settings.autoShuffle || false,
       shuffle: settings.shuffle,
       repeat: settings.repeat,
+      crossfade: settings.crossfade || false,
+      quality: settings.quality || 'high',
+      notifications: settings.notifications !== undefined ? settings.notifications : true,
       theme: settings.theme || 'dark',
       lastUpdated: settings.lastUpdated,
     });
@@ -39,7 +48,7 @@ exports.getSettings = async (req, res) => {
 exports.updateSettings = async (req, res) => {
   try {
     const userId = 'default-user'; // Single user for now
-    const { volume, autoPlay, shuffle, repeat, theme } = req.body;
+    const { volume, autoPlay, autoShuffle, shuffle, repeat, theme, crossfade, quality, notifications } = req.body;
 
     // Validate volume if provided
     if (volume !== undefined && (volume < 0 || volume > 100)) {
@@ -56,24 +65,37 @@ exports.updateSettings = async (req, res) => {
       return res.status(400).json({ error: "Invalid theme value" });
     }
 
+    // Validate quality if provided
+    if (quality !== undefined && !['low', 'medium', 'high'].includes(quality)) {
+      return res.status(400).json({ error: "Quality must be 'low', 'medium', or 'high'" });
+    }
+
     // Find or create settings
     let settings = await UserSettings.findOne({ id: userId });
 
     if (!settings) {
       settings = new UserSettings({
         id: userId,
-        volume: volume !== undefined ? volume : 70,
+        volume: volume !== undefined ? volume : 75,
         autoPlay: autoPlay !== undefined ? autoPlay : true,
+        autoShuffle: autoShuffle !== undefined ? autoShuffle : false,
         shuffle: shuffle !== undefined ? shuffle : false,
         repeat: repeat || 'off',
+        crossfade: crossfade !== undefined ? crossfade : false,
+        quality: quality || 'high',
+        notifications: notifications !== undefined ? notifications : true,
         theme: theme || 'dark',
       });
     } else {
       // Update only provided fields
       if (volume !== undefined) settings.volume = volume;
       if (autoPlay !== undefined) settings.autoPlay = autoPlay;
+      if (autoShuffle !== undefined) settings.autoShuffle = autoShuffle;
       if (shuffle !== undefined) settings.shuffle = shuffle;
       if (repeat !== undefined) settings.repeat = repeat;
+      if (crossfade !== undefined) settings.crossfade = crossfade;
+      if (quality !== undefined) settings.quality = quality;
+      if (notifications !== undefined) settings.notifications = notifications;
       if (theme !== undefined) settings.theme = theme;
       settings.lastUpdated = new Date();
     }
@@ -86,8 +108,12 @@ exports.updateSettings = async (req, res) => {
         id: settings.id,
         volume: settings.volume,
         autoPlay: settings.autoPlay,
+        autoShuffle: settings.autoShuffle,
         shuffle: settings.shuffle,
         repeat: settings.repeat,
+        crossfade: settings.crossfade,
+        quality: settings.quality,
+        notifications: settings.notifications,
         theme: settings.theme,
         lastUpdated: settings.lastUpdated,
       },
@@ -106,10 +132,14 @@ exports.resetSettings = async (req, res) => {
     const settings = await UserSettings.findOneAndUpdate(
       { id: userId },
       {
-        volume: 70,
+        volume: 75,
         autoPlay: true,
+        autoShuffle: false,
         shuffle: false,
         repeat: 'off',
+        crossfade: false,
+        quality: 'high',
+        notifications: true,
         theme: 'dark',
         lastUpdated: new Date(),
       },
@@ -122,8 +152,12 @@ exports.resetSettings = async (req, res) => {
         id: settings.id,
         volume: settings.volume,
         autoPlay: settings.autoPlay,
+        autoShuffle: settings.autoShuffle,
         shuffle: settings.shuffle,
         repeat: settings.repeat,
+        crossfade: settings.crossfade,
+        quality: settings.quality,
+        notifications: settings.notifications,
         theme: settings.theme,
         lastUpdated: settings.lastUpdated,
       },
