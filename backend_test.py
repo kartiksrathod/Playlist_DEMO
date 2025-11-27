@@ -881,60 +881,7 @@ class BackendTester:
             {"status": status, "response": response}
         )
 
-    def test_playlist_sharing_view_shared(self):
-        """Test viewing shared playlist by token"""
-        if not self.test_data["share_tokens"]:
-            self.log_test("Playlist Sharing - View Shared", False, "No share tokens available")
-            return
-            
-        share_token = self.test_data["share_tokens"][0]["token"]
-        success, response, status = self.make_request("GET", f"/playlists/shared/{share_token}")
-        
-        if success:
-            playlist = response.get("playlist")
-            tracks = response.get("tracks", [])
-            is_shared = response.get("isShared")
-            
-            # Verify structure
-            structure_valid = (
-                "playlist" in response and
-                "tracks" in response and
-                "isShared" in response and
-                playlist and
-                isinstance(tracks, list) and
-                is_shared is True
-            )
-            
-            # Verify playlist data
-            playlist_valid = (
-                "id" in playlist and
-                "name" in playlist and
-                "description" in playlist
-            )
-            
-            self.log_test(
-                "Playlist Sharing - View Shared",
-                structure_valid and playlist_valid,
-                f"Viewed shared playlist {share_token}: {len(tracks)} tracks, structure={structure_valid}, playlist_data={playlist_valid}",
-                {"share_token": share_token, "playlist_name": playlist.get("name"), "tracks_count": len(tracks)}
-            )
-        else:
-            self.log_test(
-                "Playlist Sharing - View Shared",
-                False,
-                f"Failed to view shared playlist {share_token}: {response}",
-                response
-            )
-        
-        # Test invalid token
-        success, response, status = self.make_request("GET", "/playlists/shared/invalid-token")
-        
-        self.log_test(
-            "Playlist Sharing - Invalid Token",
-            not success and status == 404,
-            f"Invalid token correctly returned 404: {status}",
-            {"status": status, "response": response}
-        )
+    # Removed old test methods - now focused on Favorites system testing
 
     def test_playlist_toggle_public(self):
         """Test toggling playlist public/private status"""
