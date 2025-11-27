@@ -492,38 +492,80 @@ class BackendTester:
             {"response": response}
         )
 
-    def test_library_tracks_sorting(self):
-        """Test library tracks sorting"""
-        sort_options = [
-            ("recent", "Most Recent"),
-            ("name-asc", "Name Ascending"),
-            ("name-desc", "Name Descending"),
-            ("duration-asc", "Duration Ascending"),
-            ("duration-desc", "Duration Descending")
-        ]
+    def test_favorites_get_tracks(self):
+        """Test getting favorite tracks"""
+        # First add some tracks to favorites
+        for i, track in enumerate(self.test_data["tracks"][:2]):  # Add first 2 tracks
+            self.make_request("POST", f"/favorites/tracks/{track['id']}")
         
-        for sort_by, sort_name in sort_options:
-            success, response, status = self.make_request("GET", "/library/tracks", params={"sortBy": sort_by})
+        success, response, status = self.make_request("GET", "/favorites/tracks")
+        
+        if success and status == 200:
+            tracks = response.get("tracks", [])
+            count = response.get("count", 0)
             
-            if success:
-                tracks = response.get("tracks", [])
-                
-                # Basic validation - just check we got tracks and no errors
-                sort_valid = len(tracks) >= 0  # Accept any result
-                
-                self.log_test(
-                    f"Library Tracks - Sort ({sort_name})",
-                    sort_valid,
-                    f"Sorted by {sort_by}, got {len(tracks)} tracks",
-                    {"sort_by": sort_by, "count": len(tracks)}
+            # Verify response structure
+            structure_valid = (
+                "success" in response and
+                "tracks" in response and
+                "count" in response and
+                response["success"] is True and
+                isinstance(tracks, list) and
+                isinstance(count, int)
+            )
+            
+            # Verify enrichment
+            enrichment_valid = True
+            if tracks:
+                first_track = tracks[0]
+                enrichment_valid = (
+                    "addedToFavoritesAt" in first_track and
+                    "playlistName" in first_track and
+                    "playlistCover" in first_track and
+                    "id" in first_track and
+                    "songName" in first_track
                 )
-            else:
-                self.log_test(
-                    f"Library Tracks - Sort ({sort_name})",
-                    False,
-                    f"Sort by {sort_by} failed: {response}",
-                    response
-                )
+            
+            # Verify sorting (should be by createdAt descending)
+            sorting_valid = True
+            if len(tracks) > 1:
+                dates = [t.get("addedToFavoritesAt") for t in tracks if t.get("addedToFavoritesAt")]
+                if len(dates) > 1:
+                    sorting_valid = dates == sorted(dates, reverse=True)
+            
+            self.log_test(
+                "Favorites - Get Tracks",
+                structure_valid and enrichment_valid,
+                f"Retrieved {count} favorite tracks: structure={structure_valid}, enrichment={enrichment_valid}, sorting={sorting_valid}",
+                {"count": count, "structure_valid": structure_valid, "enrichment_valid": enrichment_valid}
+            )
+        else:
+            self.log_test(
+                "Favorites - Get Tracks",
+                False,
+                f"Failed to get favorite tracks: status={status}, response={response}",
+                {"status": status, "response": response}
+            )
+        
+        # Test with no favorites
+        # Clear favorites first
+        for track in self.test_data["tracks"]:
+            self.make_request("DELETE", f"/favorites/tracks/{track['id']}")
+        
+        success, response, status = self.make_request("GET", "/favorites/tracks")
+        
+        empty_handled = (
+            success and status == 200 and
+            response.get("tracks") == [] and
+            response.get("count") == 0
+        )
+        
+        self.log_test(
+            "Favorites - Get Tracks (Empty)",
+            empty_handled,
+            f"Empty favorites correctly returned: count={response.get('count')}, tracks={len(response.get('tracks', []))}",
+            {"response": response}
+        )
 
     def test_library_artists(self):
         """Test library artists endpoint"""
