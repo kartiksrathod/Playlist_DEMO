@@ -165,52 +165,63 @@ const Library = () => {
 
           {/* Stats Cards */}
           {stats && (
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-              <div className="bg-slate-900/60 backdrop-blur-sm rounded-xl p-4 border border-indigo-800/20">
-                <div className="flex items-center gap-3">
-                  <div className="p-2 bg-indigo-600/20 rounded-lg">
-                    <Music className="w-5 h-5 text-indigo-400" />
-                  </div>
-                  <div>
-                    <div className="text-2xl font-bold text-white">{stats.totalTracks}</div>
-                    <div className="text-xs text-slate-400">Total Tracks</div>
-                  </div>
-                </div>
-              </div>
-              <div className="bg-slate-900/60 backdrop-blur-sm rounded-xl p-4 border border-purple-800/20">
-                <div className="flex items-center gap-3">
-                  <div className="p-2 bg-purple-600/20 rounded-lg">
-                    <User className="w-5 h-5 text-purple-400" />
-                  </div>
-                  <div>
-                    <div className="text-2xl font-bold text-white">{stats.uniqueArtists}</div>
-                    <div className="text-xs text-slate-400">Artists</div>
-                  </div>
-                </div>
-              </div>
-              <div className="bg-slate-900/60 backdrop-blur-sm rounded-xl p-4 border border-blue-800/20">
-                <div className="flex items-center gap-3">
-                  <div className="p-2 bg-blue-600/20 rounded-lg">
-                    <Album className="w-5 h-5 text-blue-400" />
-                  </div>
-                  <div>
-                    <div className="text-2xl font-bold text-white">{stats.uniqueAlbums}</div>
-                    <div className="text-xs text-slate-400">Albums</div>
-                  </div>
-                </div>
-              </div>
-              <div className="bg-slate-900/60 backdrop-blur-sm rounded-xl p-4 border border-cyan-800/20">
-                <div className="flex items-center gap-3">
-                  <div className="p-2 bg-cyan-600/20 rounded-lg">
-                    <Disc3 className="w-5 h-5 text-cyan-400" />
-                  </div>
-                  <div>
-                    <div className="text-2xl font-bold text-white">{stats.totalPlaylists}</div>
-                    <div className="text-xs text-slate-400">Playlists</div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <motion.div 
+              className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+            >
+              {[
+                { icon: Music, label: 'Tracks', value: stats.totalTracks, color: 'violet', delay: 0 },
+                { icon: User, label: 'Artists', value: stats.uniqueArtists, color: 'fuchsia', delay: 0.1 },
+                { icon: Album, label: 'Albums', value: stats.uniqueAlbums, color: 'purple', delay: 0.2 },
+                { icon: Disc3, label: 'Playlists', value: stats.totalPlaylists, color: 'pink', delay: 0.3 },
+              ].map((stat, index) => {
+                const Icon = stat.icon;
+                return (
+                  <motion.div 
+                    key={stat.label}
+                    className={`bg-slate-900/60 backdrop-blur-sm rounded-xl p-4 border border-${stat.color}-800/20 cursor-pointer`}
+                    initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: stat.delay }}
+                    whileHover={{ scale: 1.05, y: -5 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <div className="flex items-center gap-3">
+                      <motion.div 
+                        className={`p-2 bg-${stat.color}-600/20 rounded-lg`}
+                        animate={{
+                          boxShadow: [
+                            `0 0 10px rgba(139, 92, 246, 0.2)`,
+                            `0 0 20px rgba(217, 70, 239, 0.4)`,
+                            `0 0 10px rgba(139, 92, 246, 0.2)`,
+                          ],
+                        }}
+                        transition={{
+                          duration: 2,
+                          repeat: Infinity,
+                          ease: "easeInOut"
+                        }}
+                      >
+                        <Icon className={`w-5 h-5 text-${stat.color}-400`} />
+                      </motion.div>
+                      <div>
+                        <motion.div 
+                          className="text-2xl font-bold text-white"
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          transition={{ delay: stat.delay + 0.2 }}
+                        >
+                          {stat.value}
+                        </motion.div>
+                        <div className="text-xs text-slate-400">{stat.label}</div>
+                      </div>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </motion.div>
           )}
 
           {/* Search and Controls */}
