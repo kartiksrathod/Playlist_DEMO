@@ -282,30 +282,41 @@ const Profile = () => {
           </motion.div>
 
           {/* Profile Details */}
-          <div className="bg-slate-900/60 backdrop-blur-xl rounded-2xl shadow-xl p-8 mb-6 border border-blue-800/30">
+          <motion.div 
+            className="bg-slate-900/60 backdrop-blur-xl rounded-2xl shadow-xl p-8 mb-6 border border-blue-800/30"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8 }}
+          >
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-medium text-white">Profile Information</h2>
               {!isEditing ? (
-                <button
+                <motion.button
                   onClick={handleEdit}
                   className="px-4 py-2 bg-blue-700 hover:bg-blue-600 text-white rounded-xl font-medium transition-colors shadow-lg shadow-blue-700/30"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                 >
                   Edit Profile
-                </button>
+                </motion.button>
               ) : (
                 <div className="flex gap-2">
-                  <button
+                  <motion.button
                     onClick={handleCancel}
                     className="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-blue-100 rounded-xl font-medium transition-colors"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
                   >
                     Cancel
-                  </button>
-                  <button
+                  </motion.button>
+                  <motion.button
                     onClick={handleSave}
                     className="px-4 py-2 bg-blue-700 hover:bg-blue-600 text-white rounded-xl font-medium transition-colors shadow-lg shadow-blue-700/30"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
                   >
                     Save Changes
-                  </button>
+                  </motion.button>
                 </div>
               )}
             </div>
