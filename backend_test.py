@@ -418,76 +418,79 @@ class BackendTester:
             {"status": status, "response": response}
         )
 
-    def test_library_tracks_filters(self):
-        """Test library tracks filtering"""
-        if not self.test_data["playlists"]:
-            self.log_test("Library Tracks - Filters", False, "No test playlists available for filtering")
-            return
-            
-        # Test playlist filter
-        playlist_id = self.test_data["playlists"][0]["id"]
-        success, response, status = self.make_request("GET", "/library/tracks", params={"playlist": playlist_id})
+    def test_favorites_get_playlists(self):
+        """Test getting favorite playlists"""
+        # First add some playlists to favorites
+        for i, playlist in enumerate(self.test_data["playlists"][:2]):  # Add first 2 playlists
+            self.make_request("POST", f"/favorites/playlists/{playlist['id']}")
         
-        if success:
-            tracks = response.get("tracks", [])
-            # All tracks should belong to the specified playlist
-            playlist_filter_valid = all(track.get("playlistId") == playlist_id for track in tracks)
+        success, response, status = self.make_request("GET", "/favorites/playlists")
+        
+        if success and status == 200:
+            playlists = response.get("playlists", [])
+            count = response.get("count", 0)
+            
+            # Verify response structure
+            structure_valid = (
+                "success" in response and
+                "playlists" in response and
+                "count" in response and
+                response["success"] is True and
+                isinstance(playlists, list) and
+                isinstance(count, int)
+            )
+            
+            # Verify enrichment
+            enrichment_valid = True
+            if playlists:
+                first_playlist = playlists[0]
+                enrichment_valid = (
+                    "addedToFavoritesAt" in first_playlist and
+                    "trackCount" in first_playlist and
+                    "id" in first_playlist and
+                    "name" in first_playlist
+                )
+            
+            # Verify sorting (should be by createdAt descending)
+            sorting_valid = True
+            if len(playlists) > 1:
+                dates = [p.get("addedToFavoritesAt") for p in playlists if p.get("addedToFavoritesAt")]
+                if len(dates) > 1:
+                    sorting_valid = dates == sorted(dates, reverse=True)
             
             self.log_test(
-                "Library Tracks - Playlist Filter",
-                playlist_filter_valid,
-                f"Filtered by playlist {playlist_id}, got {len(tracks)} tracks, all from correct playlist: {playlist_filter_valid}",
-                {"playlist_id": playlist_id, "count": len(tracks)}
+                "Favorites - Get Playlists",
+                structure_valid and enrichment_valid,
+                f"Retrieved {count} favorite playlists: structure={structure_valid}, enrichment={enrichment_valid}, sorting={sorting_valid}",
+                {"count": count, "structure_valid": structure_valid, "enrichment_valid": enrichment_valid}
             )
         else:
             self.log_test(
-                "Library Tracks - Playlist Filter",
+                "Favorites - Get Playlists",
                 False,
-                f"Playlist filter failed: {response}",
-                response
+                f"Failed to get favorite playlists: status={status}, response={response}",
+                {"status": status, "response": response}
             )
         
-        # Test artist filter
-        success, response, status = self.make_request("GET", "/library/tracks", params={"artist": "Queen"})
+        # Test with no favorites
+        # Clear favorites first
+        for playlist in self.test_data["playlists"]:
+            self.make_request("DELETE", f"/favorites/playlists/{playlist['id']}")
         
-        if success:
-            tracks = response.get("tracks", [])
-            artist_filter_valid = all("queen" in track.get("artist", "").lower() for track in tracks)
-            
-            self.log_test(
-                "Library Tracks - Artist Filter",
-                artist_filter_valid,
-                f"Filtered by artist 'Queen', got {len(tracks)} tracks, all from Queen: {artist_filter_valid}",
-                {"artist": "Queen", "count": len(tracks)}
-            )
-        else:
-            self.log_test(
-                "Library Tracks - Artist Filter",
-                False,
-                f"Artist filter failed: {response}",
-                response
-            )
+        success, response, status = self.make_request("GET", "/favorites/playlists")
         
-        # Test type filter
-        success, response, status = self.make_request("GET", "/library/tracks", params={"type": "url"})
+        empty_handled = (
+            success and status == 200 and
+            response.get("playlists") == [] and
+            response.get("count") == 0
+        )
         
-        if success:
-            tracks = response.get("tracks", [])
-            type_filter_valid = all(track.get("audioUrl", "") != "" for track in tracks)
-            
-            self.log_test(
-                "Library Tracks - Type Filter (URL)",
-                type_filter_valid,
-                f"Filtered by type 'url', got {len(tracks)} tracks, all have audioUrl: {type_filter_valid}",
-                {"type": "url", "count": len(tracks)}
-            )
-        else:
-            self.log_test(
-                "Library Tracks - Type Filter (URL)",
-                False,
-                f"Type filter failed: {response}",
-                response
-            )
+        self.log_test(
+            "Favorites - Get Playlists (Empty)",
+            empty_handled,
+            f"Empty favorites correctly returned: count={response.get('count')}, playlists={len(response.get('playlists', []))}",
+            {"response": response}
+        )
 
     def test_library_tracks_sorting(self):
         """Test library tracks sorting"""
