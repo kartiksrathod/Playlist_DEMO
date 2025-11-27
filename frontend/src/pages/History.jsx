@@ -3,6 +3,7 @@ import { Clock, Play, TrendingUp, Calendar, Trash2 } from 'lucide-react';
 import AppLayout from '@/components/AppLayout';
 import axios from 'axios';
 import { toast } from 'sonner';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   AlertDialog,
   AlertDialogAction,
