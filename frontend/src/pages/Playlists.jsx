@@ -52,7 +52,44 @@ const Playlists = () => {
 
   useEffect(() => {
     fetchPlaylists();
+    fetchFavorites();
   }, []);
+
+  // Fetch favorites
+  const fetchFavorites = async () => {
+    try {
+      const response = await axios.get(`${API}/favorites/all`);
+      setFavoritedPlaylists(new Set(response.data.favorites.playlists || []));
+    } catch (error) {
+      console.error('Error fetching favorites:', error);
+    }
+  };
+
+  // Toggle favorite
+  const toggleFavorite = async (playlistId, e) => {
+    e.stopPropagation();
+    
+    try {
+      const isFavorited = favoritedPlaylists.has(playlistId);
+      
+      if (isFavorited) {
+        await axios.delete(`${API}/favorites/playlists/${playlistId}`);
+        setFavoritedPlaylists(prev => {
+          const newSet = new Set(prev);
+          newSet.delete(playlistId);
+          return newSet;
+        });
+        toast.success('Removed from favorites');
+      } else {
+        await axios.post(`${API}/favorites/playlists/${playlistId}`);
+        setFavoritedPlaylists(prev => new Set([...prev, playlistId]));
+        toast.success('Added to favorites');
+      }
+    } catch (error) {
+      console.error('Error toggling favorite:', error);
+      toast.error('Failed to update favorites');
+    }
+  };
 
   // Handle search
   useEffect(() => {
