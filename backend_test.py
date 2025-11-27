@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Backend API Testing for Music Playlist Manager
-Testing Library APIs (Phase 6) and Playlist Sharing APIs (Feature 4)
+Testing Favorites System APIs (Feature 5)
 """
 
 import requests
