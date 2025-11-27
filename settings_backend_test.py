@@ -9,7 +9,7 @@ import json
 import time
 
 # Configuration
-BASE_URL = "https://tunehub-1045.preview.emergentagent.com/api"
+BASE_URL = "https://playshare-3.preview.emergentagent.com/api"
 
 class SettingsAPITester:
     def __init__(self):

@@ -9,7 +9,7 @@ import json
 import uuid
 
 # Configuration
-BASE_URL = "https://tunehub-1045.preview.emergentagent.com/api"
+BASE_URL = "https://playshare-3.preview.emergentagent.com/api"
 
 class ThemeToggleAPITester:
     def __init__(self):

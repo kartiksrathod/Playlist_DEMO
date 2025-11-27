@@ -11,7 +11,7 @@ import uuid
 from typing import Dict, List, Any, Optional
 
 # Configuration
-BASE_URL = "https://tunehub-1045.preview.emergentagent.com/api"
+BASE_URL = "https://playshare-3.preview.emergentagent.com/api"
 HEADERS = {"Content-Type": "application/json"}
 
 class PlaylistSharingTester:
