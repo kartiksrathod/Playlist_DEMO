@@ -135,29 +135,47 @@ const Playlists = () => {
     <AppLayout>
       <div className="min-h-screen px-8 py-8 bg-gradient-to-b from-slate-950 via-blue-950 to-slate-950">
         {/* Header with Search */}
-        <div className="mb-8">
+        <motion.div 
+          className="mb-8"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
           <div className="flex items-center justify-between mb-6">
-            <div>
-              <h1 className="text-4xl font-light text-white mb-2 drop-shadow-lg">Playlists</h1>
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+            >
+              <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-200 via-white to-blue-200 bg-clip-text text-transparent mb-2 drop-shadow-lg">Playlists</h1>
               <p className="text-blue-100 font-light">Your music collection</p>
-            </div>
-            <div className="flex gap-3">
-              <Button 
-                onClick={() => navigate('/public-playlists')}
-                variant="outline"
-                className="px-6 py-6 bg-green-700/30 hover:bg-green-600/40 text-white rounded-xl shadow-xl hover:shadow-green-600/40 transition-all backdrop-blur-xl border border-green-500/30"
-              >
-                <Globe className="mr-2 h-5 w-5" />
-                Browse Public
-              </Button>
-              <Button 
-                onClick={() => setCreateDialogOpen(true)}
-                className="px-6 py-6 bg-blue-700 hover:bg-blue-600 text-white rounded-xl shadow-2xl hover:shadow-blue-600/60 transition-all backdrop-blur-xl border border-blue-500/30"
-              >
-                <Plus className="mr-2 h-5 w-5" />
-                Create Playlist
-              </Button>
-            </div>
+            </motion.div>
+            <motion.div 
+              className="flex gap-3"
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+            >
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Button 
+                  onClick={() => navigate('/public-playlists')}
+                  variant="outline"
+                  className="px-6 py-6 bg-green-700/30 hover:bg-green-600/40 text-white rounded-xl shadow-xl hover:shadow-green-600/40 transition-all backdrop-blur-xl border border-green-500/30"
+                >
+                  <Globe className="mr-2 h-5 w-5" />
+                  Browse Public
+                </Button>
+              </motion.div>
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Button 
+                  onClick={() => setCreateDialogOpen(true)}
+                  className="px-6 py-6 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white rounded-xl shadow-2xl hover:shadow-blue-600/60 transition-all backdrop-blur-xl border border-blue-500/30"
+                >
+                  <Plus className="mr-2 h-5 w-5" />
+                  Create Playlist
+                </Button>
+              </motion.div>
+            </motion.div>
           </div>
 
           {/* Search Bar */}
