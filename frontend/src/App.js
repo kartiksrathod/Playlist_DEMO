@@ -101,23 +101,31 @@ const Home = () => {
 
         {/* Hero Section with Video Background */}
         <div className="relative h-[70vh] overflow-hidden">
-          {/* Video Background - Emotional Music Theme */}
-          <motion.div 
-            className="absolute inset-0"
-            style={{ scale: useTransform(scrollY, [0, 500], [1, 1.1]) }}
-          >
-            <video 
-              autoPlay 
-              loop 
-              muted 
-              playsInline
-              className="w-full h-full object-cover"
+          {/* Video Background - Only show for dark theme */}
+          {themeConfig.id === 'dark' && (
+            <motion.div 
+              className="absolute inset-0"
+              style={{ scale: useTransform(scrollY, [0, 500], [1, 1.1]) }}
             >
-              <source src="https://cdn.pixabay.com/video/2024/06/04/215172_large.mp4" type="video/mp4" />
-            </video>
-            {/* Enhanced gradient overlay with glow effect */}
-            <div className="absolute inset-0 bg-gradient-to-br from-violet-950/90 via-slate-950/85 to-fuchsia-950/90" />
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent" />
+              <video 
+                autoPlay 
+                loop 
+                muted 
+                playsInline
+                className="w-full h-full object-cover"
+              >
+                <source src="https://cdn.pixabay.com/video/2024/06/04/215172_large.mp4" type="video/mp4" />
+              </video>
+              {/* Enhanced gradient overlay with glow effect */}
+              <div className="absolute inset-0 bg-gradient-to-br from-violet-950/90 via-slate-950/85 to-fuchsia-950/90" />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent" />
+            </motion.div>
+          )}
+          
+          {/* Theme-aware gradient background for non-dark themes */}
+          {themeConfig.id !== 'dark' && (
+            <div className={`absolute inset-0 bg-gradient-to-br ${themeConfig.classes.gradient} opacity-30`} />
+          )}
             
             {/* Animated gradient orbs */}
             <motion.div 
