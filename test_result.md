@@ -817,7 +817,7 @@ frontend:
     file: "/app/frontend/src/pages/Favorites.jsx, /app/frontend/src/pages/Playlists.jsx"
     stuck_count: 0
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
       - working: "NA"
         agent: "main"
@@ -825,6 +825,9 @@ frontend:
       - working: "NA"
         agent: "testing"
         comment: "FRONTEND TESTING NOT PERFORMED: As per system instructions, testing agent only tests backend APIs. Frontend testing is outside scope. Backend APIs for favorites are fully tested and working (100% success rate), so frontend integration should work correctly with the tested backend endpoints."
+      - working: "NA"
+        agent: "main"
+        comment: "FRONTEND TESTING INITIATED: User requested comprehensive frontend testing for Feature 5 (Favorites System). Testing will cover: (1) Favorites page - tab switching between Playlists and Tracks, heart buttons add/remove favorites, real-time UI updates, loading states, empty states. (2) Playlists page - heart buttons on playlist cards, favorite indicator badges, optimistic UI updates. Backend APIs are 100% tested and working, frontend implementation is complete and ready for testing."
 
 metadata:
   created_by: "main_agent"
