@@ -9,7 +9,7 @@ import json
 import time
 
 # Configuration
-BASE_URL = "https://music-fave-tracker.preview.emergentagent.com/api"
+BASE_URL = "https://harmony-splash.preview.emergentagent.com/api"
 
 class SettingsAPITester:
     def __init__(self):

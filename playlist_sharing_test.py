@@ -11,7 +11,7 @@ import uuid
 from typing import Dict, List, Any, Optional
 
 # Configuration
-BASE_URL = "https://music-fave-tracker.preview.emergentagent.com/api"
+BASE_URL = "https://harmony-splash.preview.emergentagent.com/api"
 HEADERS = {"Content-Type": "application/json"}
 
 class PlaylistSharingTester:
