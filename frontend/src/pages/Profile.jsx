@@ -370,25 +370,42 @@ const Profile = () => {
           </div>
 
           {/* Account Actions */}
-          <div className="bg-slate-900/60 backdrop-blur-xl rounded-2xl shadow-xl p-8 border border-blue-800/30">
+          <motion.div 
+            className="bg-slate-900/60 backdrop-blur-xl rounded-2xl shadow-xl p-8 border border-blue-800/30"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.9 }}
+          >
             <h2 className="text-xl font-medium text-white mb-6">Account Actions</h2>
             <div className="space-y-3">
-              <button className="w-full text-left py-3 px-4 rounded-xl hover:bg-slate-800/60 transition-colors border border-blue-800/30">
+              <motion.button 
+                className="w-full text-left py-3 px-4 rounded-xl hover:bg-slate-800/60 transition-colors border border-blue-800/30"
+                whileHover={{ x: 5 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
                 <div className="font-medium text-white">Change Password</div>
                 <div className="text-sm text-blue-200 font-light">Update your account password</div>
-              </button>
+              </motion.button>
               
-              <button className="w-full text-left py-3 px-4 rounded-xl hover:bg-slate-800/60 transition-colors border border-blue-800/30">
+              <motion.button 
+                className="w-full text-left py-3 px-4 rounded-xl hover:bg-slate-800/60 transition-colors border border-blue-800/30"
+                whileHover={{ x: 5 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
                 <div className="font-medium text-white">Privacy Settings</div>
                 <div className="text-sm text-blue-200 font-light">Manage your privacy preferences</div>
-              </button>
+              </motion.button>
               
-              <button className="w-full text-left py-3 px-4 rounded-xl hover:bg-red-900/30 transition-colors border border-red-700/30 text-red-400">
+              <motion.button 
+                className="w-full text-left py-3 px-4 rounded-xl hover:bg-red-900/30 transition-colors border border-red-700/30 text-red-400"
+                whileHover={{ x: 5 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
                 <div className="font-medium">Delete Account</div>
                 <div className="text-sm font-light opacity-80">Permanently delete your account and data</div>
-              </button>
+              </motion.button>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </AppLayout>
