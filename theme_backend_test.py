@@ -9,7 +9,7 @@ import json
 import uuid
 
 # Configuration
-BASE_URL = "https://favorite-tracks.preview.emergentagent.com/api"
+BASE_URL = "https://music-fave-tracker.preview.emergentagent.com/api"
 
 class ThemeToggleAPITester:
     def __init__(self):
