@@ -263,6 +263,8 @@ const MusicPlayer = () => {
           </div>
         </div>
       </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Queue Drawer */}
       <QueueDrawer isOpen={showQueue} onClose={() => setShowQueue(false)} />
