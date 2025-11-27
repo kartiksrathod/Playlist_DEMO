@@ -351,28 +351,28 @@ const Settings = () => {
 
           {/* Notifications */}
           <motion.div 
-            className="bg-white rounded-2xl shadow-sm p-8 mb-6"
+            className={`${themeConfig.classes.card} rounded-2xl shadow-sm p-8 mb-6`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.7 }}
           >
             <div className="flex items-center gap-3 mb-6">
-              <Bell className="w-5 h-5 text-amber-600" />
-              <h2 className="text-xl font-medium text-gray-800">Notifications</h2>
+              <Bell className={`w-5 h-5 ${themeConfig.classes.accent}`} />
+              <h2 className={`text-xl font-medium ${themeConfig.classes.text.primary}`}>Notifications</h2>
             </div>
             
             <div className="space-y-6">
               <div className="flex items-center justify-between py-3">
                 <div>
-                  <h3 className="font-medium text-gray-800">Enable Notifications</h3>
-                  <p className="text-sm text-gray-600 font-light">Get updates about your playlists</p>
+                  <h3 className={`font-medium ${themeConfig.classes.text.primary}`}>Enable Notifications</h3>
+                  <p className={`text-sm ${themeConfig.classes.text.secondary} font-light`}>Get updates about your playlists</p>
                 </div>
                 <button
                   onClick={() => handleToggle('notifications')}
-                  className={`relative w-12 h-6 rounded-full transition-colors ${settings.notifications ? 'bg-amber-500' : 'bg-gray-300'}`}
+                  className={`relative w-12 h-6 rounded-full transition-colors ${settings.notifications ? `bg-gradient-to-r ${themeConfig.classes.gradient}` : 'bg-gray-300 dark:bg-gray-700'}`}
                 >
                   <motion.div 
-                    className="absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full"
+                    className={`absolute top-0.5 left-0.5 w-5 h-5 ${themeConfig.classes.card.includes('bg-white') ? 'bg-white' : 'bg-white/90'} rounded-full`}
                     animate={{ x: settings.notifications ? 24 : 0 }}
                     transition={{ type: "spring", stiffness: 500, damping: 30 }}
                   />
