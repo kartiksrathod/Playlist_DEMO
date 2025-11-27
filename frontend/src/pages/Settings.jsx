@@ -306,18 +306,23 @@ const Settings = () => {
                 />
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Audio Quality */}
-          <div className="bg-white rounded-2xl shadow-sm p-8 mb-6">
+          <motion.div 
+            className="bg-white rounded-2xl shadow-sm p-8 mb-6"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.6 }}
+          >
             <div className="flex items-center gap-3 mb-6">
               <Database className="w-5 h-5 text-amber-600" />
               <h2 className="text-xl font-medium text-gray-800">Audio Quality</h2>
             </div>
             
             <div className="grid grid-cols-3 gap-4">
-              {['low', 'medium', 'high'].map((quality) => (
-                <button
+              {['low', 'medium', 'high'].map((quality, index) => (
+                <motion.button
                   key={quality}
                   onClick={() => handleQualityChange(quality)}
                   className={`py-4 px-6 rounded-xl border-2 transition-all ${
@@ -325,6 +330,11 @@ const Settings = () => {
                       ? 'border-amber-500 bg-amber-50 text-amber-700'
                       : 'border-gray-200 bg-white text-gray-600 hover:border-gray-300'
                   }`}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.7 + index * 0.1 }}
+                  whileHover={{ scale: 1.05, y: -3 }}
+                  whileTap={{ scale: 0.98 }}
                 >
                   <div className="text-center">
                     <div className="font-medium capitalize">{quality}</div>
@@ -334,10 +344,10 @@ const Settings = () => {
                       {quality === 'high' && '320 kbps'}
                     </div>
                   </div>
-                </button>
+                </motion.button>
               ))}
             </div>
-          </div>
+          </motion.div>
 
           {/* Notifications */}
           <div className="bg-white rounded-2xl shadow-sm p-8 mb-6">
