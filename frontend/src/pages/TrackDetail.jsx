@@ -136,18 +136,28 @@ const TrackDetail = () => {
       <div className="relative bg-gradient-to-br from-indigo-900/60 via-slate-900/60 to-purple-900/60">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Back Button */}
-          <button
+          <motion.button
             onClick={() => navigate('/library')}
             className="flex items-center gap-2 text-slate-300 hover:text-white mb-6 transition-colors"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+            whileHover={{ scale: 1.05, x: -5 }}
           >
             <ArrowLeft className="w-5 h-5" />
             <span>Back to Library</span>
-          </button>
+          </motion.button>
 
           {/* Track Hero */}
           <div className="flex flex-col md:flex-row gap-8 items-start">
             {/* Cover Image */}
-            <div className="relative w-64 h-64 rounded-2xl overflow-hidden bg-gradient-to-br from-indigo-600/20 to-purple-600/20 flex-shrink-0 shadow-2xl">
+            <motion.div 
+              className="relative w-64 h-64 rounded-2xl overflow-hidden bg-gradient-to-br from-indigo-600/20 to-purple-600/20 flex-shrink-0 shadow-2xl"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              whileHover={{ scale: 1.05, rotate: 2 }}
+            >
               {track.playlistCover ? (
                 <img
                   src={`${BACKEND_URL}${track.playlistCover}`}
@@ -159,12 +169,22 @@ const TrackDetail = () => {
                   <Music className="w-24 h-24 text-indigo-400/50" />
                 </div>
               )}
-            </div>
+            </motion.div>
 
             {/* Track Info */}
-            <div className="flex-1">
+            <motion.div 
+              className="flex-1"
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
               <div className="mb-4">
-                <div className="flex items-center gap-2 mb-3">
+                <motion.div 
+                  className="flex items-center gap-2 mb-3"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.3 }}
+                >
                   <span className="px-3 py-1 bg-indigo-600/30 backdrop-blur-sm rounded-full text-sm text-indigo-300 border border-indigo-500/30">
                     Track
                   </span>
