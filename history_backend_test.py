@@ -12,7 +12,7 @@ import time
 from datetime import datetime, timedelta
 
 # Configuration
-BASE_URL = "https://harmony-splash.preview.emergentagent.com/api"
+BASE_URL = "https://animate-all-comps.preview.emergentagent.com/api"
 
 class HistoryAPITester:
     def __init__(self):

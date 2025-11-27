@@ -9,7 +9,7 @@ import json
 import uuid
 
 # Configuration
-BASE_URL = "https://harmony-splash.preview.emergentagent.com/api"
+BASE_URL = "https://animate-all-comps.preview.emergentagent.com/api"
 
 class ThemeToggleAPITester:
     def __init__(self):

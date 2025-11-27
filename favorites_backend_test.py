@@ -10,7 +10,7 @@ import time
 from datetime import datetime
 
 # Configuration
-BASE_URL = "https://harmony-splash.preview.emergentagent.com/api"
+BASE_URL = "https://animate-all-comps.preview.emergentagent.com/api"
 HEADERS = {"Content-Type": "application/json"}
 
 class FavoritesAPITester:
