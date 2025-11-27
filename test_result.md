@@ -769,6 +769,89 @@ test_plan:
 
 agent_communication:
   - agent: "main"
+    message: "HIGH PRIORITY TESTING - PHASE 6 LIBRARY APIs & FEATURE 4 SHARING APIs
+    
+    Context: User requested focus on high priority tasks. Two major backend features are implemented but not yet tested:
+    1. Phase 6 - Content Library APIs
+    2. Feature 4 - Playlist Sharing & Collaboration APIs
+    
+    PHASE 6 - CONTENT LIBRARY BACKEND TESTING:
+    APIs to test:
+    1. GET /api/library/tracks - Main library endpoint
+       - Test with no data (empty library)
+       - Test basic track retrieval with enriched playlist data
+       - Test search functionality (by track name, artist, album, playlist name)
+       - Test filters: playlist, artist, album, type (url/file)
+       - Test sorting: recent, name-asc, name-desc, duration-asc, duration-desc
+       - Test multiple filters combined
+       - Test pagination if implemented
+    
+    2. GET /api/library/artists - Unique artists list
+       - Test with no tracks
+       - Test with multiple tracks from same/different artists
+       - Test returns unique artists only
+    
+    3. GET /api/library/albums - Unique albums list
+       - Test with no tracks
+       - Test with multiple tracks from same/different albums
+       - Test returns unique albums only
+    
+    4. GET /api/library/stats - Library statistics
+       - Test with empty library (all zeros)
+       - Test with tracks added (verify counts)
+       - Test unique counts (artists, albums)
+       - Test file vs URL type counts
+    
+    5. GET /api/library/tracks/:trackId - Track details with related tracks
+       - Test track details retrieval
+       - Test related tracks by artist (max 5)
+       - Test related tracks by album (max 5)
+       - Test all playlists containing track
+       - Test with track in multiple playlists
+    
+    FEATURE 4 - PLAYLIST SHARING BACKEND TESTING:
+    APIs to test:
+    1. POST /api/playlists/:id/share - Generate share token
+       - Test share token generation
+       - Test idempotency (doesn't regenerate existing token)
+       - Test returns shareToken and shareUrl
+       - Test 404 for non-existent playlist
+    
+    2. GET /api/playlists/shared/:token - View shared playlist
+       - Test viewing playlist by valid token
+       - Test returns playlist details and all tracks
+       - Test 404 for invalid token
+       - Test enrichment with track information
+    
+    3. PUT /api/playlists/:id/toggle-public - Toggle public/private
+       - Test toggle from private to public
+       - Test toggle from public to private
+       - Test returns new isPublic status
+       - Test 404 for non-existent playlist
+    
+    4. PUT /api/playlists/:id/toggle-collaborative - Toggle collaborative
+       - Test toggle collaborative mode on/off
+       - Test returns new isCollaborative status
+       - Test 404 for non-existent playlist
+    
+    5. POST /api/playlists/import/:token - Import shared playlist
+       - Test importing playlist with valid token
+       - Test creates new playlist with '(Copy)' suffix
+       - Test copies all tracks with new UUIDs
+       - Test imported playlist is private by default
+       - Test imported playlist has originalPlaylistId set
+       - Test 404 for invalid token
+       - Test complete track data copied
+    
+    6. GET /api/playlists/public - Get all public playlists
+       - Test with no public playlists
+       - Test with multiple public playlists
+       - Test sorted by creation date
+       - Test private playlists not included
+    
+    Please test both feature sets comprehensively. Test in order: Library APIs first, then Sharing APIs."
+  
+  - agent: "main"
     message: "TESTING COMPLETE SETTINGS FUNCTIONALITY
     
     Context: User reported Settings page not working. Implemented complete backend integration for all settings.
