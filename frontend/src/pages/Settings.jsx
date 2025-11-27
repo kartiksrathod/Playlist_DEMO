@@ -231,7 +231,12 @@ const Settings = () => {
           </motion.div>
 
           {/* Playback Settings */}
-          <div className="bg-white rounded-2xl shadow-sm p-8 mb-6">
+          <motion.div 
+            className="bg-white rounded-2xl shadow-sm p-8 mb-6"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+          >
             <div className="flex items-center gap-3 mb-6">
               <Music className="w-5 h-5 text-amber-600" />
               <h2 className="text-xl font-medium text-gray-800">Playback</h2>
