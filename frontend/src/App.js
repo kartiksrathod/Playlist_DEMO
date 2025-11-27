@@ -249,6 +249,9 @@ function App() {
                 <Route path="/favorites" element={<Favorites />} />
                 <Route path="/settings" element={<Settings />} />
                 <Route path="/profile" element={<Profile />} />
+                <Route path="/public" element={<PublicPlaylists />} />
+                <Route path="/public-playlists" element={<PublicPlaylists />} />
+                <Route path="/shared/:token" element={<SharedPlaylist />} />
                 <Route path="/preview/glass" element={<PreviewGlass />} />
                 <Route path="/preview/vibrant" element={<PreviewVibrant />} />
                 <Route path="/preview/neon" element={<PreviewNeon />} />
