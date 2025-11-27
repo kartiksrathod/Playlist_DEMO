@@ -367,7 +367,7 @@ const Profile = () => {
                 )}
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Account Actions */}
           <motion.div 
