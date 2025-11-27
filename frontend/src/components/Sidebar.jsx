@@ -20,47 +20,85 @@ const Sidebar = () => {
   const isActive = (path) => location.pathname === path;
 
   return (
-    <div className="fixed left-0 top-0 h-screen w-20 bg-slate-950 border-r border-blue-800/30 flex flex-col items-center py-8 z-50 backdrop-blur-xl">
+    <motion.div 
+      className="fixed left-0 top-0 h-screen w-20 bg-slate-950 border-r border-blue-800/30 flex flex-col items-center py-8 z-50 backdrop-blur-xl"
+      initial={{ x: -100, opacity: 0 }}
+      animate={{ x: 0, opacity: 1 }}
+      transition={{ duration: 0.5, type: "spring", stiffness: 100 }}
+    >
       {/* Logo */}
-      <div className="mb-12">
-        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center shadow-2xl shadow-blue-700/60">
+      <motion.div 
+        className="mb-12"
+        initial={{ scale: 0, rotate: -180 }}
+        animate={{ scale: 1, rotate: 0 }}
+        transition={{ duration: 0.6, delay: 0.2, type: "spring", stiffness: 200 }}
+        whileHover={{ scale: 1.1, rotate: 5 }}
+      >
+        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-violet-600 to-fuchsia-600 flex items-center justify-center shadow-2xl shadow-violet-700/60">
           <ListMusic className="w-6 h-6 text-white" />
         </div>
-      </div>
+      </motion.div>
 
       {/* Menu Items */}
       <nav className="flex-1 flex flex-col gap-6">
-        {menuItems.map((item) => {
+        {menuItems.map((item, index) => {
           const Icon = item.icon;
           const active = isActive(item.path);
           
           return (
-            <button
+            <motion.button
               key={item.path}
               onClick={() => navigate(item.path)}
               className={`group relative flex flex-col items-center gap-1 transition-all ${
                 active ? 'opacity-100' : 'opacity-50 hover:opacity-80'
               }`}
               title={item.label}
+              initial={{ x: -50, opacity: 0 }}
+              animate={{ x: 0, opacity: active ? 1 : 0.5 }}
+              transition={{ duration: 0.3, delay: 0.1 * index }}
+              whileHover={{ scale: 1.1, opacity: 1 }}
+              whileTap={{ scale: 0.95 }}
             >
-              <div className={`p-3 rounded-xl transition-all backdrop-blur-sm ${
-                active 
-                  ? 'bg-blue-700/40 text-blue-100 shadow-xl shadow-blue-700/40 border border-blue-600/30' 
-                  : 'text-blue-200 hover:bg-blue-900/40 border border-transparent'
-              }`}>
+              <motion.div 
+                className={`p-3 rounded-xl transition-all backdrop-blur-sm ${
+                  active 
+                    ? 'bg-gradient-to-br from-violet-600/40 to-fuchsia-600/40 text-violet-100 shadow-xl shadow-violet-700/40 border border-violet-600/30' 
+                    : 'text-blue-200 hover:bg-blue-900/40 border border-transparent'
+                }`}
+                animate={active ? {
+                  boxShadow: [
+                    "0 10px 30px rgba(139, 92, 246, 0.4)",
+                    "0 10px 40px rgba(139, 92, 246, 0.6)",
+                    "0 10px 30px rgba(139, 92, 246, 0.4)",
+                  ],
+                } : {}}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              >
                 <Icon className="w-5 h-5" />
-              </div>
+              </motion.div>
               <span className="text-[10px] font-medium text-blue-100">{item.label}</span>
               
               {/* Active Indicator */}
-              {active && (
-                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-blue-600 rounded-r-full shadow-xl shadow-blue-600/60" />
-              )}
-            </button>
+              <AnimatePresence>
+                {active && (
+                  <motion.div 
+                    className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-gradient-to-b from-violet-600 to-fuchsia-600 rounded-r-full shadow-xl shadow-violet-600/60"
+                    initial={{ scaleY: 0, opacity: 0 }}
+                    animate={{ scaleY: 1, opacity: 1 }}
+                    exit={{ scaleY: 0, opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                  />
+                )}
+              </AnimatePresence>
+            </motion.button>
           );
         })}
       </nav>
-    </div>
+    </motion.div>
   );
 };
 
