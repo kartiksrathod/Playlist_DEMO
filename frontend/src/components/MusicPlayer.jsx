@@ -152,8 +152,8 @@ const MusicPlayer = () => {
                     >
                       {currentTrack.artist || 'Unknown Artist'}
                     </motion.p>
-              </div>
-            </div>
+                  </div>
+                </motion.div>
 
             {/* Center: Player Controls */}
             <div className="flex items-center gap-2">
