@@ -169,7 +169,12 @@ const Settings = () => {
 
         <div className="max-w-4xl">
           {/* Theme Selection */}
-          <div className="bg-white rounded-2xl shadow-sm p-8 mb-6">
+          <motion.div 
+            className="bg-white rounded-2xl shadow-sm p-8 mb-6"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
             <div className="flex items-center gap-3 mb-6">
               <Palette className="w-5 h-5 text-amber-600" />
               <h2 className="text-xl font-medium text-gray-800">Theme</h2>
@@ -178,8 +183,8 @@ const Settings = () => {
             <p className="text-sm text-gray-600 font-light mb-6">Choose your preferred visual theme</p>
             
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {themePreviews.map((theme) => (
-                <button
+              {themePreviews.map((theme, index) => (
+                <motion.button
                   key={theme.id}
                   onClick={() => handleThemeChange(theme.id)}
                   className={`relative group rounded-xl overflow-hidden border-2 transition-all ${
@@ -187,6 +192,11 @@ const Settings = () => {
                       ? 'border-amber-500 ring-2 ring-amber-200'
                       : 'border-gray-200 hover:border-amber-300'
                   }`}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.3 + index * 0.05, type: "spring", stiffness: 200 }}
+                  whileHover={{ scale: 1.05, y: -5 }}
+                  whileTap={{ scale: 0.98 }}
                 >
                   {/* Theme Preview */}
                   <div className={`h-24 ${theme.preview}`}></div>
@@ -206,14 +216,19 @@ const Settings = () => {
                   
                   {/* Selected Indicator */}
                   {currentTheme === theme.id && (
-                    <div className="absolute top-2 right-2 w-6 h-6 bg-amber-500 rounded-full flex items-center justify-center shadow-lg">
+                    <motion.div 
+                      className="absolute top-2 right-2 w-6 h-6 bg-amber-500 rounded-full flex items-center justify-center shadow-lg"
+                      initial={{ scale: 0, rotate: -180 }}
+                      animate={{ scale: 1, rotate: 0 }}
+                      transition={{ type: "spring", stiffness: 300 }}
+                    >
                       <Check className="w-4 h-4 text-white" />
-                    </div>
+                    </motion.div>
                   )}
-                </button>
+                </motion.button>
               ))}
             </div>
-          </div>
+          </motion.div>
 
           {/* Playback Settings */}
           <div className="bg-white rounded-2xl shadow-sm p-8 mb-6">
