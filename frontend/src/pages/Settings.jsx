@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import AppLayout from '@/components/AppLayout';
 import { Settings as SettingsIcon, Music, Bell, Database, HelpCircle, Palette, Check } from 'lucide-react';
 import { toast } from 'sonner';
