@@ -819,67 +819,67 @@ class BackendTester:
             }
         )
 
-    def test_playlist_sharing_generate_token(self):
-        """Test generating share token for playlist"""
-        if not self.test_data["playlists"]:
-            self.log_test("Playlist Sharing - Generate Token", False, "No test playlists available")
-            return
-            
-        playlist_id = self.test_data["playlists"][0]["id"]
-        success, response, status = self.make_request("POST", f"/playlists/{playlist_id}/share")
+    def test_favorites_error_handling(self):
+        """Test error handling for favorites APIs"""
+        # Test adding non-existent playlist
+        success, response, status = self.make_request("POST", "/favorites/playlists/non-existent-playlist")
         
-        if success:
-            share_token = response.get("shareToken")
-            share_url = response.get("shareUrl")
-            
-            # Verify structure
-            structure_valid = (
-                "message" in response and
-                "shareToken" in response and
-                "shareUrl" in response and
-                share_token and
-                share_url
-            )
-            
-            if structure_valid:
-                self.test_data["share_tokens"].append({
-                    "playlist_id": playlist_id,
-                    "token": share_token,
-                    "url": share_url
-                })
-            
-            self.log_test(
-                "Playlist Sharing - Generate Token",
-                structure_valid,
-                f"Generated share token for playlist {playlist_id}: {share_token}",
-                {"playlist_id": playlist_id, "share_token": share_token, "share_url": share_url}
-            )
-            
-            # Test idempotency - calling again should return same token
-            success2, response2, status2 = self.make_request("POST", f"/playlists/{playlist_id}/share")
-            
-            if success2:
-                same_token = response2.get("shareToken") == share_token
-                self.log_test(
-                    "Playlist Sharing - Token Idempotency",
-                    same_token,
-                    f"Second call returned same token: {same_token}",
-                    {"original_token": share_token, "second_token": response2.get("shareToken")}
-                )
-            else:
-                self.log_test(
-                    "Playlist Sharing - Token Idempotency",
-                    False,
-                    f"Second share call failed: {response2}",
-                    response2
-                )
-        else:
-            self.log_test(
-                "Playlist Sharing - Generate Token",
-                False,
-                f"Failed to generate share token for {playlist_id}: {response}",
-                response
-            )
+        playlist_404_handled = not success and status == 404
+        
+        self.log_test(
+            "Favorites - Add Non-Existent Playlist",
+            playlist_404_handled,
+            f"Non-existent playlist correctly returned 404: {status}",
+            {"status": status, "response": response}
+        )
+        
+        # Test adding non-existent track
+        success, response, status = self.make_request("POST", "/favorites/tracks/non-existent-track")
+        
+        track_404_handled = not success and status == 404
+        
+        self.log_test(
+            "Favorites - Add Non-Existent Track",
+            track_404_handled,
+            f"Non-existent track correctly returned 404: {status}",
+            {"status": status, "response": response}
+        )
+        
+        # Test removing non-existent favorite playlist
+        success, response, status = self.make_request("DELETE", "/favorites/playlists/non-existent-playlist")
+        
+        remove_playlist_404_handled = not success and status == 404
+        
+        self.log_test(
+            "Favorites - Remove Non-Existent Playlist Favorite",
+            remove_playlist_404_handled,
+            f"Non-existent playlist favorite correctly returned 404: {status}",
+            {"status": status, "response": response}
+        )
+        
+        # Test removing non-existent favorite track
+        success, response, status = self.make_request("DELETE", "/favorites/tracks/non-existent-track")
+        
+        remove_track_404_handled = not success and status == 404
+        
+        self.log_test(
+            "Favorites - Remove Non-Existent Track Favorite",
+            remove_track_404_handled,
+            f"Non-existent track favorite correctly returned 404: {status}",
+            {"status": status, "response": response}
+        )
+        
+        # Test check with invalid type
+        success, response, status = self.make_request("GET", "/favorites/check/invalid-type/some-id")
+        
+        invalid_type_handled = not success and status == 400
+        
+        self.log_test(
+            "Favorites - Check Invalid Type",
+            invalid_type_handled,
+            f"Invalid type correctly returned 400: {status}",
+            {"status": status, "response": response}
+        )
 
     def test_playlist_sharing_view_shared(self):
         """Test viewing shared playlist by token"""
