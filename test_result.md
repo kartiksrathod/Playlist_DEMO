@@ -837,8 +837,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Favorites System Backend APIs"
-    - "Favorites Frontend Integration"
+    - "Favorites Frontend Integration - Feature 5"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
