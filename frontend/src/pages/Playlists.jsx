@@ -141,13 +141,23 @@ const Playlists = () => {
               <h1 className="text-4xl font-light text-white mb-2 drop-shadow-lg">Playlists</h1>
               <p className="text-blue-100 font-light">Your music collection</p>
             </div>
-            <Button 
-              onClick={() => setCreateDialogOpen(true)}
-              className="px-6 py-6 bg-blue-700 hover:bg-blue-600 text-white rounded-xl shadow-2xl hover:shadow-blue-600/60 transition-all backdrop-blur-xl border border-blue-500/30"
-            >
-              <Plus className="mr-2 h-5 w-5" />
-              Create Playlist
-            </Button>
+            <div className="flex gap-3">
+              <Button 
+                onClick={() => navigate('/public-playlists')}
+                variant="outline"
+                className="px-6 py-6 bg-green-700/30 hover:bg-green-600/40 text-white rounded-xl shadow-xl hover:shadow-green-600/40 transition-all backdrop-blur-xl border border-green-500/30"
+              >
+                <Globe className="mr-2 h-5 w-5" />
+                Browse Public
+              </Button>
+              <Button 
+                onClick={() => setCreateDialogOpen(true)}
+                className="px-6 py-6 bg-blue-700 hover:bg-blue-600 text-white rounded-xl shadow-2xl hover:shadow-blue-600/60 transition-all backdrop-blur-xl border border-blue-500/30"
+              >
+                <Plus className="mr-2 h-5 w-5" />
+                Create Playlist
+              </Button>
+            </div>
           </div>
 
           {/* Search Bar */}
