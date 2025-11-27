@@ -567,37 +567,85 @@ class BackendTester:
             {"response": response}
         )
 
-    def test_library_artists(self):
-        """Test library artists endpoint"""
-        success, response, status = self.make_request("GET", "/library/artists")
+    def test_favorites_get_all(self):
+        """Test getting all favorites summary"""
+        # First add some favorites
+        if self.test_data["playlists"]:
+            self.make_request("POST", f"/favorites/playlists/{self.test_data['playlists'][0]['id']}")
+        if self.test_data["tracks"]:
+            self.make_request("POST", f"/favorites/tracks/{self.test_data['tracks'][0]['id']}")
         
-        if success:
-            artists = response.get("artists", [])
+        success, response, status = self.make_request("GET", "/favorites/all")
+        
+        if success and status == 200:
+            favorites = response.get("favorites", {})
+            counts = response.get("counts", {})
             
-            # Verify structure
+            # Verify response structure
             structure_valid = (
                 "success" in response and
-                "artists" in response and
-                isinstance(artists, list)
+                "favorites" in response and
+                "counts" in response and
+                response["success"] is True and
+                isinstance(favorites, dict) and
+                isinstance(counts, dict)
             )
             
-            # Verify artists are unique and sorted
-            unique_valid = len(artists) == len(set(artists))
-            sorted_valid = artists == sorted(artists) if artists else True
+            # Verify favorites structure
+            favorites_valid = (
+                "playlists" in favorites and
+                "tracks" in favorites and
+                isinstance(favorites["playlists"], list) and
+                isinstance(favorites["tracks"], list)
+            )
+            
+            # Verify counts structure
+            counts_valid = (
+                "playlists" in counts and
+                "tracks" in counts and
+                "total" in counts and
+                isinstance(counts["playlists"], int) and
+                isinstance(counts["tracks"], int) and
+                isinstance(counts["total"], int) and
+                counts["total"] == counts["playlists"] + counts["tracks"]
+            )
             
             self.log_test(
-                "Library Artists",
-                structure_valid and unique_valid and sorted_valid,
-                f"Got {len(artists)} unique artists, sorted: {sorted_valid}",
-                {"artists": artists}
+                "Favorites - Get All Summary",
+                structure_valid and favorites_valid and counts_valid,
+                f"All favorites summary: playlists={counts.get('playlists')}, tracks={counts.get('tracks')}, total={counts.get('total')}",
+                {"structure_valid": structure_valid, "favorites_valid": favorites_valid, "counts_valid": counts_valid, "counts": counts}
             )
         else:
             self.log_test(
-                "Library Artists",
+                "Favorites - Get All Summary",
                 False,
-                f"Failed to get artists: {response}",
-                response
+                f"Failed to get all favorites: status={status}, response={response}",
+                {"status": status, "response": response}
             )
+        
+        # Test with no favorites
+        # Clear all favorites first
+        for playlist in self.test_data["playlists"]:
+            self.make_request("DELETE", f"/favorites/playlists/{playlist['id']}")
+        for track in self.test_data["tracks"]:
+            self.make_request("DELETE", f"/favorites/tracks/{track['id']}")
+        
+        success, response, status = self.make_request("GET", "/favorites/all")
+        
+        empty_handled = (
+            success and status == 200 and
+            response.get("favorites", {}).get("playlists") == [] and
+            response.get("favorites", {}).get("tracks") == [] and
+            response.get("counts", {}).get("total") == 0
+        )
+        
+        self.log_test(
+            "Favorites - Get All Summary (Empty)",
+            empty_handled,
+            f"Empty favorites summary correctly returned: total={response.get('counts', {}).get('total')}",
+            {"response": response}
+        )
 
     def test_library_albums(self):
         """Test library albums endpoint"""
