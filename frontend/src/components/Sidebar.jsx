@@ -2,10 +2,12 @@ import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Home, ListMusic, Settings, User, Clock, Heart, Library } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useTheme } from '@/context/ThemeContext';
 
 const Sidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { themeConfig } = useTheme();
 
   const menuItems = [
     { icon: Home, label: 'Home', path: '/' },
