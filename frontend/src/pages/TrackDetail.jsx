@@ -218,7 +218,13 @@ const TrackDetail = () => {
                 transition={{ delay: 0.5 }}
               >
                 {track.artist && (
-                  <div className="flex items-center gap-3 p-4 bg-slate-900/60 backdrop-blur-sm rounded-xl border border-indigo-800/20">
+                  <motion.div 
+                    className="flex items-center gap-3 p-4 bg-slate-900/60 backdrop-blur-sm rounded-xl border border-indigo-800/20"
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.6 }}
+                    whileHover={{ scale: 1.02, x: 5 }}
+                  >
                     <div className="p-2 bg-indigo-600/20 rounded-lg">
                       <User className="w-5 h-5 text-indigo-400" />
                     </div>
@@ -226,11 +232,17 @@ const TrackDetail = () => {
                       <div className="text-xs text-slate-400 mb-1">Artist</div>
                       <div className="text-white font-medium">{track.artist}</div>
                     </div>
-                  </div>
+                  </motion.div>
                 )}
 
                 {track.album && (
-                  <div className="flex items-center gap-3 p-4 bg-slate-900/60 backdrop-blur-sm rounded-xl border border-purple-800/20">
+                  <motion.div 
+                    className="flex items-center gap-3 p-4 bg-slate-900/60 backdrop-blur-sm rounded-xl border border-purple-800/20"
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.65 }}
+                    whileHover={{ scale: 1.02, x: 5 }}
+                  >
                     <div className="p-2 bg-purple-600/20 rounded-lg">
                       <Album className="w-5 h-5 text-purple-400" />
                     </div>
@@ -238,11 +250,17 @@ const TrackDetail = () => {
                       <div className="text-xs text-slate-400 mb-1">Album</div>
                       <div className="text-white font-medium">{track.album}</div>
                     </div>
-                  </div>
+                  </motion.div>
                 )}
 
                 {track.duration && (
-                  <div className="flex items-center gap-3 p-4 bg-slate-900/60 backdrop-blur-sm rounded-xl border border-blue-800/20">
+                  <motion.div 
+                    className="flex items-center gap-3 p-4 bg-slate-900/60 backdrop-blur-sm rounded-xl border border-blue-800/20"
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.7 }}
+                    whileHover={{ scale: 1.02, x: 5 }}
+                  >
                     <div className="p-2 bg-blue-600/20 rounded-lg">
                       <Clock className="w-5 h-5 text-blue-400" />
                     </div>
@@ -250,10 +268,16 @@ const TrackDetail = () => {
                       <div className="text-xs text-slate-400 mb-1">Duration</div>
                       <div className="text-white font-medium">{track.duration}</div>
                     </div>
-                  </div>
+                  </motion.div>
                 )}
 
-                <div className="flex items-center gap-3 p-4 bg-slate-900/60 backdrop-blur-sm rounded-xl border border-cyan-800/20">
+                <motion.div 
+                  className="flex items-center gap-3 p-4 bg-slate-900/60 backdrop-blur-sm rounded-xl border border-cyan-800/20"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.75 }}
+                  whileHover={{ scale: 1.02, x: 5 }}
+                >
                   <div className="p-2 bg-cyan-600/20 rounded-lg">
                     <Disc3 className="w-5 h-5 text-cyan-400" />
                   </div>
@@ -261,8 +285,8 @@ const TrackDetail = () => {
                     <div className="text-xs text-slate-400 mb-1">Playlist</div>
                     <div className="text-white font-medium">{track.playlistName}</div>
                   </div>
-                </div>
-              </div>
+                </motion.div>
+              </motion.div>
 
               {/* Action Buttons */}
               <div className="flex gap-3">
