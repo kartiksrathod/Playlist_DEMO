@@ -246,53 +246,53 @@ class BackendTester:
             {"status": status, "response": response}
         )
 
-    def test_library_stats_with_data(self):
-        """Test library stats after adding data"""
-        success, response, status = self.make_request("GET", "/library/stats")
+    def test_favorites_remove_playlist(self):
+        """Test removing playlist from favorites"""
+        if not self.test_data["playlists"]:
+            self.log_test("Favorites - Remove Playlist", False, "No test playlists available")
+            return
+            
+        playlist_id = self.test_data["playlists"][0]["id"]
         
-        if success and "stats" in response:
-            stats = response["stats"]
-            expected_tracks = len(self.test_data["tracks"])
-            expected_playlists = len(self.test_data["playlists"])
-            
-            # Count unique artists and albums from test data
-            artists = set()
-            albums = set()
-            urls = 0
-            
-            for track in self.test_data["tracks"]:
-                if track.get("artist"):
-                    artists.add(track["artist"])
-                if track.get("album"):
-                    albums.add(track["album"])
-                if track.get("audioUrl"):
-                    urls += 1
-            
-            checks = [
-                stats.get("totalTracks") == expected_tracks,
-                stats.get("totalPlaylists") == expected_playlists,
-                stats.get("uniqueArtists") == len(artists),
-                stats.get("uniqueAlbums") == len(albums),
-                stats.get("tracksWithUrls") == urls,
-                stats.get("tracksWithFiles", 0) >= 0  # Should be 0 since we only added URL tracks
-            ]
-            
-            all_correct = all(checks)
-            details = f"Expected: tracks={expected_tracks}, playlists={expected_playlists}, artists={len(artists)}, albums={len(albums)}, urls={urls}. Got: tracks={stats.get('totalTracks')}, playlists={stats.get('totalPlaylists')}, artists={stats.get('uniqueArtists')}, albums={stats.get('uniqueAlbums')}, urls={stats.get('tracksWithUrls')}, files={stats.get('tracksWithFiles')}"
+        # First ensure playlist is in favorites
+        self.make_request("POST", f"/favorites/playlists/{playlist_id}")
+        
+        # Now remove it
+        success, response, status = self.make_request("DELETE", f"/favorites/playlists/{playlist_id}")
+        
+        if success and status == 200:
+            structure_valid = (
+                "success" in response and
+                "message" in response and
+                response["success"] is True and
+                response["message"] == "Removed from favorites"
+            )
             
             self.log_test(
-                "Library Stats - With Data",
-                all_correct,
-                details,
-                stats
+                "Favorites - Remove Playlist",
+                structure_valid,
+                f"Removed playlist {playlist_id} from favorites: {response.get('message')}",
+                {"playlist_id": playlist_id, "status": status, "response": response}
             )
         else:
             self.log_test(
-                "Library Stats - With Data",
+                "Favorites - Remove Playlist",
                 False,
-                f"Failed to get library stats: {response}",
-                response
+                f"Failed to remove playlist from favorites: status={status}, response={response}",
+                {"playlist_id": playlist_id, "status": status, "response": response}
             )
+        
+        # Test removing non-favorited playlist
+        success, response, status = self.make_request("DELETE", f"/favorites/playlists/{playlist_id}")
+        
+        not_found_handled = not success and status == 404
+        
+        self.log_test(
+            "Favorites - Remove Non-Favorited Playlist",
+            not_found_handled,
+            f"Non-favorited playlist correctly returned 404: {status}",
+            {"status": status, "response": response}
+        )
 
     def test_library_tracks_basic(self):
         """Test basic library tracks retrieval"""
