@@ -33,6 +33,7 @@ const Playlists = () => {
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedPlaylist, setSelectedPlaylist] = useState(null);
+  const [favoritedPlaylists, setFavoritedPlaylists] = useState(new Set());
 
   // Fetch all playlists
   const fetchPlaylists = async () => {
