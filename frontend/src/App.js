@@ -93,7 +93,7 @@ const Home = () => {
 
   return (
     <AppLayout>
-      <div className={`min-h-screen ${themeConfig.classes.body} overflow-hidden`}>
+      <div className="min-h-screen overflow-hidden">
         {/* Theme Switcher - Fixed Position */}
         <div className="fixed top-6 right-6 z-50">
           <ThemeSwitcher />
