@@ -334,6 +334,16 @@ const Playlists = () => {
           />
         )}
 
+        {/* Share Playlist Dialog */}
+        {selectedPlaylist && (
+          <SharePlaylistDialog 
+            open={shareDialogOpen} 
+            onOpenChange={setShareDialogOpen}
+            playlist={selectedPlaylist}
+            onUpdate={fetchPlaylists}
+          />
+        )}
+
         {/* Delete Confirmation Dialog */}
         <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
           <AlertDialogContent className="bg-white rounded-2xl">
