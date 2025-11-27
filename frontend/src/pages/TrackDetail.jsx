@@ -199,14 +199,24 @@ const TrackDetail = () => {
                       <span>External URL</span>
                     </div>
                   )}
-                </div>
-                <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-white to-indigo-200 bg-clip-text text-transparent">
+                </motion.div>
+                <motion.h1 
+                  className="text-5xl font-bold mb-4 bg-gradient-to-r from-white to-indigo-200 bg-clip-text text-transparent"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4 }}
+                >
                   {track.songName}
-                </h1>
+                </motion.h1>
               </div>
 
               {/* Metadata Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+              <motion.div 
+                className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5 }}
+              >
                 {track.artist && (
                   <div className="flex items-center gap-3 p-4 bg-slate-900/60 backdrop-blur-sm rounded-xl border border-indigo-800/20">
                     <div className="p-2 bg-indigo-600/20 rounded-lg">
