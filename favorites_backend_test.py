@@ -75,13 +75,18 @@ class FavoritesAPITester:
                 )
                 
                 if track_response.status_code == 201:
-                    track = track_response.json().get('track', {})
+                    track_response_data = track_response.json()
+                    track = track_response_data.get('track', track_response_data)  # Handle different response formats
                     self.test_track_id = track.get('id')
-                    self.created_track_ids.append(self.test_track_id)
-                    print(f"✅ Created test track: {self.test_track_id}")
-                    return True
+                    if self.test_track_id:
+                        self.created_track_ids.append(self.test_track_id)
+                        print(f"✅ Created test track: {self.test_track_id}")
+                        return True
+                    else:
+                        print(f"❌ No track ID in response: {track_response_data}")
+                        return False
                 else:
-                    print(f"❌ Failed to create test track: {track_response.status_code}")
+                    print(f"❌ Failed to create test track: {track_response.status_code} - {track_response.text}")
                     return False
             else:
                 print(f"❌ Failed to create test playlist: {response.status_code}")
