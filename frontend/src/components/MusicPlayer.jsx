@@ -151,7 +151,7 @@ const MusicPlayer = () => {
                       transition={{ delay: 0.3 }}
                     >
                       {currentTrack.artist || 'Unknown Artist'}
-                </p>
+                    </motion.p>
               </div>
             </div>
 
