@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, Music, Pencil, Trash2, Heart, Play, Keyboard } from 'lucide-react';
+import { Plus, Music, Pencil, Trash2, Heart, Play, Keyboard, Share2, Globe } from 'lucide-react';
 import AppLayout from '@/components/AppLayout';
 import SearchBar from '@/components/SearchBar';
 import { Button } from '@/components/ui/button';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import CreatePlaylistDialog from '@/components/CreatePlaylistDialog';
 import EditPlaylistDialog from '@/components/EditPlaylistDialog';
+import SharePlaylistDialog from '@/components/SharePlaylistDialog';
 import { toast } from 'sonner';
 import { PlaylistGridSkeleton } from '@/components/SkeletonLoader';
 
