@@ -288,8 +288,8 @@ const Settings = () => {
               {/* Volume */}
               <div className="py-3">
                 <div className="flex items-center justify-between mb-3">
-                  <h3 className="font-medium text-gray-800">Default Volume</h3>
-                  <span className="text-sm font-medium text-amber-600">{settings.volume}%</span>
+                  <h3 className={`font-medium ${themeConfig.classes.text.primary}`}>Default Volume</h3>
+                  <span className={`text-sm font-medium ${themeConfig.classes.accent}`}>{settings.volume}%</span>
                 </div>
                 <input
                   type="range"
@@ -299,9 +299,9 @@ const Settings = () => {
                   onChange={handleVolumeChange}
                   onMouseUp={handleVolumeChangeComplete}
                   onTouchEnd={handleVolumeChangeComplete}
-                  className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+                  className="w-full h-2 rounded-lg appearance-none cursor-pointer"
                   style={{
-                    background: `linear-gradient(to right, #F59E0B 0%, #F59E0B ${settings.volume}%, #E5E7EB ${settings.volume}%, #E5E7EB 100%)`
+                    background: `linear-gradient(to right, currentColor 0%, currentColor ${settings.volume}%, rgba(128, 128, 128, 0.3) ${settings.volume}%, rgba(128, 128, 128, 0.3) 100%)`
                   }}
                 />
               </div>
