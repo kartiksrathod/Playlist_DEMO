@@ -383,42 +383,42 @@ const Settings = () => {
 
           {/* Help & Support */}
           <motion.div 
-            className="bg-white rounded-2xl shadow-sm p-8"
+            className={`${themeConfig.classes.card} rounded-2xl shadow-sm p-8`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.8 }}
           >
             <div className="flex items-center gap-3 mb-6">
-              <HelpCircle className="w-5 h-5 text-amber-600" />
-              <h2 className="text-xl font-medium text-gray-800">Help & Support</h2>
+              <HelpCircle className={`w-5 h-5 ${themeConfig.classes.accent}`} />
+              <h2 className={`text-xl font-medium ${themeConfig.classes.text.primary}`}>Help & Support</h2>
             </div>
             
             <div className="space-y-4">
               <motion.button 
-                className="w-full text-left py-3 px-4 rounded-xl hover:bg-gray-50 transition-colors"
+                className={`w-full text-left py-3 px-4 rounded-xl ${themeConfig.classes.button.secondary} transition-colors`}
                 whileHover={{ x: 5 }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
-                <div className="font-medium text-gray-800">Documentation</div>
-                <div className="text-sm text-gray-600 font-light">Learn how to use the app</div>
+                <div className={`font-medium ${themeConfig.classes.text.primary}`}>Documentation</div>
+                <div className={`text-sm ${themeConfig.classes.text.secondary} font-light`}>Learn how to use the app</div>
               </motion.button>
               
               <motion.button 
-                className="w-full text-left py-3 px-4 rounded-xl hover:bg-gray-50 transition-colors"
+                className={`w-full text-left py-3 px-4 rounded-xl ${themeConfig.classes.button.secondary} transition-colors`}
                 whileHover={{ x: 5 }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
-                <div className="font-medium text-gray-800">Report a Bug</div>
-                <div className="text-sm text-gray-600 font-light">Help us improve</div>
+                <div className={`font-medium ${themeConfig.classes.text.primary}`}>Report a Bug</div>
+                <div className={`text-sm ${themeConfig.classes.text.secondary} font-light`}>Help us improve</div>
               </motion.button>
               
               <motion.button 
-                className="w-full text-left py-3 px-4 rounded-xl hover:bg-gray-50 transition-colors"
+                className={`w-full text-left py-3 px-4 rounded-xl ${themeConfig.classes.button.secondary} transition-colors`}
                 whileHover={{ x: 5 }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
-                <div className="font-medium text-gray-800">Contact Support</div>
-                <div className="text-sm text-gray-600 font-light">Get help from our team</div>
+                <div className={`font-medium ${themeConfig.classes.text.primary}`}>Contact Support</div>
+                <div className={`text-sm ${themeConfig.classes.text.secondary} font-light`}>Get help from our team</div>
               </motion.button>
             </div>
           </motion.div>
