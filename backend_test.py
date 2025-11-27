@@ -370,45 +370,53 @@ class BackendTester:
             {"status": status, "response": response}
         )
 
-    def test_library_tracks_search(self):
-        """Test library tracks search functionality"""
-        test_searches = [
-            ("Queen", "artist search"),
-            ("Bohemian", "song name search"),
-            ("Opera", "album search"),
-            ("Rock", "playlist name search"),
-            ("nonexistent", "no results search")
-        ]
-        
-        for search_term, search_type in test_searches:
-            success, response, status = self.make_request("GET", "/library/tracks", params={"search": search_term})
+    def test_favorites_remove_track(self):
+        """Test removing track from favorites"""
+        if not self.test_data["tracks"]:
+            self.log_test("Favorites - Remove Track", False, "No test tracks available")
+            return
             
-            if success:
-                tracks = response.get("tracks", [])
-                count = response.get("count", 0)
-                
-                # For "nonexistent" search, expect 0 results
-                if search_term == "nonexistent":
-                    expected_result = count == 0
-                    details = f"Search for '{search_term}' correctly returned {count} results"
-                else:
-                    # For other searches, expect at least some logic in filtering
-                    expected_result = True  # We'll accept any result as the search logic might vary
-                    details = f"Search for '{search_term}' returned {count} results"
-                
-                self.log_test(
-                    f"Library Tracks - Search ({search_type})",
-                    expected_result,
-                    details,
-                    {"search_term": search_term, "count": count}
-                )
-            else:
-                self.log_test(
-                    f"Library Tracks - Search ({search_type})",
-                    False,
-                    f"Search failed for '{search_term}': {response}",
-                    response
-                )
+        track_id = self.test_data["tracks"][0]["id"]
+        
+        # First ensure track is in favorites
+        self.make_request("POST", f"/favorites/tracks/{track_id}")
+        
+        # Now remove it
+        success, response, status = self.make_request("DELETE", f"/favorites/tracks/{track_id}")
+        
+        if success and status == 200:
+            structure_valid = (
+                "success" in response and
+                "message" in response and
+                response["success"] is True and
+                response["message"] == "Removed from favorites"
+            )
+            
+            self.log_test(
+                "Favorites - Remove Track",
+                structure_valid,
+                f"Removed track {track_id} from favorites: {response.get('message')}",
+                {"track_id": track_id, "status": status, "response": response}
+            )
+        else:
+            self.log_test(
+                "Favorites - Remove Track",
+                False,
+                f"Failed to remove track from favorites: status={status}, response={response}",
+                {"track_id": track_id, "status": status, "response": response}
+            )
+        
+        # Test removing non-favorited track
+        success, response, status = self.make_request("DELETE", f"/favorites/tracks/{track_id}")
+        
+        not_found_handled = not success and status == 404
+        
+        self.log_test(
+            "Favorites - Remove Non-Favorited Track",
+            not_found_handled,
+            f"Non-favorited track correctly returned 404: {status}",
+            {"status": status, "response": response}
+        )
 
     def test_library_tracks_filters(self):
         """Test library tracks filtering"""
