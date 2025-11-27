@@ -20,6 +20,11 @@ export const ThemeProvider = ({ children }) => {
   const [themeConfig, setThemeConfig] = useState(getTheme('dark'));
   const [isLoading, setIsLoading] = useState(true);
 
+  // Apply default theme immediately on mount
+  useEffect(() => {
+    applyThemeToBody('dark');
+  }, []);
+
   // Load theme from backend on mount
   useEffect(() => {
     loadThemeFromBackend();
