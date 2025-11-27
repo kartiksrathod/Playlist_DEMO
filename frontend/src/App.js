@@ -29,6 +29,7 @@ import { ArrowRight, Music, ListMusic, Sparkles, Play, TrendingUp } from 'lucide
 import { useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import ThemeSwitcher from '@/components/ThemeSwitcher';
+import { useTheme } from '@/context/ThemeContext';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
@@ -37,6 +38,7 @@ const Home = () => {
   const [recentlyPlayed, setRecentlyPlayed] = useState([]);
   const [loading, setLoading] = useState(true);
   const { scrollY } = useScroll();
+  const { themeConfig } = useTheme();
   
   // Parallax effect for hero content
   const heroY = useTransform(scrollY, [0, 500], [0, 150]);
