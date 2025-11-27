@@ -73,17 +73,22 @@ export const ThemeProvider = ({ children }) => {
       !cls.startsWith('from-') && 
       !cls.startsWith('to-') && 
       !cls.startsWith('via-') &&
-      !cls.includes('gradient')
+      !cls.includes('gradient') &&
+      cls !== 'transition-colors' &&
+      cls !== 'duration-300'
     );
     
-    // Apply new theme body classes
+    // Apply new theme body classes with transition
     if (config.classes.body) {
       const newClasses = config.classes.body.split(' ');
-      document.body.className = [...bodyClasses, ...newClasses].join(' ');
+      document.body.className = [...bodyClasses, ...newClasses, 'transition-colors', 'duration-300'].join(' ');
     }
     
     // Also set a data attribute for theme ID for easy CSS targeting
     document.body.setAttribute('data-theme', theme);
+    
+    // Force a repaint to ensure the changes are visible
+    document.body.offsetHeight;
   };
 
   const value = {
