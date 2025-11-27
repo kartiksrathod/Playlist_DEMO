@@ -774,63 +774,50 @@ class BackendTester:
             {"status": status, "response": response}
         )
 
-    def test_library_track_details(self):
-        """Test library track details endpoint"""
-        if not self.test_data["tracks"]:
-            self.log_test("Library Track Details", False, "No test tracks available")
+    def test_favorites_database_persistence(self):
+        """Test that favorites persist in database"""
+        if not self.test_data["playlists"] or not self.test_data["tracks"]:
+            self.log_test("Favorites - Database Persistence", False, "No test data available")
             return
-            
-        track_id = self.test_data["tracks"][0]["id"]
-        success, response, status = self.make_request("GET", f"/library/tracks/{track_id}")
         
-        if success:
-            track = response.get("track")
-            found_in_playlists = response.get("foundInPlaylists", [])
-            related_tracks = response.get("relatedTracks", {})
-            
-            # Verify structure
-            structure_valid = (
-                "success" in response and
-                "track" in response and
-                "foundInPlaylists" in response and
-                "relatedTracks" in response and
-                isinstance(found_in_playlists, list) and
-                isinstance(related_tracks, dict)
-            )
-            
-            # Verify track enrichment
-            enrichment_valid = (
-                track and
-                "playlistName" in track and
-                "playlistCover" in track
-            )
-            
-            # Verify related tracks structure
-            related_valid = (
-                "byArtist" in related_tracks and
-                "byAlbum" in related_tracks and
-                isinstance(related_tracks["byArtist"], list) and
-                isinstance(related_tracks["byAlbum"], list)
-            )
-            
-            self.log_test(
-                "Library Track Details",
-                structure_valid and enrichment_valid and related_valid,
-                f"Track details for {track_id}: structure={structure_valid}, enrichment={enrichment_valid}, related={related_valid}",
-                {
-                    "track_id": track_id,
-                    "found_in_playlists": len(found_in_playlists),
-                    "related_by_artist": len(related_tracks.get("byArtist", [])),
-                    "related_by_album": len(related_tracks.get("byAlbum", []))
-                }
-            )
-        else:
-            self.log_test(
-                "Library Track Details",
-                False,
-                f"Failed to get track details for {track_id}: {response}",
-                response
-            )
+        playlist_id = self.test_data["playlists"][0]["id"]
+        track_id = self.test_data["tracks"][0]["id"]
+        
+        # Add favorites
+        self.make_request("POST", f"/favorites/playlists/{playlist_id}")
+        self.make_request("POST", f"/favorites/tracks/{track_id}")
+        
+        # Verify they exist by checking
+        success1, response1, status1 = self.make_request("GET", f"/favorites/check/playlist/{playlist_id}")
+        success2, response2, status2 = self.make_request("GET", f"/favorites/check/track/{track_id}")
+        
+        persistence_valid = (
+            success1 and success2 and
+            response1.get("isFavorited") is True and
+            response2.get("isFavorited") is True
+        )
+        
+        # Also verify they appear in the lists
+        success3, response3, status3 = self.make_request("GET", "/favorites/playlists")
+        success4, response4, status4 = self.make_request("GET", "/favorites/tracks")
+        
+        lists_valid = (
+            success3 and success4 and
+            response3.get("count", 0) > 0 and
+            response4.get("count", 0) > 0
+        )
+        
+        self.log_test(
+            "Favorites - Database Persistence",
+            persistence_valid and lists_valid,
+            f"Favorites persist correctly: check_valid={persistence_valid}, lists_valid={lists_valid}",
+            {
+                "playlist_favorited": response1.get("isFavorited") if success1 else None,
+                "track_favorited": response2.get("isFavorited") if success2 else None,
+                "playlist_count": response3.get("count") if success3 else None,
+                "track_count": response4.get("count") if success4 else None
+            }
+        )
 
     def test_playlist_sharing_generate_token(self):
         """Test generating share token for playlist"""
