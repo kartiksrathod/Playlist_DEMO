@@ -126,11 +126,6 @@ const Settings = () => {
     }
   };
 
-  const handleThemeChange = (themeId) => {
-    changeTheme(themeId);
-    toast.success(`Theme changed to ${themeId}`);
-  };
-
   if (loading) {
     return (
       <AppLayout>
