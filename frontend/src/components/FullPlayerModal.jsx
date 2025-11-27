@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { usePlayer } from '../context/PlayerContext';
 import {
   X,
@@ -63,180 +64,268 @@ const FullPlayerModal = ({ isOpen, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-gradient-to-br from-slate-900 via-purple-900/20 to-slate-900 overflow-auto">
-      {/* Close Button */}
-      <button
-        onClick={onClose}
-        className="absolute top-6 right-6 p-2 rounded-full bg-slate-800/50 hover:bg-slate-800 text-white transition z-10"
-      >
-        <X className="w-6 h-6" />
-      </button>
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div 
+          className="fixed inset-0 z-50 bg-gradient-to-br from-slate-900 via-purple-900/20 to-slate-900 overflow-auto"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          {/* Close Button */}
+          <motion.button
+            onClick={onClose}
+            className="absolute top-6 right-6 p-2 rounded-full bg-slate-800/50 hover:bg-slate-800 text-white transition z-10"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            transition={{ duration: 0.2, delay: 0.1 }}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+          >
+            <X className="w-6 h-6" />
+          </motion.button>
 
-      <div className="min-h-screen flex flex-col items-center justify-center p-8">
-        <div className="w-full max-w-4xl">
-          {/* Album Art */}
-          <div className="flex justify-center mb-12">
-            <img
-              src={getCoverImage()}
-              alt={currentTrack.songName}
-              className="w-80 h-80 rounded-3xl shadow-2xl object-cover"
-            />
-          </div>
+          <div className="min-h-screen flex flex-col items-center justify-center p-8">
+            <div className="w-full max-w-4xl">
+              {/* Album Art */}
+              <motion.div 
+                className="flex justify-center mb-12"
+                initial={{ opacity: 0, scale: 0.8, y: 30 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+              >
+                <motion.img
+                  src={getCoverImage()}
+                  alt={currentTrack.songName}
+                  className="w-80 h-80 rounded-3xl shadow-2xl object-cover"
+                  whileHover={{ scale: 1.05, rotate: 2 }}
+                  transition={{ duration: 0.3 }}
+                />
+              </motion.div>
 
-          {/* Track Info */}
-          <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold text-white mb-3">{currentTrack.songName}</h1>
-            <p className="text-xl text-slate-300">{currentTrack.artist || 'Unknown Artist'}</p>
-            {currentTrack.album && (
-              <p className="text-slate-400 mt-2">{currentTrack.album}</p>
-            )}
-          </div>
+              {/* Track Info */}
+              <motion.div 
+                className="text-center mb-8"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+              >
+                <h1 className="text-4xl font-bold text-white mb-3">{currentTrack.songName}</h1>
+                <p className="text-xl text-slate-300">{currentTrack.artist || 'Unknown Artist'}</p>
+                {currentTrack.album && (
+                  <p className="text-slate-400 mt-2">{currentTrack.album}</p>
+                )}
+              </motion.div>
 
-          {/* Progress Bar */}
-          <div className="mb-4">
-            <input
-              type="range"
-              min="0"
-              max={duration || 0}
-              value={currentTime}
-              onChange={handleSeek}
-              className="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer
-                [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4
-                [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white
-                [&::-webkit-slider-thumb]:cursor-pointer hover:[&::-webkit-slider-thumb]:bg-gray-100
-                [&::-webkit-slider-thumb]:shadow-lg"
-            />
-            <div className="flex justify-between text-slate-400 text-sm mt-2">
-              <span>{formatTime(currentTime)}</span>
-              <span>{formatTime(duration)}</span>
-            </div>
-          </div>
+              {/* Progress Bar */}
+              <motion.div 
+                className="mb-4"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+              >
+                <input
+                  type="range"
+                  min="0"
+                  max={duration || 0}
+                  value={currentTime}
+                  onChange={handleSeek}
+                  className="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer
+                    [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4
+                    [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white
+                    [&::-webkit-slider-thumb]:cursor-pointer hover:[&::-webkit-slider-thumb]:bg-gray-100
+                    [&::-webkit-slider-thumb]:shadow-lg"
+                />
+                <div className="flex justify-between text-slate-400 text-sm mt-2">
+                  <span>{formatTime(currentTime)}</span>
+                  <span>{formatTime(duration)}</span>
+                </div>
+              </motion.div>
 
-          {/* Controls */}
-          <div className="flex items-center justify-center gap-6 mb-12">
-            {/* Shuffle */}
-            <button
-              onClick={toggleShuffle}
-              className={`p-3 rounded-full hover:bg-slate-800 transition ${
-                shuffle ? 'text-green-500' : 'text-slate-400 hover:text-white'
-              }`}
-              title="Shuffle"
-            >
-              <Shuffle className="w-6 h-6" />
-            </button>
+              {/* Controls */}
+              <motion.div 
+                className="flex items-center justify-center gap-6 mb-12"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.5 }}
+              >
+                {/* Shuffle */}
+                <motion.button
+                  onClick={toggleShuffle}
+                  className={`p-3 rounded-full hover:bg-slate-800 transition ${
+                    shuffle ? 'text-green-500' : 'text-slate-400 hover:text-white'
+                  }`}
+                  title="Shuffle"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  <Shuffle className="w-6 h-6" />
+                </motion.button>
 
-            {/* Previous */}
-            <button
-              onClick={playPrevious}
-              className="p-4 rounded-full hover:bg-slate-800 text-white hover:scale-110 transition"
-              title="Previous"
-            >
-              <SkipBack className="w-8 h-8" />
-            </button>
+                {/* Previous */}
+                <motion.button
+                  onClick={playPrevious}
+                  className="p-4 rounded-full hover:bg-slate-800 text-white hover:scale-110 transition"
+                  title="Previous"
+                  whileHover={{ scale: 1.15, x: -5 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <SkipBack className="w-8 h-8" />
+                </motion.button>
 
-            {/* Play/Pause */}
-            <button
-              onClick={togglePlayPause}
-              className="p-6 rounded-full bg-white hover:bg-gray-100 text-slate-900 hover:scale-110 transition shadow-2xl"
-              title={isPlaying ? 'Pause' : 'Play'}
-            >
-              {isPlaying ? (
-                <Pause className="w-10 h-10" />
-              ) : (
-                <Play className="w-10 h-10 ml-1" />
-              )}
-            </button>
+                {/* Play/Pause */}
+                <motion.button
+                  onClick={togglePlayPause}
+                  className="p-6 rounded-full bg-white hover:bg-gray-100 text-slate-900 hover:scale-110 transition shadow-2xl"
+                  title={isPlaying ? 'Pause' : 'Play'}
+                  whileHover={{ scale: 1.15 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <AnimatePresence mode="wait">
+                    {isPlaying ? (
+                      <motion.div
+                        key="pause"
+                        initial={{ scale: 0.8, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        exit={{ scale: 0.8, opacity: 0 }}
+                        transition={{ duration: 0.15 }}
+                      >
+                        <Pause className="w-10 h-10" />
+                      </motion.div>
+                    ) : (
+                      <motion.div
+                        key="play"
+                        initial={{ scale: 0.8, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        exit={{ scale: 0.8, opacity: 0 }}
+                        transition={{ duration: 0.15 }}
+                      >
+                        <Play className="w-10 h-10 ml-1" />
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.button>
 
-            {/* Next */}
-            <button
-              onClick={playNext}
-              className="p-4 rounded-full hover:bg-slate-800 text-white hover:scale-110 transition"
-              title="Next"
-              disabled={queue.length === 0}
-            >
-              <SkipForward className="w-8 h-8" />
-            </button>
+                {/* Next */}
+                <motion.button
+                  onClick={playNext}
+                  className="p-4 rounded-full hover:bg-slate-800 text-white hover:scale-110 transition"
+                  title="Next"
+                  disabled={queue.length === 0}
+                  whileHover={{ scale: 1.15, x: 5 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <SkipForward className="w-8 h-8" />
+                </motion.button>
 
-            {/* Repeat */}
-            <button
-              onClick={toggleRepeat}
-              className={`p-3 rounded-full hover:bg-slate-800 transition ${
-                repeat !== 'off' ? 'text-green-500' : 'text-slate-400 hover:text-white'
-              }`}
-              title={`Repeat: ${repeat}`}
-            >
-              {repeat === 'one' ? (
-                <Repeat1 className="w-6 h-6" />
-              ) : (
-                <Repeat className="w-6 h-6" />
-              )}
-            </button>
-          </div>
+                {/* Repeat */}
+                <motion.button
+                  onClick={toggleRepeat}
+                  className={`p-3 rounded-full hover:bg-slate-800 transition ${
+                    repeat !== 'off' ? 'text-green-500' : 'text-slate-400 hover:text-white'
+                  }`}
+                  title={`Repeat: ${repeat}`}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  {repeat === 'one' ? (
+                    <Repeat1 className="w-6 h-6" />
+                  ) : (
+                    <Repeat className="w-6 h-6" />
+                  )}
+                </motion.button>
+              </motion.div>
 
-          {/* Volume Control */}
-          <div className="flex items-center justify-center gap-4 mb-12">
-            <button
-              onClick={toggleMute}
-              className="p-2 rounded-full hover:bg-slate-800 text-white transition"
-              title={isMuted ? 'Unmute' : 'Mute'}
-            >
-              {isMuted ? <VolumeX className="w-6 h-6" /> : <Volume2 className="w-6 h-6" />}
-            </button>
-            <input
-              type="range"
-              min="0"
-              max="100"
-              value={isMuted ? 0 : volume}
-              onChange={(e) => setVolume(parseInt(e.target.value))}
-              className="w-64 h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer
-                [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4
-                [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white
-                [&::-webkit-slider-thumb]:cursor-pointer hover:[&::-webkit-slider-thumb]:bg-gray-100"
-            />
-            <span className="text-slate-400 text-sm w-12 text-right">
-              {isMuted ? 0 : volume}%
-            </span>
-          </div>
+              {/* Volume Control */}
+              <motion.div 
+                className="flex items-center justify-center gap-4 mb-12"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.6 }}
+              >
+                <motion.button
+                  onClick={toggleMute}
+                  className="p-2 rounded-full hover:bg-slate-800 text-white transition"
+                  title={isMuted ? 'Unmute' : 'Mute'}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  {isMuted ? <VolumeX className="w-6 h-6" /> : <Volume2 className="w-6 h-6" />}
+                </motion.button>
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  value={isMuted ? 0 : volume}
+                  onChange={(e) => setVolume(parseInt(e.target.value))}
+                  className="w-64 h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer
+                    [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4
+                    [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white
+                    [&::-webkit-slider-thumb]:cursor-pointer hover:[&::-webkit-slider-thumb]:bg-gray-100"
+                />
+                <span className="text-slate-400 text-sm w-12 text-right">
+                  {isMuted ? 0 : volume}%
+                </span>
+              </motion.div>
 
-          {/* Queue Preview */}
-          {queue.length > 0 && (
-            <div className="bg-slate-800/30 backdrop-blur-sm rounded-2xl p-6">
-              <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                <Music className="w-5 h-5" />
-                Up Next ({queue.length} tracks)
-              </h3>
-              <div className="space-y-2 max-h-60 overflow-y-auto">
-                {queue.slice(0, 5).map((track, index) => (
-                  <div
-                    key={`${track.id}-${index}`}
-                    onClick={() => play(track)}
-                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-slate-700/50 transition cursor-pointer group"
-                  >
-                    <span className="text-slate-500 w-6 text-sm">{index + 1}</span>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-white font-medium truncate group-hover:text-blue-400 transition">
-                        {track.songName}
-                      </p>
-                      <p className="text-slate-400 text-sm truncate">
-                        {track.artist || 'Unknown Artist'}
-                      </p>
-                    </div>
-                    {track.duration && (
-                      <span className="text-slate-500 text-sm">{track.duration}</span>
+              {/* Queue Preview */}
+              {queue.length > 0 && (
+                <motion.div 
+                  className="bg-slate-800/30 backdrop-blur-sm rounded-2xl p-6"
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.7 }}
+                >
+                  <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                    <Music className="w-5 h-5" />
+                    Up Next ({queue.length} tracks)
+                  </h3>
+                  <div className="space-y-2 max-h-60 overflow-y-auto">
+                    {queue.slice(0, 5).map((track, index) => (
+                      <motion.div
+                        key={`${track.id}-${index}`}
+                        onClick={() => play(track)}
+                        className="flex items-center gap-3 p-3 rounded-lg hover:bg-slate-700/50 transition cursor-pointer group"
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.3, delay: 0.8 + index * 0.05 }}
+                        whileHover={{ scale: 1.02, x: 5 }}
+                        whileTap={{ scale: 0.98 }}
+                      >
+                        <span className="text-slate-500 w-6 text-sm">{index + 1}</span>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-white font-medium truncate group-hover:text-blue-400 transition">
+                            {track.songName}
+                          </p>
+                          <p className="text-slate-400 text-sm truncate">
+                            {track.artist || 'Unknown Artist'}
+                          </p>
+                        </div>
+                        {track.duration && (
+                          <span className="text-slate-500 text-sm">{track.duration}</span>
+                        )}
+                      </motion.div>
+                    ))}
+                    {queue.length > 5 && (
+                      <motion.p 
+                        className="text-slate-500 text-sm text-center pt-2"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.3, delay: 1.1 }}
+                      >
+                        +{queue.length - 5} more tracks
+                      </motion.p>
                     )}
                   </div>
-                ))}
-                {queue.length > 5 && (
-                  <p className="text-slate-500 text-sm text-center pt-2">
-                    +{queue.length - 5} more tracks
-                  </p>
-                )}
-              </div>
+                </motion.div>
+              )}
             </div>
-          )}
-        </div>
-      </div>
-    </div>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };
 
