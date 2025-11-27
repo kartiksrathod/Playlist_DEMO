@@ -624,15 +624,18 @@ frontend:
 
   - task: "Library API - Get Artists and Albums"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/controllers/libraryController.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "PHASE 6: Created GET /api/library/artists and GET /api/library/albums endpoints to fetch unique artists and albums for filter dropdowns."
+      - working: true
+        agent: "testing"
+        comment: "TESTED - Library Artists & Albums APIs: ✅ BOTH ENDPOINTS WORKING PERFECTLY: (1) GET /api/library/artists - Returns proper structure with success/artists fields, artists are unique and sorted alphabetically, extracted 3 unique artists from test data correctly, (2) GET /api/library/albums - Returns proper structure with success/albums fields, albums are unique and sorted alphabetically, extracted 3 unique albums from test data correctly. Both endpoints provide clean data for filter dropdowns as designed."
 
   - task: "Library API - Get Track Details"
     implemented: true
