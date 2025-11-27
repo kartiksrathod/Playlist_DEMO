@@ -289,11 +289,18 @@ const TrackDetail = () => {
               </motion.div>
 
               {/* Action Buttons */}
-              <div className="flex gap-3">
+              <motion.div 
+                className="flex gap-3"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.8 }}
+              >
                 {audioSource && (
-                  <button
+                  <motion.button
                     onClick={togglePlayPause}
                     className="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-medium transition-all flex items-center gap-2 shadow-lg shadow-indigo-600/30"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
                   >
                     {isPlaying ? (
                       <>
@@ -306,29 +313,33 @@ const TrackDetail = () => {
                         <span>Play</span>
                       </>
                     )}
-                  </button>
+                  </motion.button>
                 )}
 
-                <button
+                <motion.button
                   onClick={() => setShowAddToPlaylist(!showAddToPlaylist)}
                   className="px-6 py-3 bg-slate-800/60 hover:bg-slate-700/60 text-white rounded-xl font-medium transition-all flex items-center gap-2 border border-slate-700/50"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                 >
                   <Plus className="w-5 h-5" />
                   <span>Add to Playlist</span>
-                </button>
+                </motion.button>
 
                 {track.audioUrl && (
-                  <a
+                  <motion.a
                     href={track.audioUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="px-6 py-3 bg-slate-800/60 hover:bg-slate-700/60 text-white rounded-xl font-medium transition-all flex items-center gap-2 border border-slate-700/50"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
                   >
                     <ExternalLink className="w-5 h-5" />
                     <span className="hidden sm:inline">Open URL</span>
-                  </a>
+                  </motion.a>
                 )}
-              </div>
+              </motion.div>
 
               {/* Hidden Audio Player */}
               {audioSource && (
