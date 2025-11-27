@@ -64,16 +64,26 @@ export const ThemeProvider = ({ children }) => {
   };
 
   const applyThemeToBody = (theme) => {
-    // Remove all theme classes from body
-    document.body.className = '';
-    
     // Get theme config
     const config = getTheme(theme);
     
-    // Apply body background class
+    // Remove all existing theme and background classes from body
+    const bodyClasses = document.body.className.split(' ').filter(cls => 
+      !cls.startsWith('bg-') && 
+      !cls.startsWith('from-') && 
+      !cls.startsWith('to-') && 
+      !cls.startsWith('via-') &&
+      !cls.includes('gradient')
+    );
+    
+    // Apply new theme body classes
     if (config.classes.body) {
-      document.body.className = config.classes.body;
+      const newClasses = config.classes.body.split(' ');
+      document.body.className = [...bodyClasses, ...newClasses].join(' ');
     }
+    
+    // Also set a data attribute for theme ID for easy CSS targeting
+    document.body.setAttribute('data-theme', theme);
   };
 
   const value = {
