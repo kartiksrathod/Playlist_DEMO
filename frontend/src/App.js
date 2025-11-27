@@ -27,6 +27,7 @@ import KeyboardShortcutsHelp from "@/components/KeyboardShortcutsHelp";
 import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
 import { ArrowRight, Music, ListMusic, Sparkles, Play, TrendingUp } from 'lucide-react';
 import { useState } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
