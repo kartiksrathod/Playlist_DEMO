@@ -240,6 +240,12 @@ const Playlists = () => {
                       <Play className="h-5 w-5 text-white" />
                     </button>
                     <button
+                      onClick={(e) => toggleFavorite(playlist.id, e)}
+                      className={`p-3 ${favoritedPlaylists.has(playlist.id) ? 'bg-pink-700 hover:bg-pink-600' : 'bg-slate-800 hover:bg-slate-700'} rounded-full transition-colors shadow-xl backdrop-blur-sm border ${favoritedPlaylists.has(playlist.id) ? 'border-pink-500/30' : 'border-slate-600/30'}`}
+                    >
+                      <Heart className={`h-5 w-5 text-white ${favoritedPlaylists.has(playlist.id) ? 'fill-white' : ''}`} />
+                    </button>
+                    <button
                       onClick={(e) => {
                         e.stopPropagation();
                         setSelectedPlaylist(playlist);
