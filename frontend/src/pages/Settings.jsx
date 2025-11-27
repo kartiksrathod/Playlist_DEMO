@@ -170,17 +170,17 @@ const Settings = () => {
         <div className="max-w-4xl">
           {/* Theme Selection */}
           <motion.div 
-            className="bg-white rounded-2xl shadow-sm p-8 mb-6"
+            className={`${themeConfig.classes.card} rounded-2xl shadow-sm p-8 mb-6`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
             <div className="flex items-center gap-3 mb-6">
-              <Palette className="w-5 h-5 text-amber-600" />
-              <h2 className="text-xl font-medium text-gray-800">Theme</h2>
+              <Palette className={`w-5 h-5 ${themeConfig.classes.accent}`} />
+              <h2 className={`text-xl font-medium ${themeConfig.classes.text.primary}`}>Theme</h2>
             </div>
             
-            <p className="text-sm text-gray-600 font-light mb-6">Choose your preferred visual theme</p>
+            <p className={`text-sm ${themeConfig.classes.text.secondary} font-light mb-6`}>Choose your preferred visual theme</p>
             
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {themePreviews.map((theme, index) => (
