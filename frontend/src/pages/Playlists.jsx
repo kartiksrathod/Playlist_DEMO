@@ -184,7 +184,7 @@ const Playlists = () => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
-        </div>
+        </motion.div>
 
         {/* View Controls */}
         <div className="flex items-center justify-between mb-6">
