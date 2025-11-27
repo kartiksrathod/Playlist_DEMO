@@ -1,24 +1,19 @@
 #!/usr/bin/env python3
 """
-Comprehensive Backend API Testing for Music Playlist Manager
-Phase 2: Track Management APIs with Audio Upload Support
-Tests all CRUD operations with file upload functionality
+Backend API Testing for Music Playlist Manager
+Testing Library APIs (Phase 6) and Playlist Sharing APIs (Feature 4)
 """
 
 import requests
 import json
-import os
-import tempfile
-from PIL import Image
-import io
-import uuid
 import time
+from typing import Dict, List, Any, Optional
 
 # Configuration
 BASE_URL = "https://progress-tracker-210.preview.emergentagent.com/api"
-UPLOADS_URL = "https://progress-tracker-210.preview.emergentagent.com/uploads"
+HEADERS = {"Content-Type": "application/json"}
 
-class MusicPlaylistAPITester:
+class BackendTester:
     def __init__(self):
         self.session = requests.Session()
         self.created_playlists = []  # Track created playlists for cleanup
