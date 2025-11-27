@@ -241,7 +241,7 @@ const Playlists = () => {
                   <div className="absolute inset-0 bg-gradient-to-t from-blue-950/70 via-blue-950/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                   
                   {/* Hover Actions */}
-                  <div className="absolute inset-0 flex items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="absolute inset-0 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
@@ -256,6 +256,16 @@ const Playlists = () => {
                       className={`p-3 ${favoritedPlaylists.has(playlist.id) ? 'bg-pink-700 hover:bg-pink-600' : 'bg-slate-800 hover:bg-slate-700'} rounded-full transition-colors shadow-xl backdrop-blur-sm border ${favoritedPlaylists.has(playlist.id) ? 'border-pink-500/30' : 'border-slate-600/30'}`}
                     >
                       <Heart className={`h-5 w-5 text-white ${favoritedPlaylists.has(playlist.id) ? 'fill-white' : ''}`} />
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedPlaylist(playlist);
+                        setShareDialogOpen(true);
+                      }}
+                      className="p-3 bg-green-700 hover:bg-green-600 rounded-full transition-colors shadow-xl backdrop-blur-sm border border-green-500/30"
+                    >
+                      <Share2 className="h-5 w-5 text-white" />
                     </button>
                     <button
                       onClick={(e) => {
