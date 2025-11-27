@@ -347,8 +347,9 @@ const Playlists = () => {
                 </div>
               </motion.div>
             ))}
-          </motion.div>
-        )}
+          </AnimatePresence>
+        </motion.div>
+      )}
 
         {/* Create Playlist Dialog */}
         <CreatePlaylistDialog 
