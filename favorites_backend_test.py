@@ -49,10 +49,15 @@ class FavoritesAPITester:
         try:
             response = requests.post(f"{BASE_URL}/playlists", json=playlist_data, headers=HEADERS)
             if response.status_code == 201:
-                playlist = response.json().get('playlist', {})
+                response_data = response.json()
+                playlist = response_data.get('playlist', response_data)  # Handle different response formats
                 self.test_playlist_id = playlist.get('id')
-                self.created_playlist_ids.append(self.test_playlist_id)
-                print(f"✅ Created test playlist: {self.test_playlist_id}")
+                if self.test_playlist_id:
+                    self.created_playlist_ids.append(self.test_playlist_id)
+                    print(f"✅ Created test playlist: {self.test_playlist_id}")
+                else:
+                    print(f"❌ No playlist ID in response: {response_data}")
+                    return False
                 
                 # Create test track in the playlist
                 track_data = {
