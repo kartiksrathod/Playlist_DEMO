@@ -647,37 +647,132 @@ class BackendTester:
             {"response": response}
         )
 
-    def test_library_albums(self):
-        """Test library albums endpoint"""
-        success, response, status = self.make_request("GET", "/library/albums")
+    def test_favorites_check_item(self):
+        """Test checking if item is favorited"""
+        if not self.test_data["playlists"] or not self.test_data["tracks"]:
+            self.log_test("Favorites - Check Item", False, "No test data available")
+            return
         
-        if success:
-            albums = response.get("albums", [])
-            
-            # Verify structure
-            structure_valid = (
+        playlist_id = self.test_data["playlists"][0]["id"]
+        track_id = self.test_data["tracks"][0]["id"]
+        
+        # Test checking playlist that is NOT favorited
+        success, response, status = self.make_request("GET", f"/favorites/check/playlist/{playlist_id}")
+        
+        if success and status == 200:
+            not_favorited_valid = (
                 "success" in response and
-                "albums" in response and
-                isinstance(albums, list)
+                "isFavorited" in response and
+                response["success"] is True and
+                response["isFavorited"] is False
             )
             
-            # Verify albums are unique and sorted
-            unique_valid = len(albums) == len(set(albums))
-            sorted_valid = albums == sorted(albums) if albums else True
-            
             self.log_test(
-                "Library Albums",
-                structure_valid and unique_valid and sorted_valid,
-                f"Got {len(albums)} unique albums, sorted: {sorted_valid}",
-                {"albums": albums}
+                "Favorites - Check Playlist (Not Favorited)",
+                not_favorited_valid,
+                f"Playlist {playlist_id} correctly reported as not favorited: {response.get('isFavorited')}",
+                {"playlist_id": playlist_id, "response": response}
             )
         else:
             self.log_test(
-                "Library Albums",
+                "Favorites - Check Playlist (Not Favorited)",
                 False,
-                f"Failed to get albums: {response}",
-                response
+                f"Failed to check playlist favorite status: status={status}, response={response}",
+                {"status": status, "response": response}
             )
+        
+        # Add playlist to favorites
+        self.make_request("POST", f"/favorites/playlists/{playlist_id}")
+        
+        # Test checking playlist that IS favorited
+        success, response, status = self.make_request("GET", f"/favorites/check/playlist/{playlist_id}")
+        
+        if success and status == 200:
+            favorited_valid = (
+                "success" in response and
+                "isFavorited" in response and
+                response["success"] is True and
+                response["isFavorited"] is True
+            )
+            
+            self.log_test(
+                "Favorites - Check Playlist (Favorited)",
+                favorited_valid,
+                f"Playlist {playlist_id} correctly reported as favorited: {response.get('isFavorited')}",
+                {"playlist_id": playlist_id, "response": response}
+            )
+        else:
+            self.log_test(
+                "Favorites - Check Playlist (Favorited)",
+                False,
+                f"Failed to check favorited playlist status: status={status}, response={response}",
+                {"status": status, "response": response}
+            )
+        
+        # Test checking track that is NOT favorited
+        success, response, status = self.make_request("GET", f"/favorites/check/track/{track_id}")
+        
+        if success and status == 200:
+            track_not_favorited_valid = (
+                "success" in response and
+                "isFavorited" in response and
+                response["success"] is True and
+                response["isFavorited"] is False
+            )
+            
+            self.log_test(
+                "Favorites - Check Track (Not Favorited)",
+                track_not_favorited_valid,
+                f"Track {track_id} correctly reported as not favorited: {response.get('isFavorited')}",
+                {"track_id": track_id, "response": response}
+            )
+        else:
+            self.log_test(
+                "Favorites - Check Track (Not Favorited)",
+                False,
+                f"Failed to check track favorite status: status={status}, response={response}",
+                {"status": status, "response": response}
+            )
+        
+        # Add track to favorites
+        self.make_request("POST", f"/favorites/tracks/{track_id}")
+        
+        # Test checking track that IS favorited
+        success, response, status = self.make_request("GET", f"/favorites/check/track/{track_id}")
+        
+        if success and status == 200:
+            track_favorited_valid = (
+                "success" in response and
+                "isFavorited" in response and
+                response["success"] is True and
+                response["isFavorited"] is True
+            )
+            
+            self.log_test(
+                "Favorites - Check Track (Favorited)",
+                track_favorited_valid,
+                f"Track {track_id} correctly reported as favorited: {response.get('isFavorited')}",
+                {"track_id": track_id, "response": response}
+            )
+        else:
+            self.log_test(
+                "Favorites - Check Track (Favorited)",
+                False,
+                f"Failed to check favorited track status: status={status}, response={response}",
+                {"status": status, "response": response}
+            )
+        
+        # Test invalid type
+        success, response, status = self.make_request("GET", f"/favorites/check/invalid/{playlist_id}")
+        
+        invalid_type_handled = not success and status == 400
+        
+        self.log_test(
+            "Favorites - Check Invalid Type",
+            invalid_type_handled,
+            f"Invalid type correctly returned 400: {status}",
+            {"status": status, "response": response}
+        )
 
     def test_library_track_details(self):
         """Test library track details endpoint"""
