@@ -154,7 +154,7 @@ const Profile = () => {
                   <span className="text-xs text-white font-medium">Change</span>
                 </div>
               </label>
-            </div>
+            </motion.div>
             
             {/* Profile Info */}
             <motion.div 
