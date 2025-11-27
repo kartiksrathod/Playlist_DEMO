@@ -242,46 +242,136 @@ const Home = () => {
           </motion.div>
         </div>
 
-        {/* Features Section */}
-        <div className="py-20 px-4 bg-gradient-to-b from-slate-950 via-blue-950 to-slate-950">
-          <div className="max-w-6xl mx-auto">
-            <h2 className="text-3xl font-light text-center mb-4 text-white">Simple. Beautiful. Functional.</h2>
-            <p className="text-center text-blue-100 mb-16 font-light">Everything you need to manage your music collection</p>
+        {/* Features Section with Scroll Animations */}
+        <div className="py-20 px-4 bg-gradient-to-b from-slate-950 via-violet-950/30 to-slate-950 relative">
+          {/* Ambient glow effects */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            <div className="absolute top-0 left-1/4 w-96 h-96 bg-violet-500/10 rounded-full blur-3xl" />
+            <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-fuchsia-500/10 rounded-full blur-3xl" />
+          </div>
+
+          <div className="max-w-6xl mx-auto relative z-10">
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+              variants={fadeInUp}
+            >
+              <h2 className="text-4xl md:text-5xl font-bold text-center mb-4 bg-gradient-to-r from-violet-200 via-white to-fuchsia-200 bg-clip-text text-transparent">
+                Simple. Beautiful. Functional.
+              </h2>
+              <p className="text-center text-violet-200 mb-16 font-light text-lg">
+                Everything you need to manage your music collection
+              </p>
+            </motion.div>
             
-            <div className="grid md:grid-cols-3 gap-8">
+            <motion.div 
+              className="grid md:grid-cols-3 gap-8"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+              variants={staggerContainer}
+            >
               {/* Feature 1 */}
-              <div className="bg-slate-900/60 backdrop-blur-xl rounded-2xl p-8 shadow-xl hover:shadow-2xl hover:shadow-blue-600/30 transition-all border border-blue-800/30">
-                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center mb-6 shadow-lg shadow-blue-700/50">
-                  <ListMusic className="w-7 h-7 text-white" />
-                </div>
-                <h3 className="text-xl font-medium mb-3 text-white">Create Playlists</h3>
-                <p className="text-blue-100 font-light leading-relaxed">
+              <motion.div 
+                className="group relative bg-slate-900/60 backdrop-blur-xl rounded-2xl p-8 shadow-xl border border-violet-800/30 overflow-hidden cursor-pointer"
+                variants={fadeInUp}
+                whileHover={{ y: -10, scale: 1.02 }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+              >
+                {/* Hover glow effect */}
+                <div className="absolute inset-0 bg-gradient-to-br from-violet-600/0 to-violet-600/0 group-hover:from-violet-600/20 group-hover:to-transparent transition-all duration-500" />
+                <motion.div 
+                  className="absolute -inset-1 bg-gradient-to-r from-violet-600 to-fuchsia-600 rounded-2xl opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-500"
+                  initial={false}
+                />
+                
+                <motion.div 
+                  className="relative w-16 h-16 rounded-2xl bg-gradient-to-br from-violet-600 to-violet-800 flex items-center justify-center mb-6 shadow-lg shadow-violet-700/50"
+                  whileHover={{ rotate: [0, -10, 10, -10, 0], scale: 1.1 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <ListMusic className="w-8 h-8 text-white" />
+                </motion.div>
+                
+                <h3 className="relative text-2xl font-semibold mb-3 text-white group-hover:text-violet-200 transition-colors">
+                  Create Playlists
+                </h3>
+                <p className="relative text-violet-200 font-light leading-relaxed">
                   Organize your music into beautiful playlists with custom cover images
                 </p>
-              </div>
+              </motion.div>
 
               {/* Feature 2 */}
-              <div className="bg-slate-900/60 backdrop-blur-xl rounded-2xl p-8 shadow-xl hover:shadow-2xl hover:shadow-cyan-600/30 transition-all border border-cyan-800/30">
-                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-cyan-600 to-blue-700 flex items-center justify-center mb-6 shadow-lg shadow-cyan-700/50">
-                  <Music className="w-7 h-7 text-white" />
-                </div>
-                <h3 className="text-xl font-medium mb-3 text-white">Add Tracks</h3>
-                <p className="text-blue-100 font-light leading-relaxed">
+              <motion.div 
+                className="group relative bg-slate-900/60 backdrop-blur-xl rounded-2xl p-8 shadow-xl border border-fuchsia-800/30 overflow-hidden cursor-pointer"
+                variants={fadeInUp}
+                whileHover={{ y: -10, scale: 1.02 }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+              >
+                {/* Hover glow effect */}
+                <div className="absolute inset-0 bg-gradient-to-br from-fuchsia-600/0 to-fuchsia-600/0 group-hover:from-fuchsia-600/20 group-hover:to-transparent transition-all duration-500" />
+                <motion.div 
+                  className="absolute -inset-1 bg-gradient-to-r from-fuchsia-600 to-pink-600 rounded-2xl opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-500"
+                  initial={false}
+                />
+                
+                <motion.div 
+                  className="relative w-16 h-16 rounded-2xl bg-gradient-to-br from-fuchsia-600 to-pink-600 flex items-center justify-center mb-6 shadow-lg shadow-fuchsia-700/50"
+                  whileHover={{ rotate: [0, -10, 10, -10, 0], scale: 1.1 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <Music className="w-8 h-8 text-white" />
+                </motion.div>
+                
+                <h3 className="relative text-2xl font-semibold mb-3 text-white group-hover:text-fuchsia-200 transition-colors">
+                  Add Tracks
+                </h3>
+                <p className="relative text-fuchsia-200 font-light leading-relaxed">
                   Add tracks via URL or upload audio files directly to your playlists
                 </p>
-              </div>
+              </motion.div>
 
               {/* Feature 3 */}
-              <div className="bg-slate-900/60 backdrop-blur-xl rounded-2xl p-8 shadow-xl hover:shadow-2xl hover:shadow-indigo-600/30 transition-all border border-indigo-800/30">
-                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-indigo-600 to-blue-700 flex items-center justify-center mb-6 shadow-lg shadow-indigo-700/50">
-                  <Sparkles className="w-7 h-7 text-white" />
-                </div>
-                <h3 className="text-xl font-medium mb-3 text-white">Immersive Interface</h3>
-                <p className="text-blue-100 font-light leading-relaxed">
+              <motion.div 
+                className="group relative bg-slate-900/60 backdrop-blur-xl rounded-2xl p-8 shadow-xl border border-purple-800/30 overflow-hidden cursor-pointer"
+                variants={fadeInUp}
+                whileHover={{ y: -10, scale: 1.02 }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+              >
+                {/* Hover glow effect */}
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-600/0 to-purple-600/0 group-hover:from-purple-600/20 group-hover:to-transparent transition-all duration-500" />
+                <motion.div 
+                  className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-2xl opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-500"
+                  initial={false}
+                />
+                
+                <motion.div 
+                  className="relative w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-600 to-indigo-600 flex items-center justify-center mb-6 shadow-lg shadow-purple-700/50"
+                  animate={{
+                    boxShadow: [
+                      "0 10px 30px rgba(147, 51, 234, 0.3)",
+                      "0 10px 40px rgba(147, 51, 234, 0.5)",
+                      "0 10px 30px rgba(147, 51, 234, 0.3)",
+                    ],
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                >
+                  <Sparkles className="w-8 h-8 text-white" />
+                </motion.div>
+                
+                <h3 className="relative text-2xl font-semibold mb-3 text-white group-hover:text-purple-200 transition-colors">
+                  Immersive Interface
+                </h3>
+                <p className="relative text-purple-200 font-light leading-relaxed">
                   Enjoy a beautiful, cinematic experience with a modern dark design
                 </p>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
           </div>
         </div>
 
