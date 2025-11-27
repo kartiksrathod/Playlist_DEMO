@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import QueueDrawer from './QueueDrawer';
 import FullPlayerModal from './FullPlayerModal';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const MusicPlayer = () => {
   const {
