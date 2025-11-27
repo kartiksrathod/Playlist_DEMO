@@ -244,44 +244,44 @@ const Settings = () => {
             
             <div className="space-y-6">
               {/* Autoplay */}
-              <div className="flex items-center justify-between py-3 border-b border-gray-100">
+              <div className={`flex items-center justify-between py-3 border-b ${themeConfig.classes.card.includes('border-') ? themeConfig.classes.card.split(' ').find(c => c.includes('border-')) : 'border-gray-100'}`}>
                 <div>
-                  <h3 className="font-medium text-gray-800">Autoplay</h3>
-                  <p className="text-sm text-gray-600 font-light">Automatically play next track</p>
+                  <h3 className={`font-medium ${themeConfig.classes.text.primary}`}>Autoplay</h3>
+                  <p className={`text-sm ${themeConfig.classes.text.secondary} font-light`}>Automatically play next track</p>
                 </div>
                 <button
                   onClick={() => handleToggle('autoplay')}
-                  className={`relative w-12 h-6 rounded-full transition-colors ${settings.autoplay ? 'bg-amber-500' : 'bg-gray-300'}`}
+                  className={`relative w-12 h-6 rounded-full transition-colors ${settings.autoplay ? `bg-gradient-to-r ${themeConfig.classes.gradient}` : 'bg-gray-300 dark:bg-gray-700'}`}
                 >
-                  <div className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform ${settings.autoplay ? 'translate-x-6' : ''}`} />
+                  <div className={`absolute top-0.5 left-0.5 w-5 h-5 ${themeConfig.classes.card.includes('bg-white') ? 'bg-white' : 'bg-white/90'} rounded-full transition-transform ${settings.autoplay ? 'translate-x-6' : ''}`} />
                 </button>
               </div>
 
               {/* Auto Shuffle */}
-              <div className="flex items-center justify-between py-3 border-b border-gray-100">
+              <div className={`flex items-center justify-between py-3 border-b ${themeConfig.classes.card.includes('border-') ? themeConfig.classes.card.split(' ').find(c => c.includes('border-')) : 'border-gray-100'}`}>
                 <div>
-                  <h3 className="font-medium text-gray-800">Auto Shuffle</h3>
-                  <p className="text-sm text-gray-600 font-light">Shuffle tracks automatically</p>
+                  <h3 className={`font-medium ${themeConfig.classes.text.primary}`}>Auto Shuffle</h3>
+                  <p className={`text-sm ${themeConfig.classes.text.secondary} font-light`}>Shuffle tracks automatically</p>
                 </div>
                 <button
                   onClick={() => handleToggle('autoShuffle')}
-                  className={`relative w-12 h-6 rounded-full transition-colors ${settings.autoShuffle ? 'bg-amber-500' : 'bg-gray-300'}`}
+                  className={`relative w-12 h-6 rounded-full transition-colors ${settings.autoShuffle ? `bg-gradient-to-r ${themeConfig.classes.gradient}` : 'bg-gray-300 dark:bg-gray-700'}`}
                 >
-                  <div className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform ${settings.autoShuffle ? 'translate-x-6' : ''}`} />
+                  <div className={`absolute top-0.5 left-0.5 w-5 h-5 ${themeConfig.classes.card.includes('bg-white') ? 'bg-white' : 'bg-white/90'} rounded-full transition-transform ${settings.autoShuffle ? 'translate-x-6' : ''}`} />
                 </button>
               </div>
 
               {/* Crossfade */}
-              <div className="flex items-center justify-between py-3 border-b border-gray-100">
+              <div className={`flex items-center justify-between py-3 border-b ${themeConfig.classes.card.includes('border-') ? themeConfig.classes.card.split(' ').find(c => c.includes('border-')) : 'border-gray-100'}`}>
                 <div>
-                  <h3 className="font-medium text-gray-800">Crossfade</h3>
-                  <p className="text-sm text-gray-600 font-light">Smooth transition between tracks</p>
+                  <h3 className={`font-medium ${themeConfig.classes.text.primary}`}>Crossfade</h3>
+                  <p className={`text-sm ${themeConfig.classes.text.secondary} font-light`}>Smooth transition between tracks</p>
                 </div>
                 <button
                   onClick={() => handleToggle('crossfade')}
-                  className={`relative w-12 h-6 rounded-full transition-colors ${settings.crossfade ? 'bg-amber-500' : 'bg-gray-300'}`}
+                  className={`relative w-12 h-6 rounded-full transition-colors ${settings.crossfade ? `bg-gradient-to-r ${themeConfig.classes.gradient}` : 'bg-gray-300 dark:bg-gray-700'}`}
                 >
-                  <div className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform ${settings.crossfade ? 'translate-x-6' : ''}`} />
+                  <div className={`absolute top-0.5 left-0.5 w-5 h-5 ${themeConfig.classes.card.includes('bg-white') ? 'bg-white' : 'bg-white/90'} rounded-full transition-transform ${settings.crossfade ? 'translate-x-6' : ''}`} />
                 </button>
               </div>
 
