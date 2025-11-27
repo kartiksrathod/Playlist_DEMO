@@ -310,14 +310,14 @@ const Settings = () => {
 
           {/* Audio Quality */}
           <motion.div 
-            className="bg-white rounded-2xl shadow-sm p-8 mb-6"
+            className={`${themeConfig.classes.card} rounded-2xl shadow-sm p-8 mb-6`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.6 }}
           >
             <div className="flex items-center gap-3 mb-6">
-              <Database className="w-5 h-5 text-amber-600" />
-              <h2 className="text-xl font-medium text-gray-800">Audio Quality</h2>
+              <Database className={`w-5 h-5 ${themeConfig.classes.accent}`} />
+              <h2 className={`text-xl font-medium ${themeConfig.classes.text.primary}`}>Audio Quality</h2>
             </div>
             
             <div className="grid grid-cols-3 gap-4">
@@ -327,8 +327,8 @@ const Settings = () => {
                   onClick={() => handleQualityChange(quality)}
                   className={`py-4 px-6 rounded-xl border-2 transition-all ${
                     settings.quality === quality
-                      ? 'border-amber-500 bg-amber-50 text-amber-700'
-                      : 'border-gray-200 bg-white text-gray-600 hover:border-gray-300'
+                      ? `${themeConfig.classes.button.primary} border-transparent`
+                      : `${themeConfig.classes.card} hover:opacity-80`
                   }`}
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -337,8 +337,8 @@ const Settings = () => {
                   whileTap={{ scale: 0.98 }}
                 >
                   <div className="text-center">
-                    <div className="font-medium capitalize">{quality}</div>
-                    <div className="text-xs mt-1 opacity-70">
+                    <div className={`font-medium capitalize ${settings.quality === quality ? '' : themeConfig.classes.text.primary}`}>{quality}</div>
+                    <div className={`text-xs mt-1 opacity-70 ${settings.quality === quality ? '' : themeConfig.classes.text.muted}`}>
                       {quality === 'low' && '96 kbps'}
                       {quality === 'medium' && '160 kbps'}
                       {quality === 'high' && '320 kbps'}
