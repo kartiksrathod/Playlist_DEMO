@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import AppLayout from '@/components/AppLayout';
 import { User, Mail, Calendar, Music, ListMusic, Clock, Award, Camera, Upload } from 'lucide-react';
 import axios from 'axios';
