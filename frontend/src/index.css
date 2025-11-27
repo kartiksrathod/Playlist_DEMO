@@ -78,7 +78,8 @@ code {
         @apply border-border;
     }
     body {
-        @apply bg-background text-foreground;
+        /* Theme classes are applied dynamically via ThemeContext, so we don't set static background here */
+        @apply text-foreground;
     }
 }
 
