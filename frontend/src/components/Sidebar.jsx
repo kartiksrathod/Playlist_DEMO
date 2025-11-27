@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Home, ListMusic, Settings, User, Clock, Heart, Library } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Sidebar = () => {
   const navigate = useNavigate();
