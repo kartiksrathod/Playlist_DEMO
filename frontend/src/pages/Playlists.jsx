@@ -280,13 +280,15 @@ const Playlists = () => {
                     {playlist.description || 'A collection of beautiful tracks'}
                   </p>
                   
-                  {/* Stats */}
-                  <div className="flex items-center gap-4 mt-3 text-xs text-blue-200">
-                    <div className="flex items-center gap-1">
-                      <Heart className="w-3 h-3" />
-                      <span>Favorite</span>
+                  {/* Favorite Indicator */}
+                  {favoritedPlaylists.has(playlist.id) && (
+                    <div className="flex items-center gap-4 mt-3 text-xs text-pink-300">
+                      <div className="flex items-center gap-1">
+                        <Heart className="w-3 h-3 fill-pink-300" />
+                        <span>Favorited</span>
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
               </motion.div>
             ))}
