@@ -8,8 +8,7 @@ import { useTheme } from '@/context/ThemeContext';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 const Settings = () => {
-  const { currentTheme, changeTheme, themeConfig } = useTheme();
-  const themePreviews = getThemePreviews();
+  const { themeConfig } = useTheme();
   
   const [settings, setSettings] = useState({
     autoplay: true,
