@@ -73,32 +73,84 @@ const MusicPlayer = () => {
 
   return (
     <>
-      {/* Persistent Bottom Player */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-xl border-t border-slate-700/50">
-        {/* Mini Progress Bar */}
-        <div
-          className="h-1 bg-slate-700 cursor-pointer hover:h-1.5 transition-all"
-          onClick={handleProgressClick}
-        >
-          <div
-            className="h-full bg-gradient-to-r from-blue-500 to-purple-500 transition-all"
-            style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}
-          />
-        </div>
+      <AnimatePresence>
+        {currentTrack && (
+          <motion.div 
+            className="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-xl border-t border-slate-700/50"
+            initial={{ y: 100, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 100, opacity: 0 }}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+          >
+            {/* Mini Progress Bar */}
+            <motion.div
+              className="h-1 bg-slate-700 cursor-pointer hover:h-1.5 transition-all relative overflow-hidden"
+              onClick={handleProgressClick}
+              whileHover={{ height: 6 }}
+            >
+              <motion.div
+                className="h-full bg-gradient-to-r from-violet-500 via-fuchsia-500 to-pink-500 relative"
+                style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}
+                initial={{ width: 0 }}
+                animate={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}
+              >
+                {/* Animated glow effect */}
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent"
+                  animate={{
+                    x: ['-100%', '200%'],
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: "linear"
+                  }}
+                />
+              </motion.div>
+            </motion.div>
 
-        <div className="px-4 py-3">
-          <div className="flex items-center justify-between gap-4">
-            {/* Left: Track Info */}
-            <div className="flex items-center gap-3 flex-1 min-w-0">
-              <img
-                src={getCoverImage()}
-                alt={currentTrack.songName}
-                className="w-14 h-14 rounded-lg object-cover shadow-lg"
-              />
-              <div className="min-w-0 flex-1">
-                <h4 className="text-white font-medium truncate">{currentTrack.songName}</h4>
-                <p className="text-slate-400 text-sm truncate">
-                  {currentTrack.artist || 'Unknown Artist'}
+            <div className="px-4 py-3">
+              <div className="flex items-center justify-between gap-4">
+                {/* Left: Track Info */}
+                <motion.div 
+                  className="flex items-center gap-3 flex-1 min-w-0"
+                  initial={{ x: -50, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ delay: 0.1 }}
+                >
+                  <motion.img
+                    src={getCoverImage()}
+                    alt={currentTrack.songName}
+                    className="w-14 h-14 rounded-lg object-cover shadow-lg"
+                    animate={isPlaying ? {
+                      boxShadow: [
+                        "0 4px 20px rgba(139, 92, 246, 0.3)",
+                        "0 4px 30px rgba(217, 70, 239, 0.5)",
+                        "0 4px 20px rgba(139, 92, 246, 0.3)",
+                      ],
+                    } : {}}
+                    transition={{
+                      duration: 2,
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }}
+                  />
+                  <div className="min-w-0 flex-1">
+                    <motion.h4 
+                      className="text-white font-medium truncate"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.2 }}
+                    >
+                      {currentTrack.songName}
+                    </motion.h4>
+                    <motion.p 
+                      className="text-slate-400 text-sm truncate"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.3 }}
+                    >
+                      {currentTrack.artist || 'Unknown Artist'}
                 </p>
               </div>
             </div>
