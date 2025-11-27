@@ -792,12 +792,14 @@ frontend:
 
 metadata:
   created_by: "main_agent"
-  version: "7.0"
-  test_sequence: 7
+  version: "8.0"
+  test_sequence: 8
   run_ui: true
 
 test_plan:
-  current_focus: []
+  current_focus:
+    - "Favorites System Backend APIs"
+    - "Favorites Frontend Integration"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
