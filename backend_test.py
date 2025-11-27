@@ -721,7 +721,9 @@ class BackendTester:
             self.log_test("Playlist Sharing - Toggle Collaborative", False, "No test playlists available")
             return
             
-        playlist_id = self.test_data["playlists"][2]["id"]  # Use third playlist
+        # Use first playlist if we only have one, otherwise use third (or last available)
+        playlist_idx = min(2, len(self.test_data["playlists"]) - 1) if len(self.test_data["playlists"]) > 2 else 0
+        playlist_id = self.test_data["playlists"][playlist_idx]["id"]
         
         # Toggle collaborative mode
         success, response, status = self.make_request("PUT", f"/playlists/{playlist_id}/toggle-collaborative")
