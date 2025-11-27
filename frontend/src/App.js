@@ -11,6 +11,8 @@ import Settings from "@/pages/Settings";
 import Profile from "@/pages/Profile";
 import History from "@/pages/History";
 import Favorites from "@/pages/Favorites";
+import SharedPlaylist from "@/pages/SharedPlaylist";
+import PublicPlaylists from "@/pages/PublicPlaylists";
 import AppLayout from "@/components/AppLayout";
 import PreviewGlass from "@/pages/PreviewGlass";
 import PreviewVibrant from "@/pages/PreviewVibrant";
