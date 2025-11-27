@@ -170,26 +170,81 @@ class BackendTester:
         
         print(f"✅ Test data setup complete: {len(self.test_data['playlists'])} playlists, {len(self.test_data['tracks'])} tracks\n")
 
-    def test_library_stats_empty(self):
-        """Test library stats with empty library"""
-        # First clear any existing data
-        success, response, status = self.make_request("GET", "/library/stats")
+    def test_favorites_add_playlist(self):
+        """Test adding playlist to favorites"""
+        if not self.test_data["playlists"]:
+            self.log_test("Favorites - Add Playlist", False, "No test playlists available")
+            return
+            
+        playlist_id = self.test_data["playlists"][0]["id"]
+        success, response, status = self.make_request("POST", f"/favorites/playlists/{playlist_id}")
         
-        if success and "stats" in response:
-            stats = response["stats"]
+        if success and status == 201:
+            # Verify response structure
+            structure_valid = (
+                "success" in response and
+                "message" in response and
+                "favorite" in response and
+                response["success"] is True
+            )
+            
+            if structure_valid and response.get("favorite"):
+                favorite = response["favorite"]
+                favorite_valid = (
+                    "id" in favorite and
+                    "userId" in favorite and
+                    "itemType" in favorite and
+                    "itemId" in favorite and
+                    favorite["userId"] == "default-user" and
+                    favorite["itemType"] == "playlist" and
+                    favorite["itemId"] == playlist_id
+                )
+                
+                if favorite_valid:
+                    self.test_data["favorites"]["playlists"].append(favorite)
+            else:
+                favorite_valid = False
+            
             self.log_test(
-                "Library Stats - Structure Check",
-                True,
-                f"Stats structure valid: totalTracks={stats.get('totalTracks', 0)}, totalPlaylists={stats.get('totalPlaylists', 0)}, uniqueArtists={stats.get('uniqueArtists', 0)}, uniqueAlbums={stats.get('uniqueAlbums', 0)}, tracksWithFiles={stats.get('tracksWithFiles', 0)}, tracksWithUrls={stats.get('tracksWithUrls', 0)}",
-                stats
+                "Favorites - Add Playlist",
+                structure_valid and favorite_valid,
+                f"Added playlist {playlist_id} to favorites: structure={structure_valid}, favorite_data={favorite_valid}",
+                {"playlist_id": playlist_id, "status": status, "response": response}
+            )
+            
+            # Test duplicate prevention
+            success2, response2, status2 = self.make_request("POST", f"/favorites/playlists/{playlist_id}")
+            
+            duplicate_handled = (
+                success2 and status2 == 200 and
+                response2.get("message") == "Already in favorites"
+            )
+            
+            self.log_test(
+                "Favorites - Add Playlist Duplicate Prevention",
+                duplicate_handled,
+                f"Duplicate add correctly handled: status={status2}, message='{response2.get('message')}'",
+                {"status": status2, "response": response2}
             )
         else:
             self.log_test(
-                "Library Stats - Structure Check",
+                "Favorites - Add Playlist",
                 False,
-                f"Failed to get library stats: {response}",
-                response
+                f"Failed to add playlist to favorites: status={status}, response={response}",
+                {"playlist_id": playlist_id, "status": status, "response": response}
             )
+        
+        # Test invalid playlist ID
+        success, response, status = self.make_request("POST", "/favorites/playlists/invalid-playlist-id")
+        
+        invalid_handled = not success and status == 404
+        
+        self.log_test(
+            "Favorites - Add Invalid Playlist",
+            invalid_handled,
+            f"Invalid playlist ID correctly returned 404: {status}",
+            {"status": status, "response": response}
+        )
 
     def test_library_stats_with_data(self):
         """Test library stats after adding data"""
