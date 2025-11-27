@@ -189,8 +189,8 @@ const Settings = () => {
                   onClick={() => handleThemeChange(theme.id)}
                   className={`relative group rounded-xl overflow-hidden border-2 transition-all ${
                     currentTheme === theme.id
-                      ? 'border-amber-500 ring-2 ring-amber-200'
-                      : 'border-gray-200 hover:border-amber-300'
+                      ? `${themeConfig.classes.accent.replace('text-', 'border-')} ring-2 ring-opacity-30`
+                      : `${themeConfig.classes.card.includes('border-') ? themeConfig.classes.card.split(' ').find(c => c.includes('border-')) : 'border-gray-200'} hover:border-opacity-50`
                   }`}
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -202,14 +202,14 @@ const Settings = () => {
                   <div className={`h-24 ${theme.preview}`}></div>
                   
                   {/* Theme Info */}
-                  <div className="p-3 bg-white">
+                  <div className={`p-3 ${themeConfig.classes.card}`}>
                     <div className="flex items-center justify-between">
                       <div className="text-left">
-                        <div className="font-medium text-gray-800 text-sm">{theme.name}</div>
-                        <div className="text-xs text-gray-500 font-light">{theme.description}</div>
+                        <div className={`font-medium ${themeConfig.classes.text.primary} text-sm`}>{theme.name}</div>
+                        <div className={`text-xs ${themeConfig.classes.text.muted} font-light`}>{theme.description}</div>
                       </div>
                       {currentTheme === theme.id && (
-                        <Check className="w-5 h-5 text-amber-600 flex-shrink-0" />
+                        <Check className={`w-5 h-5 ${themeConfig.classes.accent} flex-shrink-0`} />
                       )}
                     </div>
                   </div>
@@ -217,12 +217,12 @@ const Settings = () => {
                   {/* Selected Indicator */}
                   {currentTheme === theme.id && (
                     <motion.div 
-                      className="absolute top-2 right-2 w-6 h-6 bg-amber-500 rounded-full flex items-center justify-center shadow-lg"
+                      className={`absolute top-2 right-2 w-6 h-6 bg-gradient-to-br ${themeConfig.classes.gradient} rounded-full flex items-center justify-center shadow-lg`}
                       initial={{ scale: 0, rotate: -180 }}
                       animate={{ scale: 1, rotate: 0 }}
                       transition={{ type: "spring", stiffness: 300 }}
                     >
-                      <Check className="w-4 h-4 text-white" />
+                      <Check className={`w-4 h-4 ${themeConfig.classes.text.primary}`} />
                     </motion.div>
                   )}
                 </motion.button>
