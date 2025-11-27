@@ -163,12 +163,64 @@ const Settings = () => {
         </motion.div>
 
         <div className="max-w-4xl">
+          {/* Theme Settings */}
+          <motion.div 
+            className={`${themeConfig.classes.card} rounded-2xl shadow-sm p-8 mb-6`}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+          >
+            <div className="flex items-center gap-3 mb-6">
+              <Palette className={`w-5 h-5 ${themeConfig.classes.accent}`} />
+              <h2 className={`text-xl font-medium ${themeConfig.classes.text.primary}`}>Theme</h2>
+            </div>
+            
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {themePreviews.map((theme, index) => (
+                <motion.button
+                  key={theme.id}
+                  onClick={() => {
+                    changeTheme(theme.id);
+                    toast.success(`Theme changed to ${theme.name}`);
+                  }}
+                  className={`relative group rounded-xl overflow-hidden border-2 transition-all ${
+                    currentTheme === theme.id
+                      ? `border-${themeConfig.classes.accent.split('-')[1]}-500 ring-2 ring-${themeConfig.classes.accent.split('-')[1]}-500/30`
+                      : 'border-transparent hover:border-gray-400'
+                  }`}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.5 + index * 0.05 }}
+                  whileHover={{ scale: 1.05, y: -3 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  {/* Theme Preview */}
+                  <div className={`h-20 ${theme.preview}`}></div>
+                  
+                  {/* Theme Info */}
+                  <div className={`p-3 ${themeConfig.classes.card.split(' ')[0]}`}>
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="text-left flex-1 min-w-0">
+                        <div className={`font-semibold text-xs ${themeConfig.classes.text.primary} truncate`}>
+                          {theme.name}
+                        </div>
+                      </div>
+                      {currentTheme === theme.id && (
+                        <Check className={`w-4 h-4 ${themeConfig.classes.accent} flex-shrink-0`} />
+                      )}
+                    </div>
+                  </div>
+                </motion.button>
+              ))}
+            </div>
+          </motion.div>
+
           {/* Playback Settings */}
           <motion.div 
             className={`${themeConfig.classes.card} rounded-2xl shadow-sm p-8 mb-6`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.5 }}
+            transition={{ duration: 0.5, delay: 0.6 }}
           >
             <div className="flex items-center gap-3 mb-6">
               <Music className={`w-5 h-5 ${themeConfig.classes.accent}`} />
