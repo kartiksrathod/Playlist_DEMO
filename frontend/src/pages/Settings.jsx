@@ -9,7 +9,7 @@ import { getThemePreviews } from '@/config/themes';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 const Settings = () => {
-  const { currentTheme, changeTheme } = useTheme();
+  const { currentTheme, changeTheme, themeConfig } = useTheme();
   const themePreviews = getThemePreviews();
   
   const [settings, setSettings] = useState({
