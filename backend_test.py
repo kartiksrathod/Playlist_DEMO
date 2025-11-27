@@ -294,44 +294,81 @@ class BackendTester:
             {"status": status, "response": response}
         )
 
-    def test_library_tracks_basic(self):
-        """Test basic library tracks retrieval"""
-        success, response, status = self.make_request("GET", "/library/tracks")
-        
-        if success:
-            tracks = response.get("tracks", [])
-            count = response.get("count", 0)
+    def test_favorites_add_track(self):
+        """Test adding track to favorites"""
+        if not self.test_data["tracks"]:
+            self.log_test("Favorites - Add Track", False, "No test tracks available")
+            return
             
-            # Verify structure
+        track_id = self.test_data["tracks"][0]["id"]
+        success, response, status = self.make_request("POST", f"/favorites/tracks/{track_id}")
+        
+        if success and status == 201:
+            # Verify response structure
             structure_valid = (
                 "success" in response and
-                "count" in response and
-                "tracks" in response and
-                isinstance(tracks, list)
+                "message" in response and
+                "favorite" in response and
+                response["success"] is True
             )
             
-            # Verify enrichment (tracks should have playlist info)
-            enrichment_valid = True
-            if tracks:
-                first_track = tracks[0]
-                enrichment_valid = (
-                    "playlistName" in first_track and
-                    "playlistCover" in first_track
+            if structure_valid and response.get("favorite"):
+                favorite = response["favorite"]
+                favorite_valid = (
+                    "id" in favorite and
+                    "userId" in favorite and
+                    "itemType" in favorite and
+                    "itemId" in favorite and
+                    favorite["userId"] == "default-user" and
+                    favorite["itemType"] == "track" and
+                    favorite["itemId"] == track_id
                 )
+                
+                if favorite_valid:
+                    self.test_data["favorites"]["tracks"].append(favorite)
+            else:
+                favorite_valid = False
             
             self.log_test(
-                "Library Tracks - Basic Retrieval",
-                structure_valid and enrichment_valid,
-                f"Retrieved {count} tracks, structure valid: {structure_valid}, enrichment valid: {enrichment_valid}",
-                {"count": count, "sample_track": tracks[0] if tracks else None}
+                "Favorites - Add Track",
+                structure_valid and favorite_valid,
+                f"Added track {track_id} to favorites: structure={structure_valid}, favorite_data={favorite_valid}",
+                {"track_id": track_id, "status": status, "response": response}
+            )
+            
+            # Test duplicate prevention
+            success2, response2, status2 = self.make_request("POST", f"/favorites/tracks/{track_id}")
+            
+            duplicate_handled = (
+                success2 and status2 == 200 and
+                response2.get("message") == "Already in favorites"
+            )
+            
+            self.log_test(
+                "Favorites - Add Track Duplicate Prevention",
+                duplicate_handled,
+                f"Duplicate add correctly handled: status={status2}, message='{response2.get('message')}'",
+                {"status": status2, "response": response2}
             )
         else:
             self.log_test(
-                "Library Tracks - Basic Retrieval",
+                "Favorites - Add Track",
                 False,
-                f"Failed to get library tracks: {response}",
-                response
+                f"Failed to add track to favorites: status={status}, response={response}",
+                {"track_id": track_id, "status": status, "response": response}
             )
+        
+        # Test invalid track ID
+        success, response, status = self.make_request("POST", "/favorites/tracks/invalid-track-id")
+        
+        invalid_handled = not success and status == 404
+        
+        self.log_test(
+            "Favorites - Add Invalid Track",
+            invalid_handled,
+            f"Invalid track ID correctly returned 404: {status}",
+            {"status": status, "response": response}
+        )
 
     def test_library_tracks_search(self):
         """Test library tracks search functionality"""
