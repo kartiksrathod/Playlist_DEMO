@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Upload, X } from 'lucide-react';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -107,116 +108,173 @@ const EditPlaylistDialog = ({ open, onOpenChange, playlist, onSuccess }) => {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[500px]">
-        <DialogHeader>
-          <DialogTitle>Edit Playlist</DialogTitle>
-          <DialogDescription>
-            Update your playlist details and cover image.
-          </DialogDescription>
-        </DialogHeader>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <DialogHeader>
+            <DialogTitle>Edit Playlist</DialogTitle>
+            <DialogDescription>
+              Update your playlist details and cover image.
+            </DialogDescription>
+          </DialogHeader>
 
-        <form onSubmit={handleSubmit}>
-          <div className="space-y-4 py-4">
-            {/* Name Input */}
-            <div className="space-y-2">
-              <Label htmlFor="edit-name">Playlist Name *</Label>
-              <Input
-                id="edit-name"
-                placeholder="My Awesome Playlist"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-              />
-            </div>
+          <form onSubmit={handleSubmit}>
+            <div className="space-y-4 py-4">
+              {/* Name Input */}
+              <motion.div 
+                className="space-y-2"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.3, delay: 0.1 }}
+              >
+                <Label htmlFor="edit-name">Playlist Name *</Label>
+                <Input
+                  id="edit-name"
+                  placeholder="My Awesome Playlist"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                />
+              </motion.div>
 
-            {/* Description Input */}
-            <div className="space-y-2">
-              <Label htmlFor="edit-description">Description</Label>
-              <Textarea
-                id="edit-description"
-                placeholder="Add a description for your playlist..."
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                rows={3}
-              />
-            </div>
+              {/* Description Input */}
+              <motion.div 
+                className="space-y-2"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.3, delay: 0.2 }}
+              >
+                <Label htmlFor="edit-description">Description</Label>
+                <Textarea
+                  id="edit-description"
+                  placeholder="Add a description for your playlist..."
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  rows={3}
+                />
+              </motion.div>
 
-            {/* Cover Image Upload */}
-            <div className="space-y-2">
-              <Label>Cover Image</Label>
-              
-              {!imagePreview ? (
-                <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6 text-center hover:border-muted-foreground/50 transition-colors">
-                  <input
-                    type="file"
-                    id="edit-coverImage"
-                    accept="image/*"
-                    onChange={handleImageChange}
-                    className="hidden"
-                  />
-                  <label htmlFor="edit-coverImage" className="cursor-pointer">
-                    <Upload className="h-10 w-10 mx-auto mb-2 text-muted-foreground" />
-                    <p className="text-sm text-muted-foreground mb-1">
-                      Click to upload cover image
-                    </p>
-                    <p className="text-xs text-muted-foreground">
-                      PNG, JPG, GIF up to 5MB
-                    </p>
-                  </label>
-                </div>
-              ) : (
-                <div className="relative">
-                  <img 
-                    src={imagePreview} 
-                    alt="Preview" 
-                    className="w-full h-48 object-cover rounded-lg"
-                  />
-                  <Button
-                    type="button"
-                    variant="destructive"
-                    size="icon"
-                    className="absolute top-2 right-2"
-                    onClick={handleRemoveImage}
-                  >
-                    <X className="h-4 w-4" />
-                  </Button>
-                  {!coverImage && (
-                    <div className="absolute bottom-2 left-2">
+              {/* Cover Image Upload */}
+              <motion.div 
+                className="space-y-2"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.3, delay: 0.3 }}
+              >
+                <Label>Cover Image</Label>
+                
+                <AnimatePresence mode="wait">
+                  {!imagePreview ? (
+                    <motion.div 
+                      key="upload-area"
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.95 }}
+                      transition={{ duration: 0.2 }}
+                      className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6 text-center hover:border-muted-foreground/50 transition-colors"
+                    >
                       <input
                         type="file"
-                        id="edit-coverImage-change"
+                        id="edit-coverImage"
                         accept="image/*"
                         onChange={handleImageChange}
                         className="hidden"
                       />
-                      <label htmlFor="edit-coverImage-change">
-                        <Button type="button" size="sm" variant="secondary" asChild>
-                          <span className="cursor-pointer">
-                            <Upload className="h-4 w-4 mr-2" />
-                            Change Image
-                          </span>
-                        </Button>
+                      <label htmlFor="edit-coverImage" className="cursor-pointer">
+                        <motion.div
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                        >
+                          <Upload className="h-10 w-10 mx-auto mb-2 text-muted-foreground" />
+                          <p className="text-sm text-muted-foreground mb-1">
+                            Click to upload cover image
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            PNG, JPG, GIF up to 5MB
+                          </p>
+                        </motion.div>
                       </label>
-                    </div>
+                    </motion.div>
+                  ) : (
+                    <motion.div 
+                      key="preview"
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.95 }}
+                      transition={{ duration: 0.2 }}
+                      className="relative"
+                    >
+                      <img 
+                        src={imagePreview} 
+                        alt="Preview" 
+                        className="w-full h-48 object-cover rounded-lg"
+                      />
+                      <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+                        <Button
+                          type="button"
+                          variant="destructive"
+                          size="icon"
+                          className="absolute top-2 right-2"
+                          onClick={handleRemoveImage}
+                        >
+                          <X className="h-4 w-4" />
+                        </Button>
+                      </motion.div>
+                      {!coverImage && (
+                        <motion.div 
+                          className="absolute bottom-2 left-2"
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.3, delay: 0.2 }}
+                        >
+                          <input
+                            type="file"
+                            id="edit-coverImage-change"
+                            accept="image/*"
+                            onChange={handleImageChange}
+                            className="hidden"
+                          />
+                          <label htmlFor="edit-coverImage-change">
+                            <Button type="button" size="sm" variant="secondary" asChild>
+                              <motion.span 
+                                className="cursor-pointer"
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                <Upload className="h-4 w-4 mr-2" />
+                                Change Image
+                              </motion.span>
+                            </Button>
+                          </label>
+                        </motion.div>
+                      )}
+                    </motion.div>
                   )}
-                </div>
-              )}
+                </AnimatePresence>
+              </motion.div>
             </div>
-          </div>
 
-          <DialogFooter>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => onOpenChange(false)}
-              disabled={loading}
-            >
-              Cancel
-            </Button>
-            <Button type="submit" disabled={loading}>
-              {loading ? 'Updating...' : 'Update Playlist'}
-            </Button>
-          </DialogFooter>
-        </form>
+            <DialogFooter>
+              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => onOpenChange(false)}
+                  disabled={loading}
+                >
+                  Cancel
+                </Button>
+              </motion.div>
+              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                <Button type="submit" disabled={loading}>
+                  {loading ? 'Updating...' : 'Update Playlist'}
+                </Button>
+              </motion.div>
+            </DialogFooter>
+          </form>
+        </motion.div>
       </DialogContent>
     </Dialog>
   );
