@@ -109,11 +109,25 @@ const Profile = () => {
     <AppLayout>
       <div className="min-h-screen bg-slate-950 px-8 py-12">
         {/* Header with Profile Picture */}
-        <div className="mb-10">
+        <motion.div 
+          className="mb-10"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
           <div className="flex items-start gap-6">
             {/* Profile Picture with Upload */}
-            <div className="relative group flex-shrink-0">
-              <div className="w-28 h-28 rounded-full overflow-hidden shadow-2xl shadow-blue-700/50 border-4 border-blue-600/30">
+            <motion.div 
+              className="relative group flex-shrink-0"
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ type: "spring", stiffness: 200, damping: 20, delay: 0.2 }}
+            >
+              <motion.div 
+                className="w-28 h-28 rounded-full overflow-hidden shadow-2xl shadow-blue-700/50 border-4 border-blue-600/30"
+                whileHover={{ scale: 1.05 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
                 {avatarPreview || profile.avatar ? (
                   <img 
                     src={avatarPreview || profile.avatar} 
@@ -125,7 +139,7 @@ const Profile = () => {
                     <User className="w-14 h-14 text-white" />
                   </div>
                 )}
-              </div>
+              </motion.div>
               
               {/* Upload Button Overlay */}
               <label className="absolute inset-0 rounded-full bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
