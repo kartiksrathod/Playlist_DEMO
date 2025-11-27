@@ -155,16 +155,16 @@ const Settings = () => {
         >
           <div className="flex items-center gap-3 mb-2">
             <motion.div 
-              className="p-2 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500"
+              className={`p-2 rounded-xl bg-gradient-to-br ${themeConfig.classes.gradient}`}
               initial={{ scale: 0, rotate: -180 }}
               animate={{ scale: 1, rotate: 0 }}
               transition={{ type: "spring", stiffness: 200, delay: 0.2 }}
             >
-              <SettingsIcon className="w-6 h-6 text-white" />
+              <SettingsIcon className={`w-6 h-6 ${themeConfig.classes.text.primary}`} />
             </motion.div>
-            <h1 className="text-4xl font-light text-gray-800">Settings</h1>
+            <h1 className={`text-4xl font-light ${themeConfig.classes.text.primary}`}>Settings</h1>
           </div>
-          <p className="text-gray-600 font-light ml-14">Customize your music experience</p>
+          <p className={`${themeConfig.classes.text.secondary} font-light ml-14`}>Customize your music experience</p>
         </motion.div>
 
         <div className="max-w-4xl">
