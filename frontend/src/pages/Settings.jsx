@@ -137,7 +137,7 @@ const Settings = () => {
     return (
       <AppLayout>
         <div className="min-h-screen px-8 py-8 flex items-center justify-center">
-          <div className="text-gray-600">Loading settings...</div>
+          <div className={themeConfig.classes.text.secondary}>Loading settings...</div>
         </div>
       </AppLayout>
     );
