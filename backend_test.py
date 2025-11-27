@@ -15,8 +15,8 @@ import uuid
 import time
 
 # Configuration
-BASE_URL = "https://preview-issue-1.preview.emergentagent.com/api"
-UPLOADS_URL = "https://preview-issue-1.preview.emergentagent.com/uploads"
+BASE_URL = "https://progress-tracker-210.preview.emergentagent.com/api"
+UPLOADS_URL = "https://progress-tracker-210.preview.emergentagent.com/uploads"
 
 class MusicPlaylistAPITester:
     def __init__(self):
@@ -384,7 +384,7 @@ class MusicPlaylistAPITester:
         
         try:
             # The coverImage path should already include /api/uploads/covers/ prefix
-            image_url = f"https://preview-issue-1.preview.emergentagent.com{playlist_with_image['coverImage']}"
+            image_url = f"https://progress-tracker-210.preview.emergentagent.com{playlist_with_image['coverImage']}"
             print(f"Testing image URL: {image_url}")
             
             response = self.session.get(image_url)
@@ -469,7 +469,7 @@ class MusicPlaylistAPITester:
             playlist_id = playlist['id']
             self.created_playlists.append(playlist_id)
             
-            initial_image_url = f"https://preview-issue-1.preview.emergentagent.com{playlist['coverImage']}"
+            initial_image_url = f"https://progress-tracker-210.preview.emergentagent.com{playlist['coverImage']}"
             
             # Verify initial image is accessible
             initial_response = self.session.get(initial_image_url)
@@ -489,7 +489,7 @@ class MusicPlaylistAPITester:
                 return False
             
             updated_playlist = update_response.json()
-            new_image_url = f"https://preview-issue-1.preview.emergentagent.com{updated_playlist['coverImage']}"
+            new_image_url = f"https://progress-tracker-210.preview.emergentagent.com{updated_playlist['coverImage']}"
             
             # Verify new image is accessible
             new_response = self.session.get(new_image_url)
@@ -531,7 +531,7 @@ class MusicPlaylistAPITester:
             
             playlist = response.json()
             playlist_id = playlist['id']
-            image_url = f"https://preview-issue-1.preview.emergentagent.com{playlist['coverImage']}"
+            image_url = f"https://progress-tracker-210.preview.emergentagent.com{playlist['coverImage']}"
             
             # Verify image is accessible before deletion
             image_response = self.session.get(image_url)
@@ -977,7 +977,7 @@ class MusicPlaylistAPITester:
         
         try:
             # The audioFile path should already include /api/uploads/audio/ prefix
-            audio_url = f"https://preview-issue-1.preview.emergentagent.com{track_with_audio['audioFile']}"
+            audio_url = f"https://progress-tracker-210.preview.emergentagent.com{track_with_audio['audioFile']}"
             print(f"Testing audio URL: {audio_url}")
             
             response = self.session.get(audio_url)
@@ -1040,7 +1040,7 @@ class MusicPlaylistAPITester:
                 
                 track = track_response.json()
                 track_ids.append(track['id'])
-                audio_urls.append(f"https://preview-issue-1.preview.emergentagent.com{track['audioFile']}")
+                audio_urls.append(f"https://progress-tracker-210.preview.emergentagent.com{track['audioFile']}")
             
             # Verify tracks and audio files exist
             for i, track_id in enumerate(track_ids):
