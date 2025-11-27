@@ -19,7 +19,11 @@ class BackendTester:
         self.test_data = {
             "playlists": [],
             "tracks": [],
-            "share_tokens": []
+            "share_tokens": [],
+            "favorites": {
+                "playlists": [],
+                "tracks": []
+            }
         }
         
     def log_test(self, test_name: str, success: bool, details: str = "", response_data: Any = None):
