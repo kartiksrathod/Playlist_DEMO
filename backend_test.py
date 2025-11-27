@@ -1211,6 +1211,7 @@ class BackendTester:
     def run_all_tests(self):
         """Run all backend tests"""
         print("🚀 Starting Backend API Testing for Music Playlist Manager")
+        print("🎯 COMPREHENSIVE FAVORITES SYSTEM TESTING (Feature 5)")
         print("=" * 80)
         print()
         
@@ -1218,40 +1219,47 @@ class BackendTester:
         self.setup_test_data()
         
         try:
-            # PRIORITY 1 - Library APIs (Phase 6)
-            print("📚 TESTING LIBRARY APIs (Phase 6)")
-            print("-" * 50)
+            # FAVORITES SYSTEM TESTING (Feature 5)
+            print("❤️  TESTING FAVORITES SYSTEM APIs (Feature 5)")
+            print("-" * 60)
             
-            self.test_library_stats_empty()
-            self.test_library_stats_with_data()
-            self.test_library_tracks_basic()
-            self.test_library_tracks_search()
-            self.test_library_tracks_filters()
-            self.test_library_tracks_sorting()
-            self.test_library_artists()
-            self.test_library_albums()
-            self.test_library_track_details()
+            # Test adding favorites
+            print("📝 Testing Add to Favorites...")
+            self.test_favorites_add_playlist()
+            self.test_favorites_add_track()
             
             print()
             
-            # PRIORITY 2 - Playlist Sharing APIs (Feature 4)
-            print("🔗 TESTING PLAYLIST SHARING APIs (Feature 4)")
-            print("-" * 50)
-            
-            self.test_playlist_sharing_generate_token()
-            self.test_playlist_sharing_view_shared()
-            self.test_playlist_toggle_public()
-            self.test_playlist_toggle_collaborative()
-            self.test_playlist_import_shared()
-            self.test_playlist_get_public()
+            # Test removing favorites
+            print("🗑️  Testing Remove from Favorites...")
+            self.test_favorites_remove_playlist()
+            self.test_favorites_remove_track()
             
             print()
             
-            # Error handling tests
-            print("⚠️  TESTING ERROR HANDLING")
-            print("-" * 50)
+            # Test getting favorites
+            print("📋 Testing Get Favorites...")
+            self.test_favorites_get_playlists()
+            self.test_favorites_get_tracks()
+            self.test_favorites_get_all()
             
-            self.test_error_cases()
+            print()
+            
+            # Test checking favorites
+            print("🔍 Testing Check Favorites...")
+            self.test_favorites_check_item()
+            
+            print()
+            
+            # Test database persistence
+            print("💾 Testing Database Persistence...")
+            self.test_favorites_database_persistence()
+            
+            print()
+            
+            # Test error handling
+            print("⚠️  Testing Error Handling...")
+            self.test_favorites_error_handling()
             
         finally:
             # Always cleanup
