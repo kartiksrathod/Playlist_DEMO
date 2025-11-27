@@ -11,7 +11,7 @@ import uuid
 from typing import Dict, List, Any, Optional
 
 # Configuration
-BASE_URL = "https://error-resolve-12.preview.emergentagent.com/api"
+BASE_URL = "https://control-center-32.preview.emergentagent.com/api"
 HEADERS = {"Content-Type": "application/json"}
 
 class PlaylistSharingTester:
