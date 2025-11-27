@@ -23,7 +23,7 @@ const Sidebar = () => {
 
   return (
     <motion.div 
-      className="fixed left-0 top-0 h-screen w-20 bg-slate-950 border-r border-blue-800/30 flex flex-col items-center py-8 z-50 backdrop-blur-xl"
+      className={`fixed left-0 top-0 h-screen w-20 ${themeConfig.classes.sidebar} border-r flex flex-col items-center py-8 z-50 backdrop-blur-xl`}
       initial={{ x: -100, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       transition={{ duration: 0.5, type: "spring", stiffness: 100 }}
