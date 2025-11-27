@@ -33,6 +33,7 @@ const Playlists = () => {
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [shareDialogOpen, setShareDialogOpen] = useState(false);
   const [selectedPlaylist, setSelectedPlaylist] = useState(null);
   const [favoritedPlaylists, setFavoritedPlaylists] = useState(new Set());
 
