@@ -663,7 +663,9 @@ class BackendTester:
             self.log_test("Playlist Sharing - Toggle Public", False, "No test playlists available")
             return
             
-        playlist_id = self.test_data["playlists"][1]["id"]  # Use second playlist
+        # Use first playlist if we only have one, otherwise use second
+        playlist_idx = min(1, len(self.test_data["playlists"]) - 1) if len(self.test_data["playlists"]) > 1 else 0
+        playlist_id = self.test_data["playlists"][playlist_idx]["id"]
         
         # Toggle to public
         success, response, status = self.make_request("PUT", f"/playlists/{playlist_id}/toggle-public")
