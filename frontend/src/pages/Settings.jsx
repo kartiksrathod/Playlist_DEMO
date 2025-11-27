@@ -350,7 +350,12 @@ const Settings = () => {
           </motion.div>
 
           {/* Notifications */}
-          <div className="bg-white rounded-2xl shadow-sm p-8 mb-6">
+          <motion.div 
+            className="bg-white rounded-2xl shadow-sm p-8 mb-6"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.7 }}
+          >
             <div className="flex items-center gap-3 mb-6">
               <Bell className="w-5 h-5 text-amber-600" />
               <h2 className="text-xl font-medium text-gray-800">Notifications</h2>
@@ -366,36 +371,57 @@ const Settings = () => {
                   onClick={() => handleToggle('notifications')}
                   className={`relative w-12 h-6 rounded-full transition-colors ${settings.notifications ? 'bg-amber-500' : 'bg-gray-300'}`}
                 >
-                  <div className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform ${settings.notifications ? 'translate-x-6' : ''}`} />
+                  <motion.div 
+                    className="absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full"
+                    animate={{ x: settings.notifications ? 24 : 0 }}
+                    transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                  />
                 </button>
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Help & Support */}
-          <div className="bg-white rounded-2xl shadow-sm p-8">
+          <motion.div 
+            className="bg-white rounded-2xl shadow-sm p-8"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.8 }}
+          >
             <div className="flex items-center gap-3 mb-6">
               <HelpCircle className="w-5 h-5 text-amber-600" />
               <h2 className="text-xl font-medium text-gray-800">Help & Support</h2>
             </div>
             
             <div className="space-y-4">
-              <button className="w-full text-left py-3 px-4 rounded-xl hover:bg-gray-50 transition-colors">
+              <motion.button 
+                className="w-full text-left py-3 px-4 rounded-xl hover:bg-gray-50 transition-colors"
+                whileHover={{ x: 5 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
                 <div className="font-medium text-gray-800">Documentation</div>
                 <div className="text-sm text-gray-600 font-light">Learn how to use the app</div>
-              </button>
+              </motion.button>
               
-              <button className="w-full text-left py-3 px-4 rounded-xl hover:bg-gray-50 transition-colors">
+              <motion.button 
+                className="w-full text-left py-3 px-4 rounded-xl hover:bg-gray-50 transition-colors"
+                whileHover={{ x: 5 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
                 <div className="font-medium text-gray-800">Report a Bug</div>
                 <div className="text-sm text-gray-600 font-light">Help us improve</div>
-              </button>
+              </motion.button>
               
-              <button className="w-full text-left py-3 px-4 rounded-xl hover:bg-gray-50 transition-colors">
+              <motion.button 
+                className="w-full text-left py-3 px-4 rounded-xl hover:bg-gray-50 transition-colors"
+                whileHover={{ x: 5 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
                 <div className="font-medium text-gray-800">Contact Support</div>
                 <div className="text-sm text-gray-600 font-light">Get help from our team</div>
-              </button>
+              </motion.button>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </AppLayout>
