@@ -168,68 +168,6 @@ const Settings = () => {
         </motion.div>
 
         <div className="max-w-4xl">
-          {/* Theme Selection */}
-          <motion.div 
-            className={`${themeConfig.classes.card} rounded-2xl shadow-sm p-8 mb-6`}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            <div className="flex items-center gap-3 mb-6">
-              <Palette className={`w-5 h-5 ${themeConfig.classes.accent}`} />
-              <h2 className={`text-xl font-medium ${themeConfig.classes.text.primary}`}>Theme</h2>
-            </div>
-            
-            <p className={`text-sm ${themeConfig.classes.text.secondary} font-light mb-6`}>Choose your preferred visual theme</p>
-            
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {themePreviews.map((theme, index) => (
-                <motion.button
-                  key={theme.id}
-                  onClick={() => handleThemeChange(theme.id)}
-                  className={`relative group rounded-xl overflow-hidden border-2 transition-all ${
-                    currentTheme === theme.id
-                      ? `${themeConfig.classes.accent.replace('text-', 'border-')} ring-2 ring-opacity-30`
-                      : `${themeConfig.classes.card.includes('border-') ? themeConfig.classes.card.split(' ').find(c => c.includes('border-')) : 'border-gray-200'} hover:border-opacity-50`
-                  }`}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.3 + index * 0.05, type: "spring", stiffness: 200 }}
-                  whileHover={{ scale: 1.05, y: -5 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  {/* Theme Preview */}
-                  <div className={`h-24 ${theme.preview}`}></div>
-                  
-                  {/* Theme Info */}
-                  <div className={`p-3 ${themeConfig.classes.card}`}>
-                    <div className="flex items-center justify-between">
-                      <div className="text-left">
-                        <div className={`font-medium ${themeConfig.classes.text.primary} text-sm`}>{theme.name}</div>
-                        <div className={`text-xs ${themeConfig.classes.text.muted} font-light`}>{theme.description}</div>
-                      </div>
-                      {currentTheme === theme.id && (
-                        <Check className={`w-5 h-5 ${themeConfig.classes.accent} flex-shrink-0`} />
-                      )}
-                    </div>
-                  </div>
-                  
-                  {/* Selected Indicator */}
-                  {currentTheme === theme.id && (
-                    <motion.div 
-                      className={`absolute top-2 right-2 w-6 h-6 bg-gradient-to-br ${themeConfig.classes.gradient} rounded-full flex items-center justify-center shadow-lg`}
-                      initial={{ scale: 0, rotate: -180 }}
-                      animate={{ scale: 1, rotate: 0 }}
-                      transition={{ type: "spring", stiffness: 300 }}
-                    >
-                      <Check className={`w-4 h-4 ${themeConfig.classes.text.primary}`} />
-                    </motion.div>
-                  )}
-                </motion.button>
-              ))}
-            </div>
-          </motion.div>
-
           {/* Playback Settings */}
           <motion.div 
             className={`${themeConfig.classes.card} rounded-2xl shadow-sm p-8 mb-6`}
