@@ -10,6 +10,7 @@ const libraryRoutes = require('./routes/libraryRoutes');
 const historyRoutes = require('./routes/historyRoutes');
 const settingsRoutes = require('./routes/settingsRoutes');
 const favoritesRoutes = require('./routes/favoritesRoutes');
+const authRoutes = require('./routes/authRoutes');
 const errorHandler = require('./middleware/errorHandler');
 
 // Load environment variables
