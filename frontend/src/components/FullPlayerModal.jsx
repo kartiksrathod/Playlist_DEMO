@@ -156,8 +156,8 @@ const FullPlayerModal = ({ isOpen, onClose }) => {
                 {/* Shuffle */}
                 <motion.button
                   onClick={toggleShuffle}
-                  className={`p-3 rounded-full hover:bg-slate-800 transition ${
-                    shuffle ? 'text-green-500' : 'text-slate-400 hover:text-white'
+                  className={`p-3 rounded-full ${themeConfig.classes.button.secondary} transition ${
+                    shuffle ? themeConfig.classes.accent : themeConfig.classes.text.muted
                   }`}
                   title="Shuffle"
                   whileHover={{ scale: 1.1 }}
@@ -169,7 +169,7 @@ const FullPlayerModal = ({ isOpen, onClose }) => {
                 {/* Previous */}
                 <motion.button
                   onClick={playPrevious}
-                  className="p-4 rounded-full hover:bg-slate-800 text-white hover:scale-110 transition"
+                  className={`p-4 rounded-full ${themeConfig.classes.button.secondary} ${themeConfig.classes.text.primary} hover:scale-110 transition`}
                   title="Previous"
                   whileHover={{ scale: 1.15, x: -5 }}
                   whileTap={{ scale: 0.95 }}
@@ -180,7 +180,7 @@ const FullPlayerModal = ({ isOpen, onClose }) => {
                 {/* Play/Pause */}
                 <motion.button
                   onClick={togglePlayPause}
-                  className="p-6 rounded-full bg-white hover:bg-gray-100 text-slate-900 hover:scale-110 transition shadow-2xl"
+                  className={`p-6 rounded-full ${themeConfig.classes.button.primary} hover:scale-110 transition shadow-2xl`}
                   title={isPlaying ? 'Pause' : 'Play'}
                   whileHover={{ scale: 1.15 }}
                   whileTap={{ scale: 0.95 }}
