@@ -113,6 +113,7 @@ const SortableTrackItem = ({ track, index, isCurrentTrack, onPlay, onRemove, get
 };
 
 const QueueDrawer = ({ isOpen, onClose }) => {
+  const { themeConfig } = useTheme();
   const { queue, currentTrack, removeFromQueue, clearQueue, play, reorderQueue } = usePlayer();
 
   const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || '';
