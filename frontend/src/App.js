@@ -570,6 +570,7 @@ function App() {
           </div>
         </KeyboardShortcutsWrapper>
       </PlayerProvider>
+    </AuthProvider>
     </ThemeProvider>
   );
 }
