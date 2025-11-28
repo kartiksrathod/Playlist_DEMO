@@ -1,10 +1,11 @@
-import { useTheme } from "next-themes"
 import { Toaster as Sonner, toast } from "sonner"
 
 const Toaster = ({
   ...props
 }) => {
-  const { theme = "system" } = useTheme()
+  // Use 'dark' theme by default for sonner toasts
+  // Our custom theme system handles app-wide theming
+  const theme = "dark";
 
   return (
     <Sonner
