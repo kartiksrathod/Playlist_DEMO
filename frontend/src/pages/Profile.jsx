@@ -218,68 +218,68 @@ const Profile = () => {
           >
             {/* Playlists Stat */}
             <motion.div 
-              className="bg-slate-900/60 backdrop-blur-xl rounded-2xl shadow-xl p-6 border border-blue-800/30"
+              className={`${themeConfig.classes.card} backdrop-blur-xl rounded-2xl shadow-xl p-6`}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, type: "spring", stiffness: 200 }}
-              whileHover={{ y: -5, boxShadow: "0 20px 40px rgba(37, 99, 235, 0.3)" }}
+              whileHover={{ y: -5 }}
             >
               <div className="flex items-center justify-between mb-4">
                 <motion.div 
-                  className="p-3 rounded-xl bg-gradient-to-br from-blue-600 to-blue-800 shadow-lg shadow-blue-700/50"
+                  className={`p-3 rounded-xl bg-gradient-to-br ${themeConfig.classes.gradient} shadow-lg`}
                   whileHover={{ rotate: 360 }}
                   transition={{ duration: 0.6 }}
                 >
-                  <ListMusic className="w-6 h-6 text-white" />
+                  <ListMusic className={`w-6 h-6 ${themeConfig.classes.text.primary}`} />
                 </motion.div>
-                <Award className="w-5 h-5 text-blue-400" />
+                <Award className={`w-5 h-5 ${themeConfig.classes.accent}`} />
               </div>
-              <div className="text-3xl font-light text-white mb-1">{mockUser.stats.totalPlaylists}</div>
-              <div className="text-sm text-blue-200 font-light">Total Playlists</div>
+              <div className={`text-3xl font-light ${themeConfig.classes.text.primary} mb-1`}>{mockUser.stats.totalPlaylists}</div>
+              <div className={`text-sm ${themeConfig.classes.text.secondary} font-light`}>Total Playlists</div>
             </motion.div>
 
             {/* Tracks Stat */}
             <motion.div 
-              className="bg-slate-900/60 backdrop-blur-xl rounded-2xl shadow-xl p-6 border border-purple-800/30"
+              className={`${themeConfig.classes.card} backdrop-blur-xl rounded-2xl shadow-xl p-6`}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6, type: "spring", stiffness: 200 }}
-              whileHover={{ y: -5, boxShadow: "0 20px 40px rgba(147, 51, 234, 0.3)" }}
+              whileHover={{ y: -5 }}
             >
               <div className="flex items-center justify-between mb-4">
                 <motion.div 
-                  className="p-3 rounded-xl bg-gradient-to-br from-purple-600 to-purple-800 shadow-lg shadow-purple-700/50"
+                  className={`p-3 rounded-xl bg-gradient-to-br ${themeConfig.classes.gradient} shadow-lg`}
                   whileHover={{ rotate: 360 }}
                   transition={{ duration: 0.6 }}
                 >
-                  <Music className="w-6 h-6 text-white" />
+                  <Music className={`w-6 h-6 ${themeConfig.classes.text.primary}`} />
                 </motion.div>
-                <Award className="w-5 h-5 text-purple-400" />
+                <Award className={`w-5 h-5 ${themeConfig.classes.accent}`} />
               </div>
-              <div className="text-3xl font-light text-white mb-1">{mockUser.stats.totalTracks}</div>
-              <div className="text-sm text-blue-200 font-light">Total Tracks</div>
+              <div className={`text-3xl font-light ${themeConfig.classes.text.primary} mb-1`}>{mockUser.stats.totalTracks}</div>
+              <div className={`text-sm ${themeConfig.classes.text.secondary} font-light`}>Total Tracks</div>
             </motion.div>
 
             {/* Listening Time Stat */}
             <motion.div 
-              className="bg-slate-900/60 backdrop-blur-xl rounded-2xl shadow-xl p-6 border border-cyan-800/30"
+              className={`${themeConfig.classes.card} backdrop-blur-xl rounded-2xl shadow-xl p-6`}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.7, type: "spring", stiffness: 200 }}
-              whileHover={{ y: -5, boxShadow: "0 20px 40px rgba(6, 182, 212, 0.3)" }}
+              whileHover={{ y: -5 }}
             >
               <div className="flex items-center justify-between mb-4">
                 <motion.div 
-                  className="p-3 rounded-xl bg-gradient-to-br from-cyan-600 to-cyan-800 shadow-lg shadow-cyan-700/50"
+                  className={`p-3 rounded-xl bg-gradient-to-br ${themeConfig.classes.gradient} shadow-lg`}
                   whileHover={{ rotate: 360 }}
                   transition={{ duration: 0.6 }}
                 >
-                  <Clock className="w-6 h-6 text-white" />
+                  <Clock className={`w-6 h-6 ${themeConfig.classes.text.primary}`} />
                 </motion.div>
-                <Award className="w-5 h-5 text-cyan-400" />
+                <Award className={`w-5 h-5 ${themeConfig.classes.accent}`} />
               </div>
-              <div className="text-3xl font-light text-white mb-1">{mockUser.stats.listeningMinutes}</div>
-              <div className="text-sm text-blue-200 font-light">Minutes of Music</div>
+              <div className={`text-3xl font-light ${themeConfig.classes.text.primary} mb-1`}>{mockUser.stats.listeningMinutes}</div>
+              <div className={`text-sm ${themeConfig.classes.text.secondary} font-light`}>Minutes of Music</div>
             </motion.div>
           </motion.div>
 
