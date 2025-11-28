@@ -126,7 +126,7 @@ const Profile = () => {
               transition={{ type: "spring", stiffness: 200, damping: 20, delay: 0.2 }}
             >
               <motion.div 
-                className="w-28 h-28 rounded-full overflow-hidden shadow-2xl shadow-blue-700/50 border-4 border-blue-600/30"
+                className={`w-28 h-28 rounded-full overflow-hidden shadow-2xl border-4 ${themeConfig.classes.card}`}
                 whileHover={{ scale: 1.05 }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
@@ -137,8 +137,8 @@ const Profile = () => {
                     className="w-full h-full object-cover"
                   />
                 ) : (
-                  <div className="w-full h-full bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center">
-                    <User className="w-14 h-14 text-white" />
+                  <div className={`w-full h-full bg-gradient-to-br ${themeConfig.classes.gradient} flex items-center justify-center`}>
+                    <User className={`w-14 h-14 ${themeConfig.classes.text.primary}`} />
                   </div>
                 )}
               </motion.div>
