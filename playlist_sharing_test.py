@@ -11,7 +11,7 @@ import uuid
 from typing import Dict, List, Any, Optional
 
 # Configuration
-BASE_URL = "https://soundcollab-3.preview.emergentagent.com/api"
+BASE_URL = "https://site-readiness-3.preview.emergentagent.com/api"
 HEADERS = {"Content-Type": "application/json"}
 
 class PlaylistSharingTester:
