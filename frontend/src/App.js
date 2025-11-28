@@ -94,11 +94,6 @@ const Home = () => {
   return (
     <AppLayout>
       <div className="min-h-screen overflow-hidden">
-        {/* Theme Switcher - Fixed Position */}
-        <div className="fixed top-6 right-6 z-50">
-          <ThemeSwitcher />
-        </div>
-
         {/* Hero Section with Video Background */}
         <div className="relative h-[70vh] overflow-hidden">
           {/* Video Background - Only show for dark theme */}
