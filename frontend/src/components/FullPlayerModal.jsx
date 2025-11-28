@@ -114,10 +114,10 @@ const FullPlayerModal = ({ isOpen, onClose }) => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.3 }}
               >
-                <h1 className="text-4xl font-bold text-white mb-3">{currentTrack.songName}</h1>
-                <p className="text-xl text-slate-300">{currentTrack.artist || 'Unknown Artist'}</p>
+                <h1 className={`text-4xl font-bold ${themeConfig.classes.text.primary} mb-3`}>{currentTrack.songName}</h1>
+                <p className={`text-xl ${themeConfig.classes.text.secondary}`}>{currentTrack.artist || 'Unknown Artist'}</p>
                 {currentTrack.album && (
-                  <p className="text-slate-400 mt-2">{currentTrack.album}</p>
+                  <p className={`${themeConfig.classes.text.muted} mt-2`}>{currentTrack.album}</p>
                 )}
               </motion.div>
 
@@ -134,13 +134,13 @@ const FullPlayerModal = ({ isOpen, onClose }) => {
                   max={duration || 0}
                   value={currentTime}
                   onChange={handleSeek}
-                  className="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer
+                  className={`w-full h-2 ${themeConfig.classes.card} rounded-lg appearance-none cursor-pointer
                     [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4
                     [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white
                     [&::-webkit-slider-thumb]:cursor-pointer hover:[&::-webkit-slider-thumb]:bg-gray-100
-                    [&::-webkit-slider-thumb]:shadow-lg"
+                    [&::-webkit-slider-thumb]:shadow-lg`}
                 />
-                <div className="flex justify-between text-slate-400 text-sm mt-2">
+                <div className={`flex justify-between ${themeConfig.classes.text.muted} text-sm mt-2`}>
                   <span>{formatTime(currentTime)}</span>
                   <span>{formatTime(duration)}</span>
                 </div>
