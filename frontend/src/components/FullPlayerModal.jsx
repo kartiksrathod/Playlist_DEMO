@@ -275,12 +275,12 @@ const FullPlayerModal = ({ isOpen, onClose }) => {
               {/* Queue Preview */}
               {queue.length > 0 && (
                 <motion.div 
-                  className="bg-slate-800/30 backdrop-blur-sm rounded-2xl p-6"
+                  className={`${themeConfig.classes.card} backdrop-blur-sm rounded-2xl p-6`}
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.7 }}
                 >
-                  <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                  <h3 className={`text-lg font-semibold ${themeConfig.classes.text.primary} mb-4 flex items-center gap-2`}>
                     <Music className="w-5 h-5" />
                     Up Next ({queue.length} tracks)
                   </h3>
@@ -289,30 +289,30 @@ const FullPlayerModal = ({ isOpen, onClose }) => {
                       <motion.div
                         key={`${track.id}-${index}`}
                         onClick={() => play(track)}
-                        className="flex items-center gap-3 p-3 rounded-lg hover:bg-slate-700/50 transition cursor-pointer group"
+                        className={`flex items-center gap-3 p-3 rounded-lg ${themeConfig.classes.button.secondary} transition cursor-pointer group`}
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.3, delay: 0.8 + index * 0.05 }}
                         whileHover={{ scale: 1.02, x: 5 }}
                         whileTap={{ scale: 0.98 }}
                       >
-                        <span className="text-slate-500 w-6 text-sm">{index + 1}</span>
+                        <span className={`${themeConfig.classes.text.muted} w-6 text-sm`}>{index + 1}</span>
                         <div className="flex-1 min-w-0">
-                          <p className="text-white font-medium truncate group-hover:text-blue-400 transition">
+                          <p className={`${themeConfig.classes.text.primary} font-medium truncate group-hover:${themeConfig.classes.accent} transition`}>
                             {track.songName}
                           </p>
-                          <p className="text-slate-400 text-sm truncate">
+                          <p className={`${themeConfig.classes.text.secondary} text-sm truncate`}>
                             {track.artist || 'Unknown Artist'}
                           </p>
                         </div>
                         {track.duration && (
-                          <span className="text-slate-500 text-sm">{track.duration}</span>
+                          <span className={`${themeConfig.classes.text.muted} text-sm`}>{track.duration}</span>
                         )}
                       </motion.div>
                     ))}
                     {queue.length > 5 && (
                       <motion.p 
-                        className="text-slate-500 text-sm text-center pt-2"
+                        className={`${themeConfig.classes.text.muted} text-sm text-center pt-2`}
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ duration: 0.3, delay: 1.1 }}
