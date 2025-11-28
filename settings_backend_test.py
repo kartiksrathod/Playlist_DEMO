@@ -9,7 +9,7 @@ import json
 import time
 
 # Configuration
-BASE_URL = "https://auth-gateway-ui.preview.emergentagent.com/api"
+BASE_URL = "https://user-auth-system-19.preview.emergentagent.com/api"
 
 class SettingsAPITester:
     def __init__(self):
