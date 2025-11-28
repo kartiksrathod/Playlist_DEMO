@@ -12,7 +12,7 @@ import time
 from datetime import datetime, timedelta
 
 # Configuration
-BASE_URL = "https://theme-fix-7.preview.emergentagent.com/api"
+BASE_URL = "https://unified-components.preview.emergentagent.com/api"
 
 class HistoryAPITester:
     def __init__(self):

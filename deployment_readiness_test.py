@@ -11,7 +11,7 @@ import os
 from typing import Dict, List, Any, Optional
 
 # Configuration
-BASE_URL = "https://theme-fix-7.preview.emergentagent.com/api"
+BASE_URL = "https://unified-components.preview.emergentagent.com/api"
 HEADERS = {"Content-Type": "application/json"}
 
 class DeploymentReadinessTester:
