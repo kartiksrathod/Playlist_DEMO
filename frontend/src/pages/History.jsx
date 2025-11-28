@@ -291,11 +291,11 @@ const History = () => {
           {/* Empty State */}
           {!loading && sortedHistory.length === 0 && (
             <div className="text-center py-20">
-              <div className="w-20 h-20 rounded-full bg-slate-900/60 backdrop-blur-xl flex items-center justify-center mx-auto mb-6 border border-purple-800/30">
-                <Clock className="w-10 h-10 text-purple-400" />
+              <div className={`w-20 h-20 rounded-full ${themeConfig.classes.card} backdrop-blur-xl flex items-center justify-center mx-auto mb-6`}>
+                <Clock className={`w-10 h-10 ${themeConfig.classes.accent}`} />
               </div>
-              <h3 className="text-2xl font-light text-white mb-2">No listening history yet</h3>
-              <p className="text-blue-100 mb-6">Start playing some tracks to see your history here</p>
+              <h3 className={`text-2xl font-light ${themeConfig.classes.text.primary} mb-2`}>No listening history yet</h3>
+              <p className={`${themeConfig.classes.text.secondary} mb-6`}>Start playing some tracks to see your history here</p>
             </div>
           )}
 
