@@ -1,5 +1,6 @@
 import React from 'react';
 import { usePlayer } from '../context/PlayerContext';
+import { useTheme } from '../context/ThemeContext';
 import { X, Music, Trash2, Play, GripVertical } from 'lucide-react';
 import {
   DndContext,
