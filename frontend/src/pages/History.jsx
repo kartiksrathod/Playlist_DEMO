@@ -19,6 +19,7 @@ import {
 const API = process.env.REACT_APP_BACKEND_URL || '';
 
 const History = () => {
+  const { themeConfig } = useTheme();
   const [sortBy, setSortBy] = useState('recent'); // recent, mostPlayed, oldest
   const [history, setHistory] = useState([]);
   const [stats, setStats] = useState({
