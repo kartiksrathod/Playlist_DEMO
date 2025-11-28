@@ -6,7 +6,7 @@ Debug specific API failures
 import requests
 import json
 
-BASE_URL = "https://theme-switcher-20.preview.emergentagent.com/api"
+BASE_URL = "https://theme-fix-7.preview.emergentagent.com/api"
 HEADERS = {"Content-Type": "application/json"}
 
 def test_playlist_creation():
