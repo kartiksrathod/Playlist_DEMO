@@ -154,21 +154,21 @@ const QueueDrawer = ({ isOpen, onClose }) => {
       />
 
       {/* Drawer */}
-      <div className="fixed right-0 top-0 bottom-0 w-full sm:w-96 bg-slate-900 z-50 shadow-2xl overflow-hidden flex flex-col">
+      <div className={`fixed right-0 top-0 bottom-0 w-full sm:w-96 ${themeConfig.classes.sidebar} z-50 shadow-2xl overflow-hidden flex flex-col`}>
         {/* Header */}
-        <div className="p-6 border-b border-slate-700">
+        <div className={`p-6 border-b ${themeConfig.classes.card}`}>
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-2xl font-bold text-white">Queue</h2>
+            <h2 className={`text-2xl font-bold ${themeConfig.classes.text.primary}`}>Queue</h2>
             <button
               onClick={onClose}
-              className="p-2 rounded-full hover:bg-slate-800 text-slate-400 hover:text-white transition"
+              className={`p-2 rounded-full ${themeConfig.classes.button.secondary} transition`}
             >
               <X className="w-5 h-5" />
             </button>
           </div>
 
           <div className="flex items-center justify-between">
-            <p className="text-slate-400 text-sm">
+            <p className={`${themeConfig.classes.text.secondary} text-sm`}>
               {queue.length} {queue.length === 1 ? 'track' : 'tracks'} in queue
             </p>
             {queue.length > 0 && (
@@ -186,11 +186,11 @@ const QueueDrawer = ({ isOpen, onClose }) => {
         <div className="flex-1 overflow-y-auto">
           {queue.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full p-8 text-center">
-              <div className="w-20 h-20 rounded-full bg-slate-800 flex items-center justify-center mb-4">
-                <Music className="w-10 h-10 text-slate-600" />
+              <div className={`w-20 h-20 rounded-full ${themeConfig.classes.card} flex items-center justify-center mb-4`}>
+                <Music className={`w-10 h-10 ${themeConfig.classes.text.muted}`} />
               </div>
-              <h3 className="text-lg font-medium text-slate-300 mb-2">Queue is empty</h3>
-              <p className="text-slate-500 text-sm">
+              <h3 className={`text-lg font-medium ${themeConfig.classes.text.secondary} mb-2`}>Queue is empty</h3>
+              <p className={`${themeConfig.classes.text.muted} text-sm`}>
                 Add tracks to your queue to see them here
               </p>
             </div>
@@ -217,6 +217,7 @@ const QueueDrawer = ({ isOpen, onClose }) => {
                         onPlay={play}
                         onRemove={removeFromQueue}
                         getCoverImage={getCoverImage}
+                        themeConfig={themeConfig}
                       />
                     );
                   })}
@@ -228,8 +229,8 @@ const QueueDrawer = ({ isOpen, onClose }) => {
 
         {/* Footer Note */}
         {queue.length > 0 && (
-          <div className="p-4 border-t border-slate-700">
-            <p className="text-slate-500 text-xs text-center">
+          <div className={`p-4 border-t ${themeConfig.classes.card}`}>
+            <p className={`${themeConfig.classes.text.muted} text-xs text-center`}>
               Click on any track to play it • Drag to reorder
             </p>
           </div>
