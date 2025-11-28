@@ -9,7 +9,7 @@ import json
 import time
 
 # Configuration
-BASE_URL = "https://project-specs-6.preview.emergentagent.com/api"
+BASE_URL = "https://soundcollab-3.preview.emergentagent.com/api"
 
 class SettingsAPITester:
     def __init__(self):

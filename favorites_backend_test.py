@@ -10,7 +10,7 @@ import time
 from datetime import datetime
 
 # Configuration
-BASE_URL = "https://project-specs-6.preview.emergentagent.com/api"
+BASE_URL = "https://soundcollab-3.preview.emergentagent.com/api"
 HEADERS = {"Content-Type": "application/json"}
 
 class FavoritesAPITester:
