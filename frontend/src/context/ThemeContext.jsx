@@ -52,15 +52,23 @@ export const ThemeProvider = ({ children }) => {
 
   const changeTheme = async (newTheme) => {
     try {
+      console.log('changeTheme called with:', newTheme);
+      console.log('Current theme before change:', currentTheme);
+      
       // Update locally immediately for instant feedback
       setCurrentTheme(newTheme);
+      console.log('setCurrentTheme called with:', newTheme);
+      
+      // Apply theme to body immediately
+      applyThemeToBody(newTheme);
+      console.log('applyThemeToBody called');
 
       // Save to backend
       await axios.put(`${API}/settings`, {
         theme: newTheme,
       });
 
-      console.log(`Theme changed to: ${newTheme}`);
+      console.log(`Theme changed and saved to backend: ${newTheme}`);
     } catch (error) {
       console.error('Error saving theme to backend:', error);
       // Revert on error
