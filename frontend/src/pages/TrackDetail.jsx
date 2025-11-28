@@ -18,11 +18,13 @@ import {
   Loader2,
 } from 'lucide-react';
 import { toast } from 'sonner';
+import { useTheme } from '@/context/ThemeContext';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
 const TrackDetail = () => {
+  const { themeConfig } = useTheme();
   const { trackId } = useParams();
   const navigate = useNavigate();
   const audioRef = useRef(null);
