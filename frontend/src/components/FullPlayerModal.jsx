@@ -69,7 +69,7 @@ const FullPlayerModal = ({ isOpen, onClose }) => {
     <AnimatePresence>
       {isOpen && (
         <motion.div 
-          className="fixed inset-0 z-50 bg-gradient-to-br from-slate-900 via-purple-900/20 to-slate-900 overflow-auto"
+          className={`fixed inset-0 z-50 bg-gradient-to-br ${themeConfig.classes.gradient} overflow-auto`}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -78,7 +78,7 @@ const FullPlayerModal = ({ isOpen, onClose }) => {
           {/* Close Button */}
           <motion.button
             onClick={onClose}
-            className="absolute top-6 right-6 p-2 rounded-full bg-slate-800/50 hover:bg-slate-800 text-white transition z-10"
+            className={`absolute top-6 right-6 p-2 rounded-full ${themeConfig.classes.button.secondary} transition z-10`}
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
