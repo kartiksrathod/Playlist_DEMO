@@ -72,6 +72,8 @@ export const ThemeProvider = ({ children }) => {
     // Get theme config
     const config = getTheme(theme);
     
+    console.log('Applying theme:', theme, config);
+    
     // Remove all existing theme and background classes from body
     const bodyClasses = document.body.className.split(' ').filter(cls => 
       !cls.startsWith('bg-') && 
@@ -80,20 +82,30 @@ export const ThemeProvider = ({ children }) => {
       !cls.startsWith('via-') &&
       !cls.includes('gradient') &&
       cls !== 'transition-colors' &&
-      cls !== 'duration-300'
+      cls !== 'duration-300' &&
+      cls !== 'backdrop-blur'
     );
+    
+    console.log('Filtered body classes:', bodyClasses);
     
     // Apply new theme body classes with transition
     if (config.classes.body) {
-      const newClasses = config.classes.body.split(' ');
-      document.body.className = [...bodyClasses, ...newClasses, 'transition-colors', 'duration-300'].join(' ');
+      const newClasses = config.classes.body.split(' ').filter(c => c.length > 0);
+      const finalClasses = [...bodyClasses, ...newClasses, 'transition-colors', 'duration-300'].join(' ');
+      
+      console.log('Setting body classes to:', finalClasses);
+      document.body.className = finalClasses;
     }
     
     // Also set a data attribute for theme ID for easy CSS targeting
     document.body.setAttribute('data-theme', theme);
+    console.log('Set data-theme to:', theme);
     
     // Force a repaint to ensure the changes are visible
-    document.body.offsetHeight;
+    void document.body.offsetHeight;
+    
+    console.log('Final body className:', document.body.className);
+    console.log('Final data-theme:', document.body.getAttribute('data-theme'));
   };
 
   const value = {
