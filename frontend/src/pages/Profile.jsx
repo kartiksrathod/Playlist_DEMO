@@ -166,7 +166,7 @@ const Profile = () => {
               transition={{ duration: 0.6, delay: 0.3 }}
             >
               <motion.h1 
-                className="text-4xl font-light text-white mb-2"
+                className={`text-4xl font-light ${themeConfig.classes.text.primary} mb-2`}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.4 }}
@@ -174,7 +174,7 @@ const Profile = () => {
                 {profile.name}
               </motion.h1>
               <motion.div 
-                className="flex items-center gap-4 text-blue-200 mb-3"
+                className={`flex items-center gap-4 ${themeConfig.classes.text.secondary} mb-3`}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.5 }}
@@ -189,7 +189,7 @@ const Profile = () => {
                 </div>
               </motion.div>
               <motion.p 
-                className="text-blue-100 font-light max-w-2xl"
+                className={`${themeConfig.classes.text.secondary} font-light max-w-2xl`}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.6 }}
@@ -197,7 +197,7 @@ const Profile = () => {
                 {profile.bio}
               </motion.p>
               <motion.div 
-                className="mt-4 inline-block px-4 py-2 bg-blue-700/30 backdrop-blur-sm rounded-full text-sm text-blue-200 border border-blue-600/30"
+                className={`mt-4 inline-block px-4 py-2 ${themeConfig.classes.button.secondary} backdrop-blur-sm rounded-full text-sm`}
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.7 }}
