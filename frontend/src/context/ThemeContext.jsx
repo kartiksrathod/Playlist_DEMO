@@ -19,32 +19,43 @@ export const ThemeProvider = ({ children }) => {
   const [currentTheme, setCurrentTheme] = useState('dark');
   const [themeConfig, setThemeConfig] = useState(getTheme('dark'));
   const [isLoading, setIsLoading] = useState(true);
+  const [initialized, setInitialized] = useState(false);
 
-  // Apply default theme immediately on mount
-  useEffect(() => {
-    applyThemeToBody('dark');
-  }, []);
-
-  // Load theme from backend on mount
+  // Load theme from backend on mount ONLY
   useEffect(() => {
     loadThemeFromBackend();
   }, []);
 
-  // Update theme config when currentTheme changes
+  // Update theme config and apply to body when currentTheme changes
+  // BUT only after initial load to prevent overwriting user changes
   useEffect(() => {
-    setThemeConfig(getTheme(currentTheme));
-    applyThemeToBody(currentTheme);
-  }, [currentTheme]);
+    if (initialized) {
+      setThemeConfig(getTheme(currentTheme));
+      applyThemeToBody(currentTheme);
+    }
+  }, [currentTheme, initialized]);
 
   const loadThemeFromBackend = async () => {
     try {
       const response = await axios.get(`${API}/settings`);
       const savedTheme = response.data.theme || 'dark';
+      console.log('Loaded theme from backend:', savedTheme);
+      
+      // Apply the theme immediately without triggering the useEffect
+      setThemeConfig(getTheme(savedTheme));
+      applyThemeToBody(savedTheme);
       setCurrentTheme(savedTheme);
+      
+      // Mark as initialized so future changes will apply
+      setInitialized(true);
     } catch (error) {
       console.error('Error loading theme from backend:', error);
       // Default to dark theme on error
-      setCurrentTheme('dark');
+      const defaultTheme = 'dark';
+      setThemeConfig(getTheme(defaultTheme));
+      applyThemeToBody(defaultTheme);
+      setCurrentTheme(defaultTheme);
+      setInitialized(true);
     } finally {
       setIsLoading(false);
     }
