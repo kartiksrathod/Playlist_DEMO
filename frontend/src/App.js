@@ -103,6 +103,25 @@ const Home = () => {
 
   return (
     <AppLayout>
+      {/* User Menu or Login Button in Top Right */}
+      <div className="fixed top-6 right-6 z-40 flex items-center gap-4">
+        <ThemeSwitcher />
+        {isAuthenticated ? (
+          <UserMenu />
+        ) : (
+          <button
+            onClick={() => setShowAuthOverlay(true)}
+            className="flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 backdrop-blur-xl border border-white/20 rounded-full text-white transition-all shadow-lg"
+          >
+            <LogIn className="w-4 h-4" />
+            <span className="text-sm font-medium">Sign In</span>
+          </button>
+        )}
+      </div>
+
+      {/* Auth Overlay */}
+      <AuthOverlay isOpen={showAuthOverlay} onClose={() => setShowAuthOverlay(false)} />
+
       <div className="min-h-screen overflow-hidden">
         {/* Hero Section with Video Background */}
         <div className="relative h-[70vh] overflow-hidden">
