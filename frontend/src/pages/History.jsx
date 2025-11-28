@@ -159,32 +159,32 @@ const History = () => {
 
           {/* Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-            <div className="bg-slate-900/60 backdrop-blur-xl rounded-2xl p-6 border border-purple-800/30">
+            <div className={`${themeConfig.classes.card} backdrop-blur-xl rounded-2xl p-6`}>
               <div className="flex items-center justify-between mb-2">
-                <span className="text-blue-100 text-sm">Total Plays</span>
-                <Play className="w-4 h-4 text-purple-400" />
+                <span className={`${themeConfig.classes.text.secondary} text-sm`}>Total Plays</span>
+                <Play className={`w-4 h-4 ${themeConfig.classes.accent}`} />
               </div>
-              <p className="text-3xl font-light text-white">
+              <p className={`text-3xl font-light ${themeConfig.classes.text.primary}`}>
                 {loading ? '...' : stats.totalPlays}
               </p>
             </div>
 
-            <div className="bg-slate-900/60 backdrop-blur-xl rounded-2xl p-6 border border-purple-800/30">
+            <div className={`${themeConfig.classes.card} backdrop-blur-xl rounded-2xl p-6`}>
               <div className="flex items-center justify-between mb-2">
-                <span className="text-blue-100 text-sm">Unique Tracks</span>
-                <TrendingUp className="w-4 h-4 text-purple-400" />
+                <span className={`${themeConfig.classes.text.secondary} text-sm`}>Unique Tracks</span>
+                <TrendingUp className={`w-4 h-4 ${themeConfig.classes.accent}`} />
               </div>
-              <p className="text-3xl font-light text-white">
+              <p className={`text-3xl font-light ${themeConfig.classes.text.primary}`}>
                 {loading ? '...' : stats.uniqueTracks}
               </p>
             </div>
 
-            <div className="bg-slate-900/60 backdrop-blur-xl rounded-2xl p-6 border border-purple-800/30">
+            <div className={`${themeConfig.classes.card} backdrop-blur-xl rounded-2xl p-6`}>
               <div className="flex items-center justify-between mb-2">
-                <span className="text-blue-100 text-sm">This Week</span>
-                <Calendar className="w-4 h-4 text-purple-400" />
+                <span className={`${themeConfig.classes.text.secondary} text-sm`}>This Week</span>
+                <Calendar className={`w-4 h-4 ${themeConfig.classes.accent}`} />
               </div>
-              <p className="text-3xl font-light text-white">
+              <p className={`text-3xl font-light ${themeConfig.classes.text.primary}`}>
                 {loading ? '...' : stats.playsThisWeek}
               </p>
             </div>
