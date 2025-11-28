@@ -9,7 +9,7 @@ import json
 import time
 
 # Configuration
-BASE_URL = "https://login-system-52.preview.emergentagent.com/api"
+BASE_URL = "https://live-data-store.preview.emergentagent.com/api"
 
 class SettingsAPITester:
     def __init__(self):

@@ -6,7 +6,7 @@ Debug specific API failures
 import requests
 import json
 
-BASE_URL = "https://login-system-52.preview.emergentagent.com/api"
+BASE_URL = "https://live-data-store.preview.emergentagent.com/api"
 HEADERS = {"Content-Type": "application/json"}
 
 def test_playlist_creation():
