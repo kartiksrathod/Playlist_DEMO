@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { usePlayer } from '../context/PlayerContext';
+import { useTheme } from '../context/ThemeContext';
 import {
   Play,
   Pause,
@@ -18,6 +19,7 @@ import FullPlayerModal from './FullPlayerModal';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const MusicPlayer = () => {
+  const { themeConfig } = useTheme();
   const {
     currentTrack,
     isPlaying,
@@ -79,7 +81,7 @@ const MusicPlayer = () => {
       <AnimatePresence>
         {currentTrack && (
           <motion.div 
-            className="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-xl border-t border-slate-700/50"
+            className={`fixed bottom-0 left-0 right-0 z-50 ${themeConfig.classes.card} backdrop-blur-xl border-t`}
             initial={{ y: 100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 100, opacity: 0 }}
@@ -87,12 +89,12 @@ const MusicPlayer = () => {
           >
             {/* Mini Progress Bar */}
             <motion.div
-              className="h-1 bg-slate-700 cursor-pointer hover:h-1.5 transition-all relative overflow-hidden"
+              className={`h-1 ${themeConfig.classes.card} cursor-pointer hover:h-1.5 transition-all relative overflow-hidden`}
               onClick={handleProgressClick}
               whileHover={{ height: 6 }}
             >
               <motion.div
-                className="h-full bg-gradient-to-r from-violet-500 via-fuchsia-500 to-pink-500 relative"
+                className={`h-full bg-gradient-to-r ${themeConfig.classes.gradient} relative`}
                 style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}
                 initial={{ width: 0 }}
                 animate={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}
@@ -140,7 +142,7 @@ const MusicPlayer = () => {
                   />
                   <div className="min-w-0 flex-1">
                     <motion.h4 
-                      className="text-white font-medium truncate"
+                      className={`${themeConfig.classes.text.primary} font-medium truncate`}
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ delay: 0.2 }}
@@ -148,7 +150,7 @@ const MusicPlayer = () => {
                       {currentTrack.songName}
                     </motion.h4>
                     <motion.p 
-                      className="text-slate-400 text-sm truncate"
+                      className={`${themeConfig.classes.text.secondary} text-sm truncate`}
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ delay: 0.3 }}
@@ -163,8 +165,8 @@ const MusicPlayer = () => {
               {/* Shuffle */}
               <button
                 onClick={toggleShuffle}
-                className={`p-2 rounded-full hover:bg-slate-800 transition ${
-                  shuffle ? 'text-green-500' : 'text-slate-400'
+                className={`p-2 rounded-full hover:bg-opacity-50 ${themeConfig.classes.button.secondary} transition ${
+                  shuffle ? themeConfig.classes.accent : themeConfig.classes.text.muted
                 }`}
                 title="Shuffle"
               >
@@ -174,7 +176,7 @@ const MusicPlayer = () => {
               {/* Previous */}
               <button
                 onClick={playPrevious}
-                className="p-2 rounded-full hover:bg-slate-800 text-slate-300 hover:text-white transition"
+                className={`p-2 rounded-full ${themeConfig.classes.button.secondary} transition`}
                 title="Previous"
               >
                 <SkipBack className="w-5 h-5" />
@@ -183,7 +185,7 @@ const MusicPlayer = () => {
               {/* Play/Pause */}
               <button
                 onClick={togglePlayPause}
-                className="p-3 rounded-full bg-white hover:bg-gray-100 text-slate-900 transition shadow-lg"
+                className={`p-3 rounded-full ${themeConfig.classes.button.primary} transition shadow-lg`}
                 title={isPlaying ? 'Pause' : 'Play'}
               >
                 {isPlaying ? <Pause className="w-6 h-6" /> : <Play className="w-6 h-6 ml-0.5" />}
@@ -192,7 +194,7 @@ const MusicPlayer = () => {
               {/* Next */}
               <button
                 onClick={playNext}
-                className="p-2 rounded-full hover:bg-slate-800 text-slate-300 hover:text-white transition"
+                className={`p-2 rounded-full ${themeConfig.classes.button.secondary} transition`}
                 title="Next"
                 disabled={queue.length === 0}
               >
@@ -202,8 +204,8 @@ const MusicPlayer = () => {
               {/* Repeat */}
               <button
                 onClick={toggleRepeat}
-                className={`p-2 rounded-full hover:bg-slate-800 transition ${
-                  repeat !== 'off' ? 'text-green-500' : 'text-slate-400'
+                className={`p-2 rounded-full hover:bg-opacity-50 ${themeConfig.classes.button.secondary} transition ${
+                  repeat !== 'off' ? themeConfig.classes.accent : themeConfig.classes.text.muted
                 }`}
                 title={`Repeat: ${repeat}`}
               >
@@ -214,7 +216,7 @@ const MusicPlayer = () => {
             {/* Right: Additional Controls */}
             <div className="flex items-center gap-2 flex-1 justify-end">
               {/* Time */}
-              <div className="text-slate-400 text-sm hidden sm:block">
+              <div className={`${themeConfig.classes.text.secondary} text-sm hidden sm:block`}>
                 {formatTime(currentTime)} / {formatTime(duration)}
               </div>
 
@@ -222,7 +224,7 @@ const MusicPlayer = () => {
               <div className="hidden md:flex items-center gap-2">
                 <button
                   onClick={toggleMute}
-                  className="p-2 rounded-full hover:bg-slate-800 text-slate-300 hover:text-white transition"
+                  className={`p-2 rounded-full ${themeConfig.classes.button.secondary} transition`}
                   title={isMuted ? 'Unmute' : 'Mute'}
                 >
                   {isMuted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
@@ -233,22 +235,22 @@ const MusicPlayer = () => {
                   max="100"
                   value={isMuted ? 0 : volume}
                   onChange={(e) => setVolume(parseInt(e.target.value))}
-                  className="w-20 h-1 bg-slate-700 rounded-lg appearance-none cursor-pointer
+                  className={`w-20 h-1 ${themeConfig.classes.card} rounded-lg appearance-none cursor-pointer
                     [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3
                     [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white
-                    [&::-webkit-slider-thumb]:cursor-pointer hover:[&::-webkit-slider-thumb]:bg-gray-100"
+                    [&::-webkit-slider-thumb]:cursor-pointer hover:[&::-webkit-slider-thumb]:bg-gray-100`}
                 />
               </div>
 
               {/* Queue */}
               <button
                 onClick={() => setShowQueue(true)}
-                className="p-2 rounded-full hover:bg-slate-800 text-slate-300 hover:text-white transition relative"
+                className={`p-2 rounded-full ${themeConfig.classes.button.secondary} transition relative`}
                 title="Queue"
               >
                 <List className="w-5 h-5" />
                 {queue.length > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-blue-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                  <span className={`absolute -top-1 -right-1 ${themeConfig.classes.button.primary} text-xs rounded-full w-5 h-5 flex items-center justify-center`}>
                     {queue.length}
                   </span>
                 )}
@@ -257,7 +259,7 @@ const MusicPlayer = () => {
               {/* Expand */}
               <button
                 onClick={() => setShowFullPlayer(true)}
-                className="p-2 rounded-full hover:bg-slate-800 text-slate-300 hover:text-white transition"
+                className={`p-2 rounded-full ${themeConfig.classes.button.secondary} transition`}
                 title="Expand Player"
               >
                 <Maximize2 className="w-5 h-5" />
