@@ -199,35 +199,64 @@ const Home = () => {
               Create, organize, and manage your music playlists with an immersive interface
             </motion.p>
 
-            {/* CTA Button with glow effect */}
-            <motion.a 
-              href="/playlists"
+            {/* CTA Buttons with glow effect */}
+            <motion.div 
+              className="flex items-center gap-4"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.7 }}
             >
-              <motion.button 
-                className="group relative px-8 py-4 bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-500 hover:to-fuchsia-500 text-white rounded-2xl font-semibold transition-all shadow-2xl hover:shadow-violet-500/50 flex items-center gap-2 overflow-hidden"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                {/* Animated shine effect */}
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
-                  animate={{
-                    x: ['-200%', '200%'],
-                  }}
-                  transition={{
-                    duration: 3,
-                    repeat: Infinity,
-                    ease: "linear",
-                    repeatDelay: 1
-                  }}
-                />
-                <span className="relative z-10">Get Started</span>
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform relative z-10" />
-              </motion.button>
-            </motion.a>
+              {isAuthenticated ? (
+                <motion.a 
+                  href="/playlists"
+                >
+                  <motion.button 
+                    className="group relative px-8 py-4 bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-500 hover:to-fuchsia-500 text-white rounded-2xl font-semibold transition-all shadow-2xl hover:shadow-violet-500/50 flex items-center gap-2 overflow-hidden"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    {/* Animated shine effect */}
+                    <motion.div
+                      className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
+                      animate={{
+                        x: ['-200%', '200%'],
+                      }}
+                      transition={{
+                        duration: 3,
+                        repeat: Infinity,
+                        ease: "linear",
+                        repeatDelay: 1
+                      }}
+                    />
+                    <span className="relative z-10">Go to Playlists</span>
+                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform relative z-10" />
+                  </motion.button>
+                </motion.a>
+              ) : (
+                <motion.button 
+                  onClick={() => setShowAuthOverlay(true)}
+                  className="group relative px-8 py-4 bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-500 hover:to-fuchsia-500 text-white rounded-2xl font-semibold transition-all shadow-2xl hover:shadow-violet-500/50 flex items-center gap-2 overflow-hidden"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  {/* Animated shine effect */}
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
+                    animate={{
+                      x: ['-200%', '200%'],
+                    }}
+                    transition={{
+                      duration: 3,
+                      repeat: Infinity,
+                      ease: "linear",
+                      repeatDelay: 1
+                    }}
+                  />
+                  <span className="relative z-10">Get Started</span>
+                  <LogIn className="w-5 h-5 group-hover:translate-x-1 transition-transform relative z-10" />
+                </motion.button>
+              )}
+            </motion.div>
 
             {/* Floating music notes */}
             <motion.div
