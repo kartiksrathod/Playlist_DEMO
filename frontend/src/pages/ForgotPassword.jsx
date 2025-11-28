@@ -1,0 +1,145 @@
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Mail, ArrowLeft } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { useAuth } from '@/context/AuthContext';
+
+const ForgotPassword = () => {
+  const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const { forgotPassword } = useAuth();
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    const result = await forgotPassword(email);
+    
+    setLoading(false);
+    
+    if (result.success) {
+      setSuccess(true);
+    }
+  };
+
+  return (
+    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-slate-950 via-purple-950/50 to-slate-950">
+      {/* Animated Background */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-pink-500/10 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse delay-1000" />
+      </div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="relative w-full max-w-md"
+      >
+        {/* Back Button */}
+        <button
+          onClick={() => navigate('/')}
+          className="mb-6 flex items-center gap-2 text-white/70 hover:text-white transition-colors"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          <span className="text-sm">Back to Home</span>
+        </button>
+
+        {/* Glassmorphic Card */}
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-2xl border border-white/20 shadow-2xl">
+          {/* Header */}
+          <div className="relative px-8 pt-8 pb-6">
+            <div className="absolute inset-0 bg-gradient-to-br from-pink-500/20 via-purple-500/20 to-blue-500/20" />
+            <div className="relative">
+              <h2 className="text-3xl font-bold text-white mb-2">
+                Forgot Password?
+              </h2>
+              <p className="text-white/70 text-sm">
+                {success 
+                  ? "Check your email for reset instructions" 
+                  : "Enter your email to receive a password reset link"}
+              </p>
+            </div>
+          </div>
+
+          {/* Content */}
+          <div className="px-8 pb-8">
+            {success ? (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="text-center py-8"
+              >
+                <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-green-500/20 to-green-600/20 flex items-center justify-center">
+                  <Mail className="w-10 h-10 text-green-400" />
+                </div>
+                <h3 className="text-xl font-semibold text-white mb-2">
+                  Check Your Email
+                </h3>
+                <p className="text-white/70 text-sm mb-6">
+                  If an account exists with <span className="font-medium text-white">{email}</span>, 
+                  you will receive a password reset link shortly.
+                </p>
+                <p className="text-white/50 text-xs mb-6">
+                  The link will expire in 1 hour. Check your spam folder if you don't see it.
+                </p>
+                <button
+                  onClick={() => navigate('/')}
+                  className="w-full py-3 bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-medium rounded-lg transition-all shadow-lg shadow-pink-500/25"
+                >
+                  Back to Home
+                </button>
+              </motion.div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-6">
+                {/* Email Input */}
+                <div>
+                  <label className="block text-sm font-medium text-white/90 mb-2">
+                    Email Address
+                  </label>
+                  <div className="relative">
+                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/50" />
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="w-full pl-11 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-pink-500/50 transition-all"
+                      placeholder="you@example.com"
+                      required
+                    />
+                  </div>
+                  <p className="mt-2 text-xs text-white/50">
+                    We'll send you a link to reset your password
+                  </p>
+                </div>
+
+                {/* Submit Button */}
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full py-3 bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-medium rounded-lg transition-all shadow-lg shadow-pink-500/25 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {loading ? 'Sending...' : 'Send Reset Link'}
+                </button>
+
+                {/* Back to Login */}
+                <div className="text-center">
+                  <button
+                    type="button"
+                    onClick={() => navigate('/')}
+                    className="text-sm text-white/70 hover:text-white transition-colors"
+                  >
+                    Remember your password? <span className="text-pink-400">Sign in</span>
+                  </button>
+                </div>
+              </form>
+            )}
+          </div>
+        </div>
+      </motion.div>
+    </div>
+  );
+};
+
+export default ForgotPassword;
