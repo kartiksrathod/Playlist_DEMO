@@ -6,6 +6,7 @@ import { Globe, Music, Download, PlayCircle, ArrowLeft } from 'lucide-react';
 import AppLayout from '@/components/AppLayout';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
+import { useTheme } from '@/context/ThemeContext';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
@@ -17,6 +18,7 @@ const DEFAULT_IMAGES = [
 ];
 
 const PublicPlaylists = () => {
+  const { themeConfig } = useTheme();
   const navigate = useNavigate();
   const [playlists, setPlaylists] = useState([]);
   const [loading, setLoading] = useState(true);
