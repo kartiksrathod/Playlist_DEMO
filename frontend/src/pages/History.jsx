@@ -230,24 +230,24 @@ const History = () => {
               {sortedHistory.map((item, index) => (
                 <div
                   key={item.id}
-                  className="bg-slate-900/60 backdrop-blur-xl rounded-xl p-5 border border-purple-800/30 hover:border-purple-600/50 transition-all group"
+                  className={`${themeConfig.classes.card} backdrop-blur-xl rounded-xl p-5 hover:shadow-xl transition-all group`}
                 >
                   <div className="flex items-center gap-4">
                     {/* Track Number */}
                     <div className="w-8 text-center">
-                      <span className="text-blue-200 text-sm font-medium">{index + 1}</span>
+                      <span className={`${themeConfig.classes.text.secondary} text-sm font-medium`}>{index + 1}</span>
                     </div>
 
                     {/* Track Info */}
                     <div className="flex-1 min-w-0">
-                      <h3 className="text-white font-medium mb-1 truncate group-hover:text-purple-300 transition-colors">
+                      <h3 className={`${themeConfig.classes.text.primary} font-medium mb-1 truncate group-hover:${themeConfig.classes.accent} transition-colors`}>
                         {item.track?.songName || 'Unknown Track'}
                       </h3>
-                      <div className="flex items-center gap-3 text-sm text-blue-200">
+                      <div className={`flex items-center gap-3 text-sm ${themeConfig.classes.text.secondary}`}>
                         <span className="truncate">{item.track?.artist || 'Unknown Artist'}</span>
                         {item.track?.album && (
                           <>
-                            <span className="text-purple-500">•</span>
+                            <span className={themeConfig.classes.accent}>•</span>
                             <span className="truncate">{item.track.album}</span>
                           </>
                         )}
@@ -257,7 +257,7 @@ const History = () => {
                     {/* Playlist Badge */}
                     {item.playlist && (
                       <div className="hidden md:block">
-                        <span className="px-3 py-1 bg-purple-700/30 text-purple-200 text-xs rounded-full border border-purple-600/30">
+                        <span className={`px-3 py-1 ${themeConfig.classes.button.secondary} text-xs rounded-full`}>
                           {item.playlist.name}
                         </span>
                       </div>
@@ -265,21 +265,21 @@ const History = () => {
 
                     {/* Play Count (only for Most Played view) */}
                     {sortBy === 'mostPlayed' && item.playCount && (
-                      <div className="flex items-center gap-2 text-blue-200">
-                        <Play className="w-4 h-4 text-purple-400" />
+                      <div className={`flex items-center gap-2 ${themeConfig.classes.text.secondary}`}>
+                        <Play className={`w-4 h-4 ${themeConfig.classes.accent}`} />
                         <span className="text-sm font-medium">{item.playCount} plays</span>
                       </div>
                     )}
 
                     {/* Duration */}
                     {item.track?.duration && (
-                      <div className="hidden sm:block text-blue-200 text-sm w-16 text-right">
+                      <div className={`hidden sm:block ${themeConfig.classes.text.secondary} text-sm w-16 text-right`}>
                         {item.track.duration}
                       </div>
                     )}
 
                     {/* Time Ago */}
-                    <div className="hidden lg:block text-blue-200 text-sm w-32 text-right">
+                    <div className={`hidden lg:block ${themeConfig.classes.text.secondary} text-sm w-32 text-right`}>
                       {formatDate(sortBy === 'mostPlayed' ? item.lastPlayedAt : item.playedAt)}
                     </div>
                   </div>
