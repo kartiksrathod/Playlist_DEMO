@@ -42,7 +42,10 @@ const MusicPlayer = () => {
   const [showFullPlayer, setShowFullPlayer] = useState(false);
 
   // Don't show player if no track
-  if (!currentTrack) return null;
+  // Note: We must use conditional rendering instead of early return to avoid hooks error
+  if (!currentTrack) {
+    return null;
+  }
 
   const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || '';
 
