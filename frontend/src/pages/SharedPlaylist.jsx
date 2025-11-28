@@ -6,11 +6,13 @@ import AppLayout from '@/components/AppLayout';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { formatDuration } from '@/lib/utils';
+import { useTheme } from '@/context/ThemeContext';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
 const SharedPlaylist = () => {
+  const { themeConfig } = useTheme();
   const { token } = useParams();
   const navigate = useNavigate();
   const [playlist, setPlaylist] = useState(null);
