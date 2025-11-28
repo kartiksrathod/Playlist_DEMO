@@ -133,16 +133,16 @@ const History = () => {
 
   return (
     <AppLayout>
-      <div className="min-h-screen bg-slate-950 px-8 py-12">
+      <div className="min-h-screen px-8 py-12">
         <div className="max-w-5xl mx-auto">
           {/* Header */}
           <div className="mb-8">
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-600 to-purple-800 flex items-center justify-center shadow-lg shadow-purple-700/50">
-                  <Clock className="w-6 h-6 text-white" />
+                <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${themeConfig.classes.gradient} flex items-center justify-center shadow-lg`}>
+                  <Clock className={`w-6 h-6 ${themeConfig.classes.text.primary}`} />
                 </div>
-                <h1 className="text-4xl font-light text-white">Listen History</h1>
+                <h1 className={`text-4xl font-light ${themeConfig.classes.text.primary}`}>Listen History</h1>
               </div>
               {history.length > 0 && (
                 <button
@@ -154,7 +154,7 @@ const History = () => {
                 </button>
               )}
             </div>
-            <p className="text-blue-100 text-lg font-light">Track your musical journey</p>
+            <p className={`${themeConfig.classes.text.secondary} text-lg font-light`}>Track your musical journey</p>
           </div>
 
           {/* Stats Cards */}
