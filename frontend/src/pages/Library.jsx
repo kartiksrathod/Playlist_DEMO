@@ -22,6 +22,7 @@ import {
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { usePlayer } from '@/context/PlayerContext';
+import { useTheme } from '@/context/ThemeContext';
 import { LibraryGridSkeleton, TrackListSkeleton } from '@/components/SkeletonLoader';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
@@ -30,6 +31,7 @@ const API = `${BACKEND_URL}/api`;
 const Library = () => {
   const navigate = useNavigate();
   const { play, currentTrack, isPlaying, addToQueue } = usePlayer();
+  const { themeConfig } = useTheme();
   
   // State management
   const [tracks, setTracks] = useState([]);
