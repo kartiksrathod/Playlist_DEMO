@@ -20,7 +20,7 @@ import {
 import { CSS } from '@dnd-kit/utilities';
 
 // Sortable Track Item Component
-const SortableTrackItem = ({ track, index, isCurrentTrack, onPlay, onRemove, getCoverImage }) => {
+const SortableTrackItem = ({ track, index, isCurrentTrack, onPlay, onRemove, getCoverImage, themeConfig }) => {
   const {
     attributes,
     listeners,
@@ -42,8 +42,8 @@ const SortableTrackItem = ({ track, index, isCurrentTrack, onPlay, onRemove, get
       style={style}
       className={`group flex items-center gap-3 p-3 rounded-lg transition cursor-pointer ${
         isCurrentTrack
-          ? 'bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-blue-500/30'
-          : 'hover:bg-slate-800'
+          ? `bg-gradient-to-r ${themeConfig.classes.gradient} border ${themeConfig.classes.accent}`
+          : `${themeConfig.classes.button.secondary}`
       }`}
       onClick={() => onPlay(track)}
     >
@@ -51,7 +51,7 @@ const SortableTrackItem = ({ track, index, isCurrentTrack, onPlay, onRemove, get
       <button
         {...attributes}
         {...listeners}
-        className="cursor-grab active:cursor-grabbing text-slate-500 hover:text-slate-300 transition"
+        className={`cursor-grab active:cursor-grabbing ${themeConfig.classes.text.muted} hover:${themeConfig.classes.text.secondary} transition`}
         onClick={(e) => e.stopPropagation()}
       >
         <GripVertical className="w-5 h-5" />
@@ -61,14 +61,14 @@ const SortableTrackItem = ({ track, index, isCurrentTrack, onPlay, onRemove, get
       <div className="w-8 flex-shrink-0 text-center">
         {isCurrentTrack ? (
           <div className="flex items-center justify-center">
-            <div className="w-4 h-4 bg-blue-500 rounded animate-pulse" />
+            <div className={`w-4 h-4 ${themeConfig.classes.button.primary} rounded animate-pulse`} />
           </div>
         ) : (
-          <span className="text-slate-500 group-hover:hidden text-sm">
+          <span className={`${themeConfig.classes.text.muted} group-hover:hidden text-sm`}>
             {index + 1}
           </span>
         )}
-        <Play className="w-4 h-4 text-white hidden group-hover:block mx-auto" />
+        <Play className={`w-4 h-4 ${themeConfig.classes.text.primary} hidden group-hover:block mx-auto`} />
       </div>
 
       {/* Cover Image */}
@@ -82,12 +82,12 @@ const SortableTrackItem = ({ track, index, isCurrentTrack, onPlay, onRemove, get
       <div className="flex-1 min-w-0">
         <h4
           className={`font-medium truncate ${
-            isCurrentTrack ? 'text-blue-400' : 'text-white'
+            isCurrentTrack ? themeConfig.classes.accent : themeConfig.classes.text.primary
           }`}
         >
           {track.songName}
         </h4>
-        <p className="text-slate-400 text-sm truncate">
+        <p className={`${themeConfig.classes.text.secondary} text-sm truncate`}>
           {track.artist || 'Unknown Artist'}
         </p>
       </div>
@@ -95,14 +95,14 @@ const SortableTrackItem = ({ track, index, isCurrentTrack, onPlay, onRemove, get
       {/* Duration & Remove */}
       <div className="flex items-center gap-2">
         {track.duration && (
-          <span className="text-slate-500 text-sm">{track.duration}</span>
+          <span className={`${themeConfig.classes.text.muted} text-sm`}>{track.duration}</span>
         )}
         <button
           onClick={(e) => {
             e.stopPropagation();
             onRemove(track.id);
           }}
-          className="p-1.5 rounded hover:bg-slate-700 text-slate-400 hover:text-red-400 transition opacity-0 group-hover:opacity-100"
+          className={`p-1.5 rounded ${themeConfig.classes.button.secondary} hover:text-red-400 transition opacity-0 group-hover:opacity-100`}
           title="Remove from queue"
         >
           <Trash2 className="w-4 h-4" />
