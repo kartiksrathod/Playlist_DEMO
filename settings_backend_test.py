@@ -9,7 +9,7 @@ import json
 import time
 
 # Configuration
-BASE_URL = "https://site-readiness-3.preview.emergentagent.com/api"
+BASE_URL = "https://theme-switcher-20.preview.emergentagent.com/api"
 
 class SettingsAPITester:
     def __init__(self):
