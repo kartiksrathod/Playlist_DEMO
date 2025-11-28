@@ -213,7 +213,7 @@ const FullPlayerModal = ({ isOpen, onClose }) => {
                 {/* Next */}
                 <motion.button
                   onClick={playNext}
-                  className="p-4 rounded-full hover:bg-slate-800 text-white hover:scale-110 transition"
+                  className={`p-4 rounded-full ${themeConfig.classes.button.secondary} ${themeConfig.classes.text.primary} hover:scale-110 transition`}
                   title="Next"
                   disabled={queue.length === 0}
                   whileHover={{ scale: 1.15, x: 5 }}
@@ -225,8 +225,8 @@ const FullPlayerModal = ({ isOpen, onClose }) => {
                 {/* Repeat */}
                 <motion.button
                   onClick={toggleRepeat}
-                  className={`p-3 rounded-full hover:bg-slate-800 transition ${
-                    repeat !== 'off' ? 'text-green-500' : 'text-slate-400 hover:text-white'
+                  className={`p-3 rounded-full ${themeConfig.classes.button.secondary} transition ${
+                    repeat !== 'off' ? themeConfig.classes.accent : themeConfig.classes.text.muted
                   }`}
                   title={`Repeat: ${repeat}`}
                   whileHover={{ scale: 1.1 }}
@@ -249,7 +249,7 @@ const FullPlayerModal = ({ isOpen, onClose }) => {
               >
                 <motion.button
                   onClick={toggleMute}
-                  className="p-2 rounded-full hover:bg-slate-800 text-white transition"
+                  className={`p-2 rounded-full ${themeConfig.classes.button.secondary} ${themeConfig.classes.text.primary} transition`}
                   title={isMuted ? 'Unmute' : 'Mute'}
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
@@ -262,12 +262,12 @@ const FullPlayerModal = ({ isOpen, onClose }) => {
                   max="100"
                   value={isMuted ? 0 : volume}
                   onChange={(e) => setVolume(parseInt(e.target.value))}
-                  className="w-64 h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer
+                  className={`w-64 h-2 ${themeConfig.classes.card} rounded-lg appearance-none cursor-pointer
                     [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4
                     [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white
-                    [&::-webkit-slider-thumb]:cursor-pointer hover:[&::-webkit-slider-thumb]:bg-gray-100"
+                    [&::-webkit-slider-thumb]:cursor-pointer hover:[&::-webkit-slider-thumb]:bg-gray-100`}
                 />
-                <span className="text-slate-400 text-sm w-12 text-right">
+                <span className={`${themeConfig.classes.text.muted} text-sm w-12 text-right`}>
                   {isMuted ? 0 : volume}%
                 </span>
               </motion.div>
