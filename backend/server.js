@@ -41,6 +41,7 @@ app.use((req, res, next) => {
 
 // API Routes
 app.use('/api', statusRoutes);
+app.use('/api/auth', authRoutes);
 app.use('/api/playlists', playlistRoutes);
 app.use('/api/playlists/:playlistId/tracks', trackRoutes);
 app.use('/api/library', libraryRoutes);
