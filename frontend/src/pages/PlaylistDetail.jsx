@@ -10,6 +10,7 @@ import AddTrackDialog from '@/components/AddTrackDialog';
 import EditTrackDialog from '@/components/EditTrackDialog';
 import { toast } from 'sonner';
 import { usePlayer } from '@/context/PlayerContext';
+import { useTheme } from '@/context/ThemeContext';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
@@ -18,6 +19,7 @@ const API = `${BACKEND_URL}/api`;
 const DEFAULT_IMAGE = 'https://images.unsplash.com/photo-1699116548118-1605ae766335?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzR8MHwxfHNlYXJjaHwxfHxmb3Jlc3QlMjBsYWtlfGVufDB8fHxvcmFuZ2V8MTc2NDA5NjczOXww&ixlib=rb-4.1.0&q=85';
 
 const PlaylistDetail = () => {
+  const { themeConfig } = useTheme();
   const { playlistId } = useParams();
   const navigate = useNavigate();
   const [playlist, setPlaylist] = useState(null);
