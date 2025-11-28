@@ -727,6 +727,21 @@ frontend:
         agent: "testing"
         comment: "TESTED - Library Navigation and Routes: ✅ ALL WORKING PERFECTLY: (1) Sidebar Navigation - Library link present in sidebar with Library icon, positioned correctly in menu order (Home, Playlists, Library, Favorites, History, Settings, Profile), (2) Navigation Functionality - Library link clickable and navigates to /library correctly, active state indicators working with visual feedback, (3) Route Handling - Both /library and /library/track/:trackId routes registered in App.js and working correctly, direct URL navigation working, invalid routes handled properly. Complete navigation system functional."
 
+  - task: "Theme System - React Hooks Error Fix"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/components/ui/sonner.jsx, /app/frontend/src/components/ThemeToggle.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: false
+        agent: "user"
+        comment: "User reported themes not working with React error: 'Rendered fewer hooks than expected. This may be caused by an accidental early return statement.' Error traced to next-themes package conflict."
+      - working: true
+        agent: "main"
+        comment: "FIXED: Root cause was next-themes package (designed for Next.js) being used in React app. Fixed by: (1) Removed next-themes import from sonner.jsx and replaced with static 'dark' theme, (2) Deleted unused ThemeToggle.jsx component using next-themes, (3) Uninstalled next-themes package from dependencies. Frontend restarted successfully with no errors. Theme switching now working correctly through our custom ThemeContext system."
+
   - task: "Settings Page - Complete Backend Integration"
     implemented: true
     working: true
