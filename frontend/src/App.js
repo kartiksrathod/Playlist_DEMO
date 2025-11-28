@@ -45,8 +45,10 @@ const API = `${BACKEND_URL}/api`;
 const Home = () => {
   const [recentlyPlayed, setRecentlyPlayed] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showAuthOverlay, setShowAuthOverlay] = useState(false);
   const { scrollY } = useScroll();
   const { themeConfig } = useTheme();
+  const { isAuthenticated } = useAuth();
   
   // Parallax effect for hero content
   const heroY = useTransform(scrollY, [0, 500], [0, 150]);
