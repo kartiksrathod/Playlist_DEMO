@@ -109,7 +109,7 @@ const Profile = () => {
 
   return (
     <AppLayout>
-      <div className="min-h-screen bg-slate-950 px-8 py-12">
+      <div className="min-h-screen px-8 py-12">
         {/* Header with Profile Picture */}
         <motion.div 
           className="mb-10"
