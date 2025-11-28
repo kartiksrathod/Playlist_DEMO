@@ -285,17 +285,17 @@ const Profile = () => {
 
           {/* Profile Details */}
           <motion.div 
-            className="bg-slate-900/60 backdrop-blur-xl rounded-2xl shadow-xl p-8 mb-6 border border-blue-800/30"
+            className={`${themeConfig.classes.card} backdrop-blur-xl rounded-2xl shadow-xl p-8 mb-6`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8 }}
           >
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-medium text-white">Profile Information</h2>
+              <h2 className={`text-xl font-medium ${themeConfig.classes.text.primary}`}>Profile Information</h2>
               {!isEditing ? (
                 <motion.button
                   onClick={handleEdit}
-                  className="px-4 py-2 bg-blue-700 hover:bg-blue-600 text-white rounded-xl font-medium transition-colors shadow-lg shadow-blue-700/30"
+                  className={`px-4 py-2 ${themeConfig.classes.button.primary} rounded-xl font-medium transition-colors shadow-lg`}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
