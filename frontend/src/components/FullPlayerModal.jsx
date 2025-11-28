@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { usePlayer } from '../context/PlayerContext';
+import { useTheme } from '../context/ThemeContext';
 import {
   X,
   Play,
@@ -16,6 +17,7 @@ import {
 } from 'lucide-react';
 
 const FullPlayerModal = ({ isOpen, onClose }) => {
+  const { themeConfig } = useTheme();
   const {
     currentTrack,
     isPlaying,
