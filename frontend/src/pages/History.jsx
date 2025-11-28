@@ -191,9 +191,9 @@ const History = () => {
           </div>
 
           {/* Sort Options */}
-          <div className="bg-slate-900/60 backdrop-blur-xl rounded-2xl p-4 mb-6 border border-purple-800/30">
+          <div className={`${themeConfig.classes.card} backdrop-blur-xl rounded-2xl p-4 mb-6`}>
             <div className="flex items-center gap-4">
-              <span className="text-blue-100 text-sm font-medium">Sort by:</span>
+              <span className={`${themeConfig.classes.text.secondary} text-sm font-medium`}>Sort by:</span>
               <div className="flex gap-2">
                 {[
                   { value: 'recent', label: 'Most Recent' },
@@ -205,8 +205,8 @@ const History = () => {
                     onClick={() => setSortBy(option.value)}
                     className={`px-4 py-2 rounded-lg text-sm transition-all ${
                       sortBy === option.value
-                        ? 'bg-purple-700/40 text-purple-100 border border-purple-600/30'
-                        : 'text-blue-100 hover:bg-slate-800/50 border border-transparent'
+                        ? themeConfig.classes.button.primary
+                        : themeConfig.classes.button.secondary
                     }`}
                   >
                     {option.label}
