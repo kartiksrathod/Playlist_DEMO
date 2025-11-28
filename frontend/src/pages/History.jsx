@@ -219,8 +219,8 @@ const History = () => {
           {/* Loading State */}
           {loading && (
             <div className="text-center py-20">
-              <div className="w-16 h-16 border-4 border-purple-600/30 border-t-purple-600 rounded-full animate-spin mx-auto mb-4"></div>
-              <p className="text-blue-100">Loading history...</p>
+              <div className={`w-16 h-16 border-4 ${themeConfig.classes.card} border-t-current rounded-full animate-spin mx-auto mb-4 ${themeConfig.classes.accent}`}></div>
+              <p className={themeConfig.classes.text.secondary}>Loading history...</p>
             </div>
           )}
 
