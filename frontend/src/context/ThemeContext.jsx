@@ -66,24 +66,27 @@ export const ThemeProvider = ({ children }) => {
       console.log('changeTheme called with:', newTheme);
       console.log('Current theme before change:', currentTheme);
       
-      // Update locally immediately for instant feedback
-      setCurrentTheme(newTheme);
-      console.log('setCurrentTheme called with:', newTheme);
-      
-      // Apply theme to body immediately
+      // Apply theme immediately for instant visual feedback
+      setThemeConfig(getTheme(newTheme));
       applyThemeToBody(newTheme);
-      console.log('applyThemeToBody called');
+      
+      // Update state - this will trigger useEffect but that's ok since initialized is true
+      setCurrentTheme(newTheme);
+      console.log('Theme applied locally:', newTheme);
 
-      // Save to backend
-      await axios.put(`${API}/settings`, {
+      // Save to backend (non-blocking)
+      axios.put(`${API}/settings`, {
         theme: newTheme,
+      }).then(() => {
+        console.log(`Theme saved to backend: ${newTheme}`);
+      }).catch((error) => {
+        console.error('Error saving theme to backend:', error);
+        // Don't revert - user experience is more important
+        // The theme will still work locally even if backend save fails
       });
 
-      console.log(`Theme changed and saved to backend: ${newTheme}`);
     } catch (error) {
-      console.error('Error saving theme to backend:', error);
-      // Revert on error
-      loadThemeFromBackend();
+      console.error('Error changing theme:', error);
     }
   };
 
