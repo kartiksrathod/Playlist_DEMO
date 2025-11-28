@@ -13,6 +13,9 @@
 
 # misc
 .DS_Store
+
+# Environment Variables (SENSITIVE - NEVER COMMIT!)
+.env
 .env.local
 .env.development.local
 .env.test.local
