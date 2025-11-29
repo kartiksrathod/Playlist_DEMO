@@ -9,7 +9,7 @@ import json
 import uuid
 
 # Configuration
-BASE_URL = "https://live-data-store.preview.emergentagent.com/api"
+BASE_URL = "https://auth-db-verify.preview.emergentagent.com/api"
 
 class ThemeToggleAPITester:
     def __init__(self):

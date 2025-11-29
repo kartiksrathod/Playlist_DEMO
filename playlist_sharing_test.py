@@ -11,7 +11,7 @@ import uuid
 from typing import Dict, List, Any, Optional
 
 # Configuration
-BASE_URL = "https://live-data-store.preview.emergentagent.com/api"
+BASE_URL = "https://auth-db-verify.preview.emergentagent.com/api"
 HEADERS = {"Content-Type": "application/json"}
 
 class PlaylistSharingTester:
