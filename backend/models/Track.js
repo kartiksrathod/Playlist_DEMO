@@ -41,6 +41,15 @@ const trackSchema = new mongoose.Schema(
       type: String, // Path to uploaded audio file
       default: null,
     },
+    createdBy: {
+      type: String,
+      required: true, // User ID who created this track
+      index: true,
+    },
+    isAdminCreated: {
+      type: Boolean,
+      default: false, // Quick flag to identify admin-created tracks
+    },
     createdAt: {
       type: Date,
       default: Date.now,
