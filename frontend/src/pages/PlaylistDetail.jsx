@@ -456,28 +456,34 @@ const PlaylistDetail = () => {
 
                             {/* Actions */}
                             <div className="col-span-2 flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                              <motion.button
-                                onClick={() => {
-                                  setSelectedTrack(track);
-                                  setEditDialogOpen(true);
-                                }}
-                                className="p-2 hover:bg-blue-800/50 rounded-lg transition-colors backdrop-blur-sm"
-                                whileHover={{ scale: 1.1 }}
-                                whileTap={{ scale: 0.95 }}
-                              >
-                                <Pencil className="h-4 w-4 text-blue-200" />
-                              </motion.button>
-                              <motion.button
-                                onClick={() => {
-                                  setSelectedTrack(track);
-                                  setDeleteDialogOpen(true);
-                                }}
-                                className="p-2 hover:bg-red-800/50 rounded-lg transition-colors backdrop-blur-sm"
-                                whileHover={{ scale: 1.1 }}
-                                whileTap={{ scale: 0.95 }}
-                              >
-                                <Trash2 className="h-4 w-4 text-red-300" />
-                              </motion.button>
+                              {canModifyTrack(track) ? (
+                                <>
+                                  <motion.button
+                                    onClick={() => {
+                                      setSelectedTrack(track);
+                                      setEditDialogOpen(true);
+                                    }}
+                                    className="p-2 hover:bg-blue-800/50 rounded-lg transition-colors backdrop-blur-sm"
+                                    whileHover={{ scale: 1.1 }}
+                                    whileTap={{ scale: 0.95 }}
+                                  >
+                                    <Pencil className="h-4 w-4 text-blue-200" />
+                                  </motion.button>
+                                  <motion.button
+                                    onClick={() => {
+                                      setSelectedTrack(track);
+                                      setDeleteDialogOpen(true);
+                                    }}
+                                    className="p-2 hover:bg-red-800/50 rounded-lg transition-colors backdrop-blur-sm"
+                                    whileHover={{ scale: 1.1 }}
+                                    whileTap={{ scale: 0.95 }}
+                                  >
+                                    <Trash2 className="h-4 w-4 text-red-300" />
+                                  </motion.button>
+                                </>
+                              ) : (
+                                <span className="text-xs text-blue-400 px-2">View Only</span>
+                              )}
                               <motion.button 
                                 className="p-2 hover:bg-blue-800/50 rounded-lg transition-colors backdrop-blur-sm"
                                 whileHover={{ scale: 1.1 }}
