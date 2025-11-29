@@ -44,6 +44,15 @@ const playlistSchema = new mongoose.Schema(
       type: String,
       default: null, // Reference to original playlist if this is a copy
     },
+    createdBy: {
+      type: String,
+      required: true, // User ID who created this playlist
+      index: true,
+    },
+    isAdminCreated: {
+      type: Boolean,
+      default: false, // Quick flag to identify admin-created playlists
+    },
     createdAt: {
       type: Date,
       default: Date.now,
