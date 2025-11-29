@@ -4,12 +4,30 @@ const { v4: uuidv4 } = require('uuid');
 const path = require('path');
 const fs = require('fs');
 
-// @desc    Get all playlists
+// @desc    Get all playlists (filtered by role)
 // @route   GET /api/playlists
-// @access  Public
+// @access  Private (requires authentication)
 const getAllPlaylists = async (req, res) => {
   try {
-    const playlists = await Playlist.find()
+    const userId = req.userId;
+    const isAdmin = req.isAdmin;
+    
+    let query = {};
+    
+    if (isAdmin) {
+      // Admin sees ALL playlists
+      query = {};
+    } else {
+      // Users see only admin-created playlists + their own
+      query = {
+        $or: [
+          { isAdminCreated: true },
+          { createdBy: userId }
+        ]
+      };
+    }
+    
+    const playlists = await Playlist.find(query)
       .select('-_id')
       .sort({ createdAt: -1 });
 
