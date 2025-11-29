@@ -111,10 +111,12 @@ const createPlaylist = async (req, res) => {
 
 // @desc    Update playlist
 // @route   PUT /api/playlists/:id
-// @access  Public
+// @access  Private (requires authentication)
 const updatePlaylist = async (req, res) => {
   try {
     const { name, description } = req.body;
+    const userId = req.userId;
+    const isAdmin = req.isAdmin;
     const playlist = await Playlist.findOne({ id: req.params.id });
 
     if (!playlist) {
@@ -126,6 +128,18 @@ const updatePlaylist = async (req, res) => {
         }
       }
       return res.status(404).json({ message: 'Playlist not found' });
+    }
+
+    // Check ownership: Users can only edit their own playlists, admins can edit anything
+    if (!isAdmin && playlist.createdBy !== userId) {
+      // Clean up uploaded file
+      if (req.file) {
+        const filePath = path.join(__dirname, '../uploads/covers', req.file.filename);
+        if (fs.existsSync(filePath)) {
+          fs.unlinkSync(filePath);
+        }
+      }
+      return res.status(403).json({ message: 'You do not have permission to edit this playlist' });
     }
 
     // Update fields
