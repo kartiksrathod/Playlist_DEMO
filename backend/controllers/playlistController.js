@@ -57,10 +57,12 @@ const getPlaylistById = async (req, res) => {
 
 // @desc    Create new playlist
 // @route   POST /api/playlists
-// @access  Public
+// @access  Private (requires authentication)
 const createPlaylist = async (req, res) => {
   try {
     const { name, description } = req.body;
+    const userId = req.userId;
+    const isAdmin = req.isAdmin;
 
     if (!name || name.trim() === '') {
       return res.status(400).json({ message: 'Playlist name is required' });
@@ -77,6 +79,8 @@ const createPlaylist = async (req, res) => {
       name: name.trim(),
       description: description ? description.trim() : '',
       coverImage: coverImagePath,
+      createdBy: userId,
+      isAdminCreated: isAdmin,
     });
 
     const savedPlaylist = await playlist.save();
@@ -86,6 +90,8 @@ const createPlaylist = async (req, res) => {
       name: savedPlaylist.name,
       description: savedPlaylist.description,
       coverImage: savedPlaylist.coverImage,
+      createdBy: savedPlaylist.createdBy,
+      isAdminCreated: savedPlaylist.isAdminCreated,
       createdAt: savedPlaylist.createdAt,
       updatedAt: savedPlaylist.updatedAt,
     };
