@@ -425,7 +425,15 @@ const PlaylistDetail = () => {
 
                             {/* Track Info */}
                             <div className="col-span-5">
-                              <h3 className="font-medium text-white truncate drop-shadow-sm">{track.songName}</h3>
+                              <div className="flex items-center gap-2">
+                                <h3 className="font-medium text-white truncate drop-shadow-sm">{track.songName}</h3>
+                                {track.isAdminCreated && (
+                                  <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-amber-600/80 backdrop-blur-sm rounded-full text-xs font-medium shrink-0">
+                                    <Shield className="w-3 h-3" />
+                                    Admin
+                                  </span>
+                                )}
+                              </div>
                               <p className="text-sm text-blue-100 truncate font-light">
                                 {track.artist || 'Unknown Artist'}
                                 {track.album && ` • ${track.album}`}
