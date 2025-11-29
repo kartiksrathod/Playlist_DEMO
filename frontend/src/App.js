@@ -105,7 +105,6 @@ const Home = () => {
     <AppLayout>
       {/* User Menu or Login Button in Top Right */}
       <div className="fixed top-6 right-6 z-40 flex items-center gap-4">
-        <ThemeSwitcher />
         {isAuthenticated ? (
           <UserMenu />
         ) : (
