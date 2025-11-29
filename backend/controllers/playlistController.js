@@ -195,13 +195,20 @@ const updatePlaylist = async (req, res) => {
 
 // @desc    Delete playlist
 // @route   DELETE /api/playlists/:id
-// @access  Public
+// @access  Private (requires authentication)
 const deletePlaylist = async (req, res) => {
   try {
+    const userId = req.userId;
+    const isAdmin = req.isAdmin;
     const playlist = await Playlist.findOne({ id: req.params.id });
 
     if (!playlist) {
       return res.status(404).json({ message: 'Playlist not found' });
+    }
+
+    // Check ownership: Users can only delete their own playlists, admins can delete anything
+    if (!isAdmin && playlist.createdBy !== userId) {
+      return res.status(403).json({ message: 'You do not have permission to delete this playlist' });
     }
 
     // Delete all tracks associated with this playlist
