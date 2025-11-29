@@ -16,25 +16,6 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const User = require('../models/User');
 
-// Database connection URL
-const getMongoURL = () => {
-  let mongoURL = process.env.MONGO_URL;
-  const dbName = process.env.DB_NAME;
-  
-  if (mongoURL.includes('mongodb+srv://') || mongoURL.includes('mongodb://')) {
-    const urlParts = mongoURL.split('?');
-    const baseUrl = urlParts[0];
-    const queryParams = urlParts[1] || '';
-    const pathIndex = baseUrl.lastIndexOf('/');
-    const urlWithoutDb = baseUrl.substring(0, pathIndex + 1);
-    mongoURL = queryParams ? `${urlWithoutDb}${dbName}?${queryParams}` : `${urlWithoutDb}${dbName}`;
-  } else {
-    mongoURL = `${mongoURL}/${dbName}`;
-  }
-  
-  return mongoURL;
-};
-
 // Get admin credentials from environment variables or use defaults
 const adminName = process.env.ADMIN_NAME || 'Admin User';
 const adminEmail = process.env.ADMIN_EMAIL || 'kartiksrathod07@gmail.com';
@@ -42,9 +23,14 @@ const adminPassword = process.env.ADMIN_PASSWORD || 'Sheshi@1234';
 
 async function createAdmin() {
   try {
+    // Build MongoDB URL
+    const mongoURL = process.env.MONGO_URL || 'mongodb://localhost:27017';
+    const dbName = process.env.DB_NAME || 'music_streaming_app';
+    const fullMongoURL = `${mongoURL}/${dbName}`;
+    
     // Connect to database
     console.log('🔌 Connecting to database...');
-    await mongoose.connect(getMongoURL());
+    await mongoose.connect(fullMongoURL);
     console.log('✅ Connected to database\n');
 
     // Check if admin user already exists
