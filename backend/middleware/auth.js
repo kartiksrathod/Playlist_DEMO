@@ -102,4 +102,17 @@ const optionalAuth = async (req, res, next) => {
   }
 };
 
-module.exports = { auth, optionalAuth };
+/**
+ * Middleware to require admin role
+ */
+const requireAdmin = (req, res, next) => {
+  if (!req.user || req.user.role !== 'admin') {
+    return res.status(403).json({
+      success: false,
+      message: 'Admin access required.'
+    });
+  }
+  next();
+};
+
+module.exports = { auth, optionalAuth, requireAdmin };
