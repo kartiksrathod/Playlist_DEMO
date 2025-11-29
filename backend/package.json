@@ -1,7 +1,7 @@
 {
-  "name": "backend",
+  "name": "music-playlist-manager-backend",
   "version": "1.0.0",
-  "description": "MERN Stack Backend",
+  "description": "Backend API for Music Playlist Manager",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -10,7 +10,10 @@
   "keywords": [
     "express",
     "mongodb",
-    "nodejs"
+    "nodejs",
+    "music",
+    "playlist",
+    "api"
   ],
   "author": "",
   "license": "ISC",
