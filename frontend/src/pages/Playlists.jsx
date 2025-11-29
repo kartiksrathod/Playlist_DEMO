@@ -29,6 +29,7 @@ const DEFAULT_IMAGES = [
 const Playlists = () => {
   const navigate = useNavigate();
   const { themeConfig } = useTheme();
+  const { user } = useAuth();
   const [playlists, setPlaylists] = useState([]);
   const [filteredPlaylists, setFilteredPlaylists] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -39,6 +40,15 @@ const Playlists = () => {
   const [shareDialogOpen, setShareDialogOpen] = useState(false);
   const [selectedPlaylist, setSelectedPlaylist] = useState(null);
   const [favoritedPlaylists, setFavoritedPlaylists] = useState(new Set());
+
+  // Check if user can edit/delete a playlist
+  const canModifyPlaylist = (playlist) => {
+    if (!user) return false;
+    // Admin can modify anything
+    if (user.role === 'admin') return true;
+    // User can only modify their own playlists
+    return playlist.createdBy === user.id;
+  };
 
   // Fetch all playlists
   const fetchPlaylists = async () => {
