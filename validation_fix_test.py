@@ -9,7 +9,7 @@ import json
 import time
 
 # Configuration
-BASE_URL = "https://deploy-ready-61.preview.emergentagent.com/api"
+BASE_URL = "https://theme-inspector-1.preview.emergentagent.com/api"
 HEADERS = {"Content-Type": "application/json"}
 
 def make_request(method: str, endpoint: str, data: dict = None):

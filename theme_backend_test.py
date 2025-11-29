@@ -9,7 +9,7 @@ import json
 import uuid
 
 # Configuration
-BASE_URL = "https://deploy-ready-61.preview.emergentagent.com/api"
+BASE_URL = "https://theme-inspector-1.preview.emergentagent.com/api"
 
 class ThemeToggleAPITester:
     def __init__(self):

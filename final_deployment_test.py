@@ -11,7 +11,7 @@ import uuid
 from typing import Dict, List, Any, Optional
 
 # Configuration
-BASE_URL = "https://deploy-ready-61.preview.emergentagent.com/api"
+BASE_URL = "https://theme-inspector-1.preview.emergentagent.com/api"
 HEADERS = {"Content-Type": "application/json"}
 
 class FinalDeploymentTester:
