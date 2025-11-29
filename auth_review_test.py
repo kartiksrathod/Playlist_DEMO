@@ -11,7 +11,7 @@ import subprocess
 from typing import Dict, Any
 
 # Configuration - Using the same URL as previous comprehensive testing
-BASE_URL = "https://theme-inspector-1.preview.emergentagent.com/api"
+BASE_URL = "https://repo-cleanup-6.preview.emergentagent.com/api"
 HEADERS = {"Content-Type": "application/json"}
 
 class AuthReviewTester:
