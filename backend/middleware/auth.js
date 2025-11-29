@@ -41,9 +41,11 @@ const auth = async (req, res, next) => {
       });
     }
 
-    // Attach userId to request
+    // Attach userId and user info to request
     req.userId = decoded.userId;
     req.user = user;
+    req.userRole = user.role;
+    req.isAdmin = user.role === 'admin';
     
     next();
   } catch (error) {
