@@ -257,12 +257,13 @@ const PlaylistDetail = () => {
                   </Button>
                 </motion.div>
               )}
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Button 
-                  onClick={() => setAddDialogOpen(true)}
-                  className="px-6 py-6 bg-blue-700 hover:bg-blue-600 text-white rounded-xl shadow-2xl hover:shadow-blue-600/60 transition-all backdrop-blur-xl border border-blue-500/30"
-                >
-                  <Plus className="mr-2 h-5 w-5" />
+              {canAddToPlaylist(playlist) && (
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                  <Button 
+                    onClick={() => setAddDialogOpen(true)}
+                    className="px-6 py-6 bg-blue-700 hover:bg-blue-600 text-white rounded-xl shadow-2xl hover:shadow-blue-600/60 transition-all backdrop-blur-xl border border-blue-500/30"
+                  >
+                    <Plus className="mr-2 h-5 w-5" />
                   Add Track
                 </Button>
               </motion.div>
