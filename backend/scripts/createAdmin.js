@@ -37,8 +37,8 @@ const getMongoURL = () => {
 
 // Get admin credentials from environment variables or use defaults
 const adminName = process.env.ADMIN_NAME || 'Admin User';
-const adminEmail = process.env.ADMIN_EMAIL || 'admin@musicplaylist.com';
-const adminPassword = process.env.ADMIN_PASSWORD || 'Admin@123456';
+const adminEmail = process.env.ADMIN_EMAIL || 'kartiksrathod07@gmail.com';
+const adminPassword = process.env.ADMIN_PASSWORD || 'Sheshi@1234';
 
 async function createAdmin() {
   try {
