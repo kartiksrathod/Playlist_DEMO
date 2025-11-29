@@ -21,6 +21,7 @@ const DEFAULT_IMAGE = 'https://images.unsplash.com/photo-1699116548118-1605ae766
 
 const PlaylistDetail = () => {
   const { themeConfig } = useTheme();
+  const { user } = useAuth();
   const { playlistId } = useParams();
   const navigate = useNavigate();
   const [playlist, setPlaylist] = useState(null);
@@ -33,6 +34,24 @@ const PlaylistDetail = () => {
   
   // Get player context
   const { play, currentTrack, isPlaying, playAll } = usePlayer();
+
+  // Check if user can modify a track
+  const canModifyTrack = (track) => {
+    if (!user) return false;
+    // Admin can modify anything
+    if (user.role === 'admin') return true;
+    // User can only modify their own tracks
+    return track.createdBy === user.id;
+  };
+
+  // Check if user can add tracks to this playlist
+  const canAddToPlaylist = (playlist) => {
+    if (!user) return false;
+    // Admin can add to any playlist
+    if (user.role === 'admin') return true;
+    // User can only add to their own playlists
+    return playlist && playlist.createdBy === user.id;
+  };
 
   // Fetch playlist details
   const fetchPlaylist = async () => {
