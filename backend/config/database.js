@@ -8,28 +8,28 @@ const connectDB = async () => {
     let mongoURL = process.env.MONGO_URL;
     const dbName = process.env.DB_NAME;
     
-    // If MONGO_URL already contains a database name in the path, replace it
-    // Otherwise, append the database name
-    if (mongoURL.includes('mongodb+srv://') || mongoURL.includes('mongodb://')) {
-      // Parse the URL to replace or add database name
-      const urlParts = mongoURL.split('?');
-      const baseUrl = urlParts[0];
-      const queryParams = urlParts[1] || '';
-      
-      // Remove any existing database name from the path
-      const pathIndex = baseUrl.lastIndexOf('/');
-      const urlWithoutDb = baseUrl.substring(0, pathIndex + 1);
-      
-      // Construct final URL with correct database name
-      mongoURL = queryParams ? `${urlWithoutDb}${dbName}?${queryParams}` : `${urlWithoutDb}${dbName}`;
-    } else {
-      mongoURL = `${mongoURL}/${dbName}`;
+    if (!mongoURL) {
+      throw new Error('MONGO_URL environment variable is not defined');
     }
     
-    await mongoose.connect(mongoURL);
+    if (!dbName) {
+      throw new Error('DB_NAME environment variable is not defined');
+    }
+    
+    // Append database name to MongoDB URL
+    // Handle both mongodb:// and mongodb+srv:// URLs
+    const urlParts = mongoURL.split('?');
+    const baseUrl = urlParts[0];
+    const queryParams = urlParts[1] ? `?${urlParts[1]}` : '';
+    
+    // Ensure base URL ends with / before appending database name
+    const urlWithDb = baseUrl.endsWith('/') ? `${baseUrl}${dbName}${queryParams}` : `${baseUrl}/${dbName}${queryParams}`;
+    
+    await mongoose.connect(urlWithDb);
     
     console.log('✅ MongoDB Connected Successfully');
     console.log('📊 Database:', dbName);
+    console.log('🔗 Connection:', urlWithDb.replace(/\/\/([^:]+):([^@]+)@/, '//$1:****@'));
   } catch (error) {
     console.error('❌ MongoDB Connection Error:', error.message);
     process.exit(1);
