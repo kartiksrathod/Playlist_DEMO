@@ -4,9 +4,13 @@ const Playlist = require('../models/Playlist');
 /**
  * Get all tracks from all playlists with enriched data
  * Supports search, filtering, and sorting
+ * @access Private (requires authentication)
  */
 const getAllTracks = async (req, res) => {
   try {
+    const userId = req.userId;
+    const isAdmin = req.isAdmin;
+    
     const {
       search = '',
       playlist = '',
@@ -16,8 +20,17 @@ const getAllTracks = async (req, res) => {
       sortBy = 'recent', // 'recent', 'name-asc', 'name-desc', 'duration-asc', 'duration-desc'
     } = req.query;
 
-    // Build filter query
+    // Build filter query with role-based access
     let filter = {};
+    
+    // Apply role-based filtering
+    if (!isAdmin) {
+      // Users see only admin-created tracks + their own
+      filter.$or = [
+        { isAdminCreated: true },
+        { createdBy: userId }
+      ];
+    }
 
     // Search across multiple fields
     if (search) {
