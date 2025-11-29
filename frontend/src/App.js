@@ -516,58 +516,48 @@ const Home = () => {
   );
 };
 
-// Component to enable keyboard shortcuts
-const KeyboardShortcutsWrapper = ({ children }) => {
-  useKeyboardShortcuts();
-  return children;
-};
-
 function App() {
   return (
     <ThemeProvider>
       <AuthProvider>
         <PlayerProvider>
-          <KeyboardShortcutsWrapper>
-            <div className="App">
-              <Toaster position="top-center" richColors />
-              <BrowserRouter>
-                <Routes>
-                  {/* Public Routes */}
-                  <Route path="/" element={<Home />} />
-                  <Route path="/forgot-password" element={<ForgotPassword />} />
-                  <Route path="/reset-password/:token" element={<ResetPassword />} />
-                  <Route path="/verify-email/:token" element={<VerifyEmail />} />
-                  <Route path="/shared/:token" element={<SharedPlaylist />} />
-                  <Route path="/public" element={<PublicPlaylists />} />
-                  <Route path="/public-playlists" element={<PublicPlaylists />} />
-                  
-                  {/* Theme Preview Routes - Public */}
-                  <Route path="/preview/glass" element={<PreviewGlass />} />
-                  <Route path="/preview/vibrant" element={<PreviewVibrant />} />
-                  <Route path="/preview/neon" element={<PreviewNeon />} />
-                  <Route path="/preview/retro" element={<PreviewRetro />} />
-                  <Route path="/preview/mesh" element={<PreviewMesh />} />
-                  <Route path="/preview/premium" element={<PreviewPremium />} />
-                  
-                  {/* Protected Routes */}
-                  <Route path="/playlists" element={<ProtectedRoute><Playlists /></ProtectedRoute>} />
-                  <Route path="/playlists/:playlistId" element={<ProtectedRoute><PlaylistDetail /></ProtectedRoute>} />
-                  <Route path="/library" element={<ProtectedRoute><Library /></ProtectedRoute>} />
-                  <Route path="/library/track/:trackId" element={<ProtectedRoute><TrackDetail /></ProtectedRoute>} />
-                  <Route path="/history" element={<ProtectedRoute><History /></ProtectedRoute>} />
-                  <Route path="/favorites" element={<ProtectedRoute><Favorites /></ProtectedRoute>} />
-                  <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
-                  <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-                </Routes>
-                {/* Global Music Player */}
-                <MusicPlayer />
-                {/* Keyboard Shortcuts Help */}
-              <KeyboardShortcutsHelp />
+          <div className="App">
+            <Toaster position="top-center" richColors />
+            <BrowserRouter>
+              <Routes>
+                {/* Public Routes */}
+                <Route path="/" element={<Home />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path="/reset-password/:token" element={<ResetPassword />} />
+                <Route path="/verify-email/:token" element={<VerifyEmail />} />
+                <Route path="/shared/:token" element={<SharedPlaylist />} />
+                <Route path="/public" element={<PublicPlaylists />} />
+                <Route path="/public-playlists" element={<PublicPlaylists />} />
+                
+                {/* Theme Preview Routes - Public */}
+                <Route path="/preview/glass" element={<PreviewGlass />} />
+                <Route path="/preview/vibrant" element={<PreviewVibrant />} />
+                <Route path="/preview/neon" element={<PreviewNeon />} />
+                <Route path="/preview/retro" element={<PreviewRetro />} />
+                <Route path="/preview/mesh" element={<PreviewMesh />} />
+                <Route path="/preview/premium" element={<PreviewPremium />} />
+                
+                {/* Protected Routes */}
+                <Route path="/playlists" element={<ProtectedRoute><Playlists /></ProtectedRoute>} />
+                <Route path="/playlists/:playlistId" element={<ProtectedRoute><PlaylistDetail /></ProtectedRoute>} />
+                <Route path="/library" element={<ProtectedRoute><Library /></ProtectedRoute>} />
+                <Route path="/library/track/:trackId" element={<ProtectedRoute><TrackDetail /></ProtectedRoute>} />
+                <Route path="/history" element={<ProtectedRoute><History /></ProtectedRoute>} />
+                <Route path="/favorites" element={<ProtectedRoute><Favorites /></ProtectedRoute>} />
+                <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
+                <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+              </Routes>
+              {/* Global Music Player */}
+              <MusicPlayer />
             </BrowserRouter>
           </div>
-        </KeyboardShortcutsWrapper>
-      </PlayerProvider>
-    </AuthProvider>
+        </PlayerProvider>
+      </AuthProvider>
     </ThemeProvider>
   );
 }
