@@ -195,8 +195,9 @@ class AuthReviewTester:
             # Use mongosh to verify user data in database
             mongosh_command = [
                 "mongosh", 
+                "music_streaming_app",
                 "--eval", 
-                "use music_streaming_app; db.users.find({email: 'testuser@example.com'}).pretty()"
+                "db.users.find({email: 'testuser@example.com'}).forEach(printjson)"
             ]
             
             result = subprocess.run(mongosh_command, capture_output=True, text=True, timeout=30)
@@ -208,10 +209,11 @@ class AuthReviewTester:
                 user_exists = "testuser@example.com" in output
                 
                 # Check if password is hashed (not stored in plain text)
-                password_hashed = "test123456" not in output and "password" in output
+                # Look for bcrypt hash pattern ($2b$) and ensure plain text password is not there
+                password_hashed = "$2b$" in output and "test123456" not in output
                 
                 # Check database name and collection
-                db_correct = "music_streaming_app" in output or user_exists
+                db_correct = user_exists  # If user exists, DB is correct
                 
                 overall_success = user_exists and password_hashed
                 
@@ -222,7 +224,9 @@ class AuthReviewTester:
                     {
                         "user_found": user_exists,
                         "password_hashed": password_hashed,
-                        "mongosh_output_length": len(output)
+                        "mongosh_output_length": len(output),
+                        "contains_bcrypt": "$2b$" in output,
+                        "contains_plain_password": "test123456" in output
                     }
                 )
                 
