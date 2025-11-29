@@ -6,10 +6,12 @@ const fs = require('fs');
 
 // @desc    Get all tracks in a playlist
 // @route   GET /api/playlists/:playlistId/tracks
-// @access  Public
+// @access  Private (requires authentication)
 const getAllTracks = async (req, res) => {
   try {
     const { playlistId } = req.params;
+    const userId = req.userId;
+    const isAdmin = req.isAdmin;
 
     // Verify playlist exists
     const playlist = await Playlist.findOne({ id: playlistId });
@@ -17,7 +19,26 @@ const getAllTracks = async (req, res) => {
       return res.status(404).json({ message: 'Playlist not found' });
     }
 
-    const tracks = await Track.find({ playlistId })
+    // Check access: Users can only see tracks in playlists they can access
+    if (!isAdmin && !playlist.isAdminCreated && playlist.createdBy !== userId) {
+      return res.status(403).json({ message: 'You do not have permission to view this playlist' });
+    }
+
+    let query = { playlistId };
+    
+    // Filter tracks based on role
+    if (!isAdmin) {
+      // Users see only admin-created tracks + their own in this playlist
+      query = {
+        playlistId,
+        $or: [
+          { isAdminCreated: true },
+          { createdBy: userId }
+        ]
+      };
+    }
+
+    const tracks = await Track.find(query)
       .select('-_id')
       .sort({ createdAt: 1 });
 
@@ -29,16 +50,23 @@ const getAllTracks = async (req, res) => {
 
 // @desc    Get single track by ID
 // @route   GET /api/playlists/:playlistId/tracks/:trackId
-// @access  Public
+// @access  Private (requires authentication)
 const getTrackById = async (req, res) => {
   try {
     const { playlistId, trackId } = req.params;
+    const userId = req.userId;
+    const isAdmin = req.isAdmin;
 
     const track = await Track.findOne({ id: trackId, playlistId })
       .select('-_id');
 
     if (!track) {
       return res.status(404).json({ message: 'Track not found' });
+    }
+
+    // Check access
+    if (!isAdmin && !track.isAdminCreated && track.createdBy !== userId) {
+      return res.status(403).json({ message: 'You do not have permission to view this track' });
     }
 
     res.json(track);
@@ -49,11 +77,13 @@ const getTrackById = async (req, res) => {
 
 // @desc    Create new track in playlist
 // @route   POST /api/playlists/:playlistId/tracks
-// @access  Public
+// @access  Private (requires authentication)
 const createTrack = async (req, res) => {
   try {
     const { playlistId } = req.params;
     const { songName, artist, album, duration, audioUrl } = req.body;
+    const userId = req.userId;
+    const isAdmin = req.isAdmin;
 
     // Verify playlist exists
     const playlist = await Playlist.findOne({ id: playlistId });
@@ -66,6 +96,18 @@ const createTrack = async (req, res) => {
         }
       }
       return res.status(404).json({ message: 'Playlist not found' });
+    }
+
+    // Check if user can add tracks to this playlist
+    if (!isAdmin && !playlist.isAdminCreated && playlist.createdBy !== userId) {
+      // Clean up uploaded file
+      if (req.file) {
+        const filePath = path.join(__dirname, '../uploads/audio', req.file.filename);
+        if (fs.existsSync(filePath)) {
+          fs.unlinkSync(filePath);
+        }
+      }
+      return res.status(403).json({ message: 'You do not have permission to add tracks to this playlist' });
     }
 
     if (!songName || songName.trim() === '') {
@@ -94,6 +136,8 @@ const createTrack = async (req, res) => {
       duration: duration ? duration.trim() : '',
       audioUrl: audioUrl ? audioUrl.trim() : '',
       audioFile: audioFilePath,
+      createdBy: userId,
+      isAdminCreated: isAdmin,
     });
 
     const savedTrack = await track.save();
@@ -107,6 +151,8 @@ const createTrack = async (req, res) => {
       duration: savedTrack.duration,
       audioUrl: savedTrack.audioUrl,
       audioFile: savedTrack.audioFile,
+      createdBy: savedTrack.createdBy,
+      isAdminCreated: savedTrack.isAdminCreated,
       createdAt: savedTrack.createdAt,
       updatedAt: savedTrack.updatedAt,
     };
@@ -126,11 +172,13 @@ const createTrack = async (req, res) => {
 
 // @desc    Update track
 // @route   PUT /api/playlists/:playlistId/tracks/:trackId
-// @access  Public
+// @access  Private (requires authentication)
 const updateTrack = async (req, res) => {
   try {
     const { playlistId, trackId } = req.params;
     const { songName, artist, album, duration, audioUrl } = req.body;
+    const userId = req.userId;
+    const isAdmin = req.isAdmin;
 
     const track = await Track.findOne({ id: trackId, playlistId });
 
@@ -145,16 +193,21 @@ const updateTrack = async (req, res) => {
       return res.status(404).json({ message: 'Track not found' });
     }
 
+    // Check ownership: Users can only edit their own tracks, admins can edit anything
+    if (!isAdmin && track.createdBy !== userId) {
+      // Clean up uploaded file
+      if (req.file) {
+        const filePath = path.join(__dirname, '../uploads/audio', req.file.filename);
+        if (fs.existsSync(filePath)) {
+          fs.unlinkSync(filePath);
+        }
+      }
+      return res.status(403).json({ message: 'You do not have permission to edit this track' });
+    }
+
     // Update fields
     if (songName !== undefined) {
       if (songName.trim() === '') {
-        // Clean up uploaded file if validation fails
-        if (req.file) {
-          const filePath = path.join(__dirname, '../uploads/audio', req.file.filename);
-          if (fs.existsSync(filePath)) {
-            fs.unlinkSync(filePath);
-          }
-        }
         return res.status(400).json({ message: 'Song name cannot be empty' });
       }
       track.songName = songName.trim();
@@ -180,7 +233,6 @@ const updateTrack = async (req, res) => {
     if (req.file) {
       // Delete old audio file if exists
       if (track.audioFile) {
-        // Remove /api prefix for filesystem path
         const audioPath = track.audioFile.replace('/api/uploads', '/uploads');
         const oldAudioPath = path.join(__dirname, '..', audioPath);
         if (fs.existsSync(oldAudioPath)) {
@@ -202,6 +254,8 @@ const updateTrack = async (req, res) => {
       duration: updatedTrack.duration,
       audioUrl: updatedTrack.audioUrl,
       audioFile: updatedTrack.audioFile,
+      createdBy: updatedTrack.createdBy,
+      isAdminCreated: updatedTrack.isAdminCreated,
       createdAt: updatedTrack.createdAt,
       updatedAt: updatedTrack.updatedAt,
     };
@@ -221,10 +275,12 @@ const updateTrack = async (req, res) => {
 
 // @desc    Delete track
 // @route   DELETE /api/playlists/:playlistId/tracks/:trackId
-// @access  Public
+// @access  Private (requires authentication)
 const deleteTrack = async (req, res) => {
   try {
     const { playlistId, trackId } = req.params;
+    const userId = req.userId;
+    const isAdmin = req.isAdmin;
 
     const track = await Track.findOne({ id: trackId, playlistId });
 
@@ -232,9 +288,13 @@ const deleteTrack = async (req, res) => {
       return res.status(404).json({ message: 'Track not found' });
     }
 
+    // Check ownership: Users can only delete their own tracks, admins can delete anything
+    if (!isAdmin && track.createdBy !== userId) {
+      return res.status(403).json({ message: 'You do not have permission to delete this track' });
+    }
+
     // Delete audio file if exists
     if (track.audioFile) {
-      // Remove /api prefix for filesystem path
       const audioPath = track.audioFile.replace('/api/uploads', '/uploads');
       const audioFullPath = path.join(__dirname, '..', audioPath);
       if (fs.existsSync(audioFullPath)) {
@@ -242,7 +302,7 @@ const deleteTrack = async (req, res) => {
       }
     }
 
-    await Track.deleteOne({ id: trackId, playlistId });
+    await Track.deleteOne({ id: trackId });
 
     res.json({ message: 'Track deleted successfully' });
   } catch (error) {
