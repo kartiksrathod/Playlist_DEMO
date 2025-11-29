@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Plus, Music, Pencil, Trash2, Play, Pause, MoreVertical, PlayCircle } from 'lucide-react';
+import { ArrowLeft, Plus, Music, Pencil, Trash2, Play, Pause, MoreVertical, PlayCircle, Shield } from 'lucide-react';
 import AppLayout from '@/components/AppLayout';
 import { Button } from '@/components/ui/button';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
@@ -11,6 +11,7 @@ import EditTrackDialog from '@/components/EditTrackDialog';
 import { toast } from 'sonner';
 import { usePlayer } from '@/context/PlayerContext';
 import { useTheme } from '@/context/ThemeContext';
+import { useAuth } from '@/context/AuthContext';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
