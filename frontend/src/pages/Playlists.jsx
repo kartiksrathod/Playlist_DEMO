@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, Music, Pencil, Trash2, Heart, Play, Keyboard, Share2, Globe } from 'lucide-react';
+import { Plus, Music, Pencil, Trash2, Heart, Play, Keyboard, Share2, Globe, Shield } from 'lucide-react';
 import AppLayout from '@/components/AppLayout';
 import SearchBar from '@/components/SearchBar';
 import { Button } from '@/components/ui/button';
@@ -13,6 +13,7 @@ import SharePlaylistDialog from '@/components/SharePlaylistDialog';
 import { toast } from 'sonner';
 import { PlaylistGridSkeleton } from '@/components/SkeletonLoader';
 import { useTheme } from '@/context/ThemeContext';
+import { useAuth } from '@/context/AuthContext';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
