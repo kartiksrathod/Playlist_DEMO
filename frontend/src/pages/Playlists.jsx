@@ -312,27 +312,40 @@ const Playlists = () => {
                     >
                       <Share2 className="h-5 w-5" />
                     </button>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setSelectedPlaylist(playlist);
-                        setEditDialogOpen(true);
-                      }}
-                      className={`p-3 ${themeConfig.classes.button.secondary} rounded-full transition-colors shadow-xl backdrop-blur-sm`}
-                    >
-                      <Pencil className="h-5 w-5" />
-                    </button>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setSelectedPlaylist(playlist);
-                        setDeleteDialogOpen(true);
-                      }}
-                      className="p-3 bg-red-700 hover:bg-red-600 rounded-full transition-colors shadow-xl backdrop-blur-sm"
-                    >
-                      <Trash2 className="h-5 w-5" />
-                    </button>
+                    {/* Only show edit/delete buttons if user can modify */}
+                    {canModifyPlaylist(playlist) && (
+                      <>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSelectedPlaylist(playlist);
+                            setEditDialogOpen(true);
+                          }}
+                          className={`p-3 ${themeConfig.classes.button.secondary} rounded-full transition-colors shadow-xl backdrop-blur-sm`}
+                        >
+                          <Pencil className="h-5 w-5" />
+                        </button>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSelectedPlaylist(playlist);
+                            setDeleteDialogOpen(true);
+                          }}
+                          className="p-3 bg-red-700 hover:bg-red-600 rounded-full transition-colors shadow-xl backdrop-blur-sm"
+                        >
+                          <Trash2 className="h-5 w-5" />
+                        </button>
+                      </>
+                    )}
                   </div>
+
+                  {/* Admin Badge */}
+                  {playlist.isAdminCreated && (
+                    <div className="absolute top-3 left-3 px-3 py-1 bg-amber-600 backdrop-blur-md rounded-full text-xs font-medium shadow-lg flex items-center gap-1">
+                      <Shield className="w-3 h-3" />
+                      <span>Admin</span>
+                    </div>
+                  )}
 
                   {/* Stats Badge */}
                   <div className={`absolute bottom-3 right-3 px-3 py-1 ${themeConfig.classes.button.primary} backdrop-blur-md rounded-full text-xs font-medium shadow-lg`}>
