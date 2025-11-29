@@ -91,6 +91,8 @@ const optionalAuth = async (req, res, next) => {
     if (user && user.isVerified) {
       req.userId = decoded.userId;
       req.user = user;
+      req.userRole = user.role;
+      req.isAdmin = user.role === 'admin';
     }
     
     next();
