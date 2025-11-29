@@ -10,7 +10,7 @@ import time
 from datetime import datetime
 
 # Configuration
-BASE_URL = "https://admin-music-control.preview.emergentagent.com/api"
+BASE_URL = "https://deploy-ready-61.preview.emergentagent.com/api"
 HEADERS = {"Content-Type": "application/json"}
 
 class FavoritesAPITester:
