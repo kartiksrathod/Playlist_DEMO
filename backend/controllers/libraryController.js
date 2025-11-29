@@ -34,11 +34,24 @@ const getAllTracks = async (req, res) => {
 
     // Search across multiple fields
     if (search) {
-      filter.$or = [
+      const searchConditions = [
         { songName: { $regex: search, $options: 'i' } },
         { artist: { $regex: search, $options: 'i' } },
         { album: { $regex: search, $options: 'i' } },
       ];
+      
+      // Combine search with role-based filter
+      if (filter.$or) {
+        // Already has role-based $or, need to use $and
+        filter = {
+          $and: [
+            { $or: filter.$or }, // role-based filter
+            { $or: searchConditions } // search filter
+          ]
+        };
+      } else {
+        filter.$or = searchConditions;
+      }
     }
 
     // Filter by playlist
